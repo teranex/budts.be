@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Budts.be Core feature.
+ */
+
+include_once 'budts_be_core.features.inc';
