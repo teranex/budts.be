@@ -1,0 +1,15 @@
+core = "7.x"
+description = "Trex7 Theme"
+engine = "phptemplate"
+name = "trex7"
+; base theme = "tao"
+
+;regions[left] = "Left sidebar"
+regions[right] = "Right sidebar"
+regions[content] = "Content"
+regions[header] = "Header"
+regions[footer] = "Footer"
+regions[right_bottom] = "Right Bottom"
+
+stylesheets[screen][] = "css/skidoo_redux.css"
+stylesheets[screen][] = "css/trex7.css"
