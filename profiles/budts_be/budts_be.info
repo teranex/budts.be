@@ -1,0 +1,34 @@
+name = budts_be
+description = Installation profile for budts.be
+version = 1.x
+core = 7.x
+
+; core modules
+dependencies[] = block
+dependencies[] = contextual
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = toolbar
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = locale
+dependencies[] = translation
+
+; contrib modules
+dependencies[] = features
+; dependencies[] = pathauto
+
+; budts_be modules
+
+; budts_be features
+dependencies[] = budts_be_core
+
+; files[] = budts_be.profile

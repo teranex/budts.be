@@ -1,0 +1,28 @@
+<?php
+
+function _budts_be_install_run($method, $include = NULL) {
+  drupal_set_message("Running install method: $method");
+  if (is_null($include)) {
+    $include = "budts_be.$method.inc";
+  }
+  require_once($include);
+
+  $method = "budts_be_install_$method";
+  $method();
+}
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ */
+function budts_be_install() {
+  _budts_be_install_run('theme');
+  _budts_be_install_run('formatters');
+  _budts_be_install_run('blocks');
+  _budts_be_install_run('permissions');
+  _budts_be_install_run('other');
+
+  // finally enable pathauto. Only do this now so it does not interfere with imported content
+  module_enable(array('pathauto'));
+}
