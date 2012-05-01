@@ -440,7 +440,10 @@ fieldset a {
 /* -------------- taken from rubik --------------- */
 .pager a,
 .pager li.pager-current,
-.primary-tabs li a {
+.primary.tabs li {
+  display: inline;
+}
+.primary.tabs li a {
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
 
@@ -465,7 +468,7 @@ fieldset a {
 
 
 .pager li.pager-current,
-.primary-tabs li a:hover {
+.primary.tabs li a:hover {
   -moz-box-shadow:#fff 0px 1px 0px;
   -webkit-box-shadow:#fff 0px 1px 0px;
   /*border-color:#999;*/
