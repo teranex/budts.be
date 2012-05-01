@@ -530,14 +530,14 @@ div.alignRight {
 /* ------------- styles copied from trex 2.1 (end)--------------- */
 
 
-.block-menu_block a {
+.block-menu-block a {
     text-decoration: none;
 }
-.block-menu_block li {
+.block-menu-block li {
     list-style: disc;
     margin-left: 15px;
 }
-.block-menu_block li li {
+.block-menu-block li li {
     list-style: circle;
 }
 
