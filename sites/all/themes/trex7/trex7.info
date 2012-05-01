@@ -5,11 +5,13 @@ name = "trex7"
 base theme = "tao"
 
 ;regions[left] = "Left sidebar"
-regions[right] = "Right sidebar"
+;regions[right] = "Right sidebar"
 regions[content] = "Content"
 regions[header] = "Header"
 regions[footer] = "Footer"
-regions[right_bottom] = "Right Bottom"
+;regions[right_bottom] = "Right Bottom"
+regions[sidebar_first] = Sidebar first
+regions[sidebar_second] = Sidebar second
 
 ;stylesheets[all][] = "css/reset.css"
 ;stylesheets[all][] = "css/base.css"

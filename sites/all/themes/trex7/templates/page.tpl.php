@@ -54,14 +54,14 @@
     </div>
     <div id="right-column">
       <div class="inside-sidebar normal-sidebar">
-        <?php if ($page['right']): ?>
-        <div id='right' class='clear-block'><?php print render($page['right']); ?></div>
+        <?php if ($page['sidebar_first']): ?>
+        <div id='right' class='clear-block'><?php print render($page['sidebar_first']); ?></div>
         <?php endif; ?>
       </div>
 
       <div class="inside-sidebar extra-sidebar">
-        <?php if ($page['right_bottom']): ?>
-        <?php echo render($page['right_bottom']); ?>
+        <?php if ($page['sidebar_second']): ?>
+        <?php echo render($page['sidebar_second']); ?>
         <?php endif; ?>
       </div>
     </div>

@@ -562,13 +562,13 @@ div.alignRight {
 }
 
 body.no-sidebars #right-column {
-        /* width: 0; */
-        /* margin-right: 0; */
-        /* display: none; */
+        width: 0;
+        margin-right: 0;
+        display: none;
 }
 
 body.no-sidebars #outer-column-container {
-        /* border-right-width: 20px; */
+        border-right-width: 20px;
 }
 
 .view .image-gallery-terms ul.galleries li {
