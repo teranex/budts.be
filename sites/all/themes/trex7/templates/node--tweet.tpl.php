@@ -89,12 +89,6 @@
   <?php endif; ?>
   <?php print render($title_suffix); ?>
 
-  <?php if ($display_submitted): ?>
-    <div class="submitted node-meta">
-      <?php print $submitted; ?>
-    </div>
-  <?php endif; ?>
-
   <div class="content"<?php print $content_attributes; ?>>
     <?php
       // We hide the comments and links now so that we can render them later.
@@ -102,7 +96,14 @@
       hide($content['links']);
       print render($content);
     ?>
+    <a href="<?php echo $feeds_item->url; ?>"><?php echo $feeds_item->url; ?></a>
   </div>
+
+  <?php if ($display_submitted): ?>
+    <div class="submitted node-meta">
+      <?php print $submitted; ?>
+    </div>
+  <?php endif; ?>
 
   <?php print render($content['links']); ?>
 

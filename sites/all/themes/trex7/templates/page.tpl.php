@@ -29,7 +29,6 @@
       <div id="middle-column">
         <div class="inside">
           <div class="clearfix" id="inner-topmenu">
-            top menu
           </div>
 
           <?php if ($show_messages && $messages): ?>
