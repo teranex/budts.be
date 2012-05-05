@@ -31,35 +31,6 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['hide_empty'] = 0;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['url']['id'] = 'url';
-  $handler->display->display_options['fields']['url']['table'] = 'feeds_node_item';
-  $handler->display->display_options['fields']['url']['field'] = 'url';
-  $handler->display->display_options['fields']['url']['label'] = 'Item URL';
-  $handler->display->display_options['fields']['url']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['url']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['url']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['url']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['url']['empty_zero'] = 0;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_revision_data';
-  $handler->display->display_options['fields']['body']['field'] = 'body-revision_id';
-  $handler->display->display_options['fields']['body']['label'] = 'Body';
-  $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['max_length'] = '100';
-  $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['body']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -138,6 +109,29 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['fields']['comments_link']['id'] = 'comments_link';
   $handler->display->display_options['fields']['comments_link']['table'] = 'node';
   $handler->display->display_options['fields']['comments_link']['field'] = 'comments_link';
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['body']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['body']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
