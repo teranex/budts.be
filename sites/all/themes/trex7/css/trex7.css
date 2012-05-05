@@ -553,11 +553,11 @@ div.alignRight {
 .project-box h3 {
     margin-top: 0;
 }
-.project-box ul {
+.prose .project-box ul {
     margin: 10px;
     margin-left: 40px;
 }
-.project-box li {
+.prose .project-box ul li {
     list-style: disc;
 }
 
