@@ -15,6 +15,6 @@ last comment was posted <strong><?php echo $fields['last_comment_timestamp']->co
 <?php else: ?>
 <p>It currently has no comments</p>
 <?php endif; ?>
-<?php if ($fields['tid']->content): ?>
-<p>This post was tagged with <strong><?php echo $fields['tid']->content; ?></strong></p>
+<?php if ($fields['term_node_tid']->content): ?>
+<p>This post was tagged with <strong><?php echo $fields['term_node_tid']->content; ?></strong></p>
 <?php endif; ?>
