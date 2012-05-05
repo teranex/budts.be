@@ -157,6 +157,10 @@ function budts_be_core_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['footer'] = FALSE;
   /* Footer: Global: Text area */
   $handler->display->display_options['footer']['text']['id'] = 'area';
@@ -196,6 +200,10 @@ function budts_be_core_views_default_views() {
 
   /* Display: HomepageBlock */
   $handler = $view->new_display('block', 'HomepageBlock', 'block_2');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['footer'] = FALSE;
   /* Footer: Global: Text area */
   $handler->display->display_options['footer']['text']['id'] = 'area';
@@ -252,6 +260,10 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['empty']['text']['empty'] = FALSE;
   $handler->display->display_options['empty']['text']['content'] = 'No backlinks found.';
   $handler->display->display_options['empty']['text']['format'] = '1';
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -298,20 +310,6 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['fields']['changed']['alter']['html'] = 0;
   $handler->display->display_options['fields']['changed']['hide_empty'] = 0;
   $handler->display->display_options['fields']['changed']['empty_zero'] = 0;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['tid']['id'] = 'tid';
-  $handler->display->display_options['fields']['tid']['table'] = 'taxonomy_index';
-  $handler->display->display_options['fields']['tid']['field'] = 'tid';
-  $handler->display->display_options['fields']['tid']['label'] = 'All terms';
-  $handler->display->display_options['fields']['tid']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['tid']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['tid']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['tid']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['tid']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['tid']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['tid']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['tid']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['tid']['empty_zero'] = 0;
   /* Field: Content: Add comment link */
   $handler->display->display_options['fields']['comments_link']['id'] = 'comments_link';
   $handler->display->display_options['fields']['comments_link']['table'] = 'node';
@@ -342,6 +340,7 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
   $handler->display->display_options['fields']['name']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['name']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['name']['alter']['word_boundary'] = 1;
@@ -353,6 +352,36 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['fields']['name']['empty_zero'] = 0;
   $handler->display->display_options['fields']['name']['link_to_user'] = 1;
   $handler->display->display_options['fields']['name']['overwrite_anonymous'] = 0;
+  /* Field: Content: All taxonomy terms */
+  $handler->display->display_options['fields']['term_node_tid']['id'] = 'term_node_tid';
+  $handler->display->display_options['fields']['term_node_tid']['table'] = 'node';
+  $handler->display->display_options['fields']['term_node_tid']['field'] = 'term_node_tid';
+  $handler->display->display_options['fields']['term_node_tid']['label'] = '';
+  $handler->display->display_options['fields']['term_node_tid']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['term_node_tid']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['term_node_tid']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['term_node_tid']['link_to_taxonomy'] = 1;
+  $handler->display->display_options['fields']['term_node_tid']['limit'] = 0;
+  $handler->display->display_options['fields']['term_node_tid']['vocabularies'] = array(
+    'vocabulary_4' => 0,
+    'vocabulary_5' => 0,
+    'vocabulary_1' => 0,
+  );
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid_1']['id'] = 'nid_1';
   $handler->display->display_options['arguments']['nid_1']['table'] = 'node';
