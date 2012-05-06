@@ -224,6 +224,8 @@ function budts_be_core_views_default_views() {
 
   /* Display: HomepageBlock */
   $handler = $view->new_display('block', 'HomepageBlock', 'block_2');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Activity Stream';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
