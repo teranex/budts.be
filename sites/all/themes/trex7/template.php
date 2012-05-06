@@ -19,6 +19,5 @@ function trex7_field__taxonomy_vocabulary_1(&$variables) {
   foreach ($variables['items'] as $link) {
     $output .= render($link).' ';
   }
-  // return theme('links', $variables['items']);
   return $output;
 }

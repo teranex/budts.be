@@ -22,7 +22,7 @@
 
   <?php if (!empty($links)): ?>
     <div class='<?php print $hook ?>-links clearfix'>
-      <?php print render($links) ?>
+      » <?php print render($links) ?>
     </div>
   <?php endif; ?>
 
