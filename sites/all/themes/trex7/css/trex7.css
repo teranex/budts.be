@@ -28,6 +28,7 @@
         color: #f3f3f3;
         font-family: sans-serif;
         background-image: url(../images/background-noise.png);
+        background-attachment: fixed;
       }
 
       #inner-topmenu {
@@ -550,14 +551,17 @@ div.alignRight {
     padding: 5px;
 }
 
+.project-box p {
+  margin: 0 0 10px 0;
+}
+
 .project-box h3 {
     margin-top: 0;
 }
-.prose .project-box ul {
+.project-box .prose ul {
     margin: 10px;
-    margin-left: 40px;
 }
-.prose .project-box ul li {
+.project-box .prose ul li {
     list-style: disc;
 }
 
