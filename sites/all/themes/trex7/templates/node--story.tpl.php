@@ -28,7 +28,7 @@
 
   <?php if (!empty($submitted) && !$page): ?>
   <div class="node-meta">
-      <div class='<?php print $hook ?>-submitted clear-block'><?php print $submitted ?>. <?php if ($terms): ?>Tagged with <?php echo $terms; ?><?php endif; ?> </div>
+      <div class='<?php print $hook ?>-submitted clear-block'><?php print $submitted ?>. <?php if (isset($content['taxonomy_vocabulary_1'])): ?>Tagged with <?php echo render($content['taxonomy_vocabulary_1']); ?><?php endif; ?> </div>
   </div>
   <?php endif; ?>
 </div>

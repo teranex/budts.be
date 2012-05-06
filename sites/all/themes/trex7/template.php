@@ -13,3 +13,12 @@ function trex7_preprocess_node(&$variables) {
     $variables['feeds_item'] = feeds_item_info_load('node', $variables['nid']);
   }
 }
+
+function trex7_field__taxonomy_vocabulary_1(&$variables) {
+  $output = '';
+  foreach ($variables['items'] as $link) {
+    $output .= render($link).' ';
+  }
+  // return theme('links', $variables['items']);
+  return $output;
+}

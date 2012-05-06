@@ -14,9 +14,12 @@
 
   <div class='<?php print $hook ?>-content clearfix <?php if (!empty($is_prose)) print 'prose' ?>'>
     <?php if (!empty($content)): ?>
+      <?php hide($content['taxonomy_vocabulary_1']); ?>
       <?php print render($content) ?>
     <?php endif; ?>
+    <?php if (isset($feeds_item)): ?>
     <a href="<?php echo $feeds_item->url; ?>"><?php echo $feeds_item->url; ?></a>
+    <?php endif; ?>
   </div>
 
   <?php if (!empty($links)): ?>
@@ -27,7 +30,7 @@
 
   <div class="node-meta">
   <?php if (!empty($submitted)): ?>
-    <div class='<?php print $hook ?>-submitted clearfix'><?php print $submitted ?></div>
+    <div class='<?php print $hook ?>-submitted clear-block'><?php print $submitted ?>. <?php if (isset($content['taxonomy_vocabulary_1'])): ?>Tagged with <?php echo render($content['taxonomy_vocabulary_1']); ?><?php endif; ?> </div>
   <?php endif; ?>
   </div>
 </div>
