@@ -128,7 +128,7 @@ function budts_be_core_feeds_importer_default() {
           ),
           4 => array(
             'source' => 'tags',
-            'target' => 'taxonomy:1',
+            'target' => 'taxonomy_vocabulary_1',
             'unique' => FALSE,
           ),
         ),
@@ -140,6 +140,7 @@ function budts_be_core_feeds_importer_default() {
     'import_period' => 1800,
     'expire_period' => 3600,
     'import_on_create' => TRUE,
+    'process_in_background' => FALSE,
   );
   $export['twitter'] = $feeds_importer;
 
