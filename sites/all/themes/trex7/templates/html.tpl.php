@@ -10,7 +10,7 @@
 
   <body class="<?php print $classes; ?>" <?php print $attributes;?>>
   <div id="skip-link">
-    <a href="#main-content" class="element-invisible element-focusable"><?php print t('Skip to main content'); ?></a>
+    <a href="#main" class="element-invisible element-focusable"><?php print t('Skip to main content'); ?></a>
   </div>
 
 <!--[if lte IE 7]><div style="background: #bd0101; color: white; text-align: center; font-family: sans-serif;"><div style="font-size: 200%;">
