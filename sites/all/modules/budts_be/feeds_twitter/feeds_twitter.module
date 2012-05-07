@@ -1,0 +1,19 @@
+<?php
+/**
+* Implementation of hook_feeds_plugins().
+*/
+function feeds_twitter_feeds_plugins() {
+  $info = array();
+  $info['TwitterParser'] = array(
+    'name' => 'Twitter parser',
+    'description' => 'Parses tweets and extracts hashtags as taxonomy terms',
+    'handler' => array(
+      'parent' => 'FeedsParser', // A plugin needs to derive either directly or indirectly from FeedsFetcher, FeedsParser or FeedsProcessor.
+      'class' => 'TwitterParser',
+      'file' => 'TwitterParser.inc',
+      'path' => drupal_get_path('module', 'feeds_twitter'),
+    ),
+  );
+  return $info;
+}
+
