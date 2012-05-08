@@ -444,6 +444,8 @@ fieldset a {
 .primary.tabs li {
   display: inline;
 }
+.pager li a,
+.pager .pager-current,
 .primary.tabs li a {
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
