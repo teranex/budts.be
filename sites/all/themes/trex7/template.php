@@ -21,3 +21,18 @@ function trex7_field__taxonomy_vocabulary_1(&$variables) {
   }
   return $output;
 }
+
+function trex7_file_formatter_table($variables) {
+  $header = array(t('Attachment'), t('Size'), t('Uploaded'));
+  $rows = array();
+  foreach ($variables['items'] as $delta => $item) {
+    $rows[] = array(
+      theme('file_link', array('file' => (object) $item)),
+      format_size($item['filesize']),
+      format_date($item['timestamp'], 'short'),
+    );
+  }
+
+  return empty($rows) ? '' : theme('table', array('header' => $header, 'rows' => $rows));
+}
+

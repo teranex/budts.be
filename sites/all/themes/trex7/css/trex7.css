@@ -825,23 +825,23 @@ ul.custom-pager li {
     color: #93cb2b;
 }
 
-table#attachments, table.webform_report {
+.field-name-upload table, table.webform_report {
     border: 1px solid #1B1D1E;
     border-radius: 7px;
     border-left: 3px solid #f9266b;
     border-collapse: separate;
 }
-table#attachments th, table.webform_report th {
+.field-name-upload table th, table.webform_report th {
     background: #1B1D1E;
 }
-table#attachments tr.even, table.webform_report tr.even {
+.field-name-upload table tr.even, table.webform_report tr.even {
     background: #353738;
 }
-table#attachments td, table.webform_report td {
+.field-name-upload table td, table.webform_report td {
     padding: 1px 4px;
     text-align: right;
 }
-table#attachments td:first-child {
+.field-name-upload table td:first-child {
     text-align: left;
     min-width: 65%;
 }
