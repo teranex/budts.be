@@ -43,11 +43,6 @@ function budts_be_install_formatters() {
     'name' => 'Full HTML',
     'weight' => 1,
     'filters' => array(
-      // URL filter.
-      'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
-      ),
       // Line break filter.
       'filter_autop' => array(
         'weight' => 1,
@@ -56,6 +51,10 @@ function budts_be_install_formatters() {
       // HTML corrector filter.
       'filter_htmlcorrector' => array(
         'weight' => 10,
+        'status' => 1,
+      ),
+      'geshifilter' => array(
+        'weight' => 0,
         'status' => 1,
       ),
     ),
