@@ -5,28 +5,45 @@ core = 7.x
 
 ; core modules
 dependencies[] = block
-dependencies[] = contextual
-dependencies[] = help
+dependencies[] = comment
+dependencies[] = field
+dependencies[] = field_sql_storage
+dependencies[] = file
+dependencies[] = filter
 dependencies[] = image
-dependencies[] = list
 dependencies[] = menu
-dependencies[] = number
+dependencies[] = node
 dependencies[] = options
 dependencies[] = path
-dependencies[] = taxonomy
 dependencies[] = search
-dependencies[] = shortcut
+dependencies[] = taxonomy
+dependencies[] = text
 dependencies[] = toolbar
-dependencies[] = field_ui
-dependencies[] = file
-dependencies[] = locale
-dependencies[] = translation
+dependencies[] = trigger
+dependencies[] = update
+dependencies[] = user
 
 ; contrib modules
+dependencies[] = ctools
+dependencies[] = custom_breadcrumbs
+dependencies[] = custom_breadcrumbs_taxonomy
+dependencies[] = custom_breadcrumbs_views
 dependencies[] = features
-; dependencies[] = pathauto
+dependencies[] = feeds
+dependencies[] = geshifilter
+dependencies[] = gravatar
+dependencies[] = job_scheduler
+dependencies[] = libraries
+dependencies[] = menu_block
+dependencies[] = mollom
+dependencies[] = pathauto
+dependencies[] = token
+dependencies[] = tagadelic
+dependencies[] = views
+dependencies[] = webform
 
 ; budts_be modules
+dependencies[] = feeds_twitter
 
 ; budts_be features
 dependencies[] = budts_be_core
