@@ -14,10 +14,10 @@ function budts_be_install_theme() {
   db_update('system')
     ->fields(array('status' => 1))
     ->condition('type', 'theme')
-    ->condition('name', 'budts_be')
+    ->condition('name', 'trex7')
     ->execute();
 
   // set the site theme
-  variable_set('theme_default', 'budts_be');
+  variable_set('theme_default', 'trex7');
 }
 
