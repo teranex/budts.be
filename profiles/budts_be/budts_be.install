@@ -22,7 +22,4 @@ function budts_be_install() {
   _budts_be_install_run('blocks');
   _budts_be_install_run('permissions');
   _budts_be_install_run('other');
-
-  // finally enable pathauto. Only do this now so it does not interfere with imported content
-  module_enable(array('pathauto'));
 }
