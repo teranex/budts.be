@@ -37,6 +37,7 @@ dependencies[] = libraries
 dependencies[] = menu_block
 dependencies[] = mollom
 dependencies[] = pathauto
+dependencies[] = strongarm
 dependencies[] = token
 dependencies[] = tagadelic
 dependencies[] = views
