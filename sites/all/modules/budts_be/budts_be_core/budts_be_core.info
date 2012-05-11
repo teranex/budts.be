@@ -94,6 +94,7 @@ features[variable][] = comment_subject_field_site_profile
 features[variable][] = comment_subject_field_story
 features[variable][] = comment_subject_field_tweet
 features[variable][] = comment_tweet
+features[variable][] = gravatar_default
 features[variable][] = node_options_delicious_bookmark
 features[variable][] = node_options_page
 features[variable][] = node_options_project_box
