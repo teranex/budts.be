@@ -607,6 +607,20 @@ function budts_be_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'tagadelic_block_tags_1';
+  $strongarm->value = '40';
+  $export['tagadelic_block_tags_1'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'tagadelic_page_amount';
+  $strongarm->value = '1000';
+  $export['tagadelic_page_amount'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'user_cancel_method';
   $strongarm->value = 'user_cancel_reassign';
   $export['user_cancel_method'] = $strongarm;
