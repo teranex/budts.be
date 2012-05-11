@@ -1,6 +1,6 @@
 <?php
 
 function budts_be_install_other() {
-  variable_set('site_frontpage', 'site');
+  // since variables are managed by Strongarm, there is currently nothing here
 }
 

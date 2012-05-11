@@ -19,7 +19,7 @@ function _budts_be_install_run($method, $include = NULL) {
 function budts_be_install() {
   _budts_be_install_run('theme');
   _budts_be_install_run('formatters');
-  _budts_be_install_run('blocks');
-  _budts_be_install_run('permissions');
+    _budts_be_install_run('blocks');
+    _budts_be_install_run('permissions');
   _budts_be_install_run('other');
 }
