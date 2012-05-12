@@ -13,6 +13,20 @@ function budts_be_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'block_cache';
+  $strongarm->value = 1;
+  $export['block_cache'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'cache';
+  $strongarm->value = 1;
+  $export['cache'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'comment_anonymous_delicious_bookmark';
   $strongarm->value = '1';
   $export['comment_anonymous_delicious_bookmark'] = $strongarm;
@@ -603,6 +617,20 @@ function budts_be_core_strongarm() {
   $strongarm->name = 'node_submitted_tweet';
   $strongarm->value = 1;
   $export['node_submitted_tweet'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'preprocess_css';
+  $strongarm->value = 0;
+  $export['preprocess_css'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'preprocess_js';
+  $strongarm->value = 0;
+  $export['preprocess_js'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
