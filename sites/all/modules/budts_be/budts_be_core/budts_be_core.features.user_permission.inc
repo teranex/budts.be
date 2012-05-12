@@ -20,6 +20,16 @@ function budts_be_core_user_default_permissions() {
     'module' => 'comment',
   );
 
+  // Exported permission: access content.
+  $permissions['access content'] = array(
+    'name' => 'access content',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: post comments.
   $permissions['post comments'] = array(
     'name' => 'post comments',
@@ -58,6 +68,16 @@ function budts_be_core_user_default_permissions() {
       1 => 'authenticated user',
     ),
     'module' => 'gravatar',
+  );
+
+  // Exported permission: use text format 1.
+  $permissions['use text format 1'] = array(
+    'name' => 'use text format 1',
+    'roles' => array(
+      0 => 'anonymous user',
+      1 => 'authenticated user',
+    ),
+    'module' => 'filter',
   );
 
   return $permissions;
