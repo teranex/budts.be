@@ -454,6 +454,146 @@ function budts_be_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_code_container';
+  $strongarm->value = '4';
+  $export['geshifilter_code_container'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_default_line_numbering';
+  $strongarm->value = '5';
+  $export['geshifilter_default_line_numbering'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_apache';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_apache'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_apt_sources';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_apt_sources'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_bash';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_bash'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_c';
+  $strongarm->value = 0;
+  $export['geshifilter_language_enabled_c'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_cpp';
+  $strongarm->value = 0;
+  $export['geshifilter_language_enabled_cpp'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_csharp';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_csharp'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_css';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_css'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_diff';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_diff'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_html4strict';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_html4strict'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_ini';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_ini'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_java';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_java'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_javascript';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_javascript'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_php';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_php'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_python';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_python'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_ruby';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_ruby'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_sql';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_sql'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_vim';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_vim'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'geshifilter_language_enabled_xml';
+  $strongarm->value = 1;
+  $export['geshifilter_language_enabled_xml'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'gravatar_default';
   $strongarm->value = 'mm';
   $export['gravatar_default'] = $strongarm;
