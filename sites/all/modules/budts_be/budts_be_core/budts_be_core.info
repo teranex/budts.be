@@ -107,6 +107,7 @@ features[variable][] = comment_subject_field_story
 features[variable][] = comment_subject_field_tweet
 features[variable][] = comment_tweet
 features[variable][] = configurable_timezones
+features[variable][] = cron_safe_threshold
 features[variable][] = date_default_timezone
 features[variable][] = date_first_day
 features[variable][] = gravatar_default
