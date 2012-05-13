@@ -1,16 +1,5 @@
 <?php
 
-function _budts_be_install_run($method, $include = NULL) {
-  drupal_set_message("Running install method: $method");
-  if (is_null($include)) {
-    $include = "budts_be.$method.inc";
-  }
-  require_once($include);
-
-  $method = "budts_be_install_$method";
-  $method();
-}
-
 /**
  * Implements hook_install().
  *
@@ -22,4 +11,34 @@ function budts_be_install() {
   _budts_be_install_run('blocks');
   _budts_be_install_run('breadcrumbs');
   _budts_be_install_run('other');
+}
+
+
+function _budts_be_install_run($method, $include = NULL) {
+  drupal_set_message("Running install method: $method");
+  if (is_null($include)) {
+    $include = "budts_be.$method.inc";
+  }
+  require_once($include);
+
+  $method = "budts_be_install_$method";
+  $method();
+}
+
+function _string_from_args() {
+  return implode("\n", func_get_args());
+}
+
+function _budts_be_batch_insert($tablename, $values) {
+  if (!isset($values[0])) {
+    return;
+  }
+  $keys = array_keys($values[0]);
+
+  $query = db_insert($tablename)->fields($keys);
+  foreach ($values as $record) {
+    $query->values($record);
+  }
+  $query->execute();
+
 }

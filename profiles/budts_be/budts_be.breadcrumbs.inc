@@ -1,18 +1,10 @@
 <?php
 
-function _build_titles_array() {
-  return implode("\n", func_get_args());
-}
-
-function _build_paths_array() {
-  return implode("\n", func_get_args());
-}
-
 function budts_be_install_breadcrumbs() {
   $nodes = array(
     array(
-      'titles' => _build_titles_array('weblog', '[node:created:custom:Y]'),
-      'paths' => _build_paths_array('weblog/', 'weblog/[node:created:custom:Y]'),
+      'titles' => _string_from_args('weblog', '[node:created:custom:Y]'),
+      'paths' => _string_from_args('weblog/', 'weblog/[node:created:custom:Y]'),
       'visibility_php' => '',
       'node_type' => 'story',
       'name' => 'story',
@@ -32,12 +24,7 @@ function budts_be_install_breadcrumbs() {
       'name' => 'twitter',
     ),
   );
-
-  $query = db_insert('custom_breadcrumb')->fields(array('titles', 'paths', 'visibility_php', 'node_type', 'name'));
-  foreach ($nodes as $record) {
-    $query->values($record);
-  }
-  $query->execute();
+  _budts_be_batch_insert('custom_breadcrumb', $nodes);
 
   $vocabs = array(
     array(
@@ -48,12 +35,7 @@ function budts_be_install_breadcrumbs() {
       'visibility_php' => '',
     ),
   );
-
-  $query = db_insert('custom_breadcrumbs_taxonomy_vocabulary')->fields(array('name', 'titles', 'paths', 'vid', 'visibility_php'));
-  foreach ($vocabs as $record) {
-    $query->values($record);
-  }
-  $query->execute();
+  _budts_be_batch_insert('custom_breadcrumbs_taxonomy_vocabulary', $vocabs);
 
   $views = array(
     array(
@@ -65,16 +47,11 @@ function budts_be_install_breadcrumbs() {
     ),
     array(
       'name' => 'Archive view',
-      'titles' => _build_titles_array('weblog', 'archive'),
-      'paths' => _build_titles_array('weblog', '[current-page:url:relative]'),
+      'titles' => _string_from_args('weblog', 'archive'),
+      'paths' => _string_from_args('weblog', '[current-page:url:relative]'),
       'visibility_php' => '',
       'views_path' => 'weblog/%',
     ),
   );
-
-  $query = db_insert('custom_breadcrumbs_views')->fields(array('name', 'titles', 'paths', 'visibility_php', 'views_path'));
-  foreach ($views as $record) {
-    $query->values($record);
-  }
-  $query->execute();
+  _budts_be_batch_insert('custom_breadcrumbs_views', $views);
 }

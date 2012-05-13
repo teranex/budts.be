@@ -1,24 +1,7 @@
 <?php
 
-function _build_pages_array() {
-  return implode("\n", func_get_args());
-}
-
 function budts_be_install_blocks() {
-  module_load_include('module', 'budts_be_general');
-
-  // Enable some standard blocks.
-  $default_theme = variable_get('theme_default', 'budts_be');
   $admin_theme = 'seven';
-
-  $custom_blocks = array(
-  );
-
-  $query = db_insert('block_custom')->fields(array('bid', 'body', 'info', 'format'));
-  foreach ($custom_blocks as $record) {
-    $query->values($record);
-  }
-  $query->execute();
 
   $values = array(
     // for the default theme
@@ -79,7 +62,7 @@ function budts_be_install_blocks() {
       'status' => 1,
       'weight' => -17,
       'region' => 'sidebar_first',
-      'pages' => _build_pages_array('activity-stream', 'activity-stream/*'),
+      'pages' => _string_from_args('activity-stream', 'activity-stream/*'),
       'cache' => -1,
       'visibility' => 1,
       'title' => 'Sources',
@@ -103,7 +86,7 @@ function budts_be_install_blocks() {
       'status' => 1,
       'weight' => -15,
       'region' => 'sidebar_first',
-      'pages' => _build_pages_array('projects', 'projects/*', 'jeroen/cv', 'fotos', 'fotos/*', 'project/issues', 'project/issues/*', 'weblog/*'),
+      'pages' => _string_from_args('projects', 'projects/*', 'jeroen/cv', 'fotos', 'fotos/*', 'project/issues', 'project/issues/*', 'weblog/*'),
       'cache' => 8,
       'visibility' => 0,
       'title' => 'Tagcloud',
@@ -115,7 +98,7 @@ function budts_be_install_blocks() {
       'status' => 1,
       'weight' => -14,
       'region' => 'sidebar_first',
-      'pages' => _build_pages_array('weblog', 'weblog/*'),
+      'pages' => _string_from_args('weblog', 'weblog/*'),
       'cache' => -1,
       'visibility' => 1,
       'title' => '',
@@ -164,7 +147,7 @@ function budts_be_install_blocks() {
       'status' => 1,
       'weight' => -17,
       'region' => 'sidebar_second',
-      'pages' => _build_pages_array('activity-stream', 'activity-stream/*'),
+      'pages' => _string_from_args('activity-stream', 'activity-stream/*'),
       'cache' => -1,
       'visibility' => 1,
       'title' => '',
@@ -176,7 +159,7 @@ function budts_be_install_blocks() {
       'status' => 1,
       'weight' => -16,
       'region' => 'sidebar_second',
-      'pages' => _build_pages_array('projects', 'projects/*', 'jeroen/cv', 'fotos', 'fotos/*', 'project/issues', 'project/issues/*', 'activity-stream', 'activity-stream/*', '<front>'),
+      'pages' => _string_from_args('projects', 'projects/*', 'jeroen/cv', 'fotos', 'fotos/*', 'project/issues', 'project/issues/*', 'activity-stream', 'activity-stream/*', '<front>'),
       'cache' => -1,
       'visibility' => 0,
       'title' => '',
@@ -221,13 +204,5 @@ function budts_be_install_blocks() {
       'title' => '',
     ),
   );
-  _budts_be_install_blocks_in_db($values);
-}
-
-function _budts_be_install_blocks_in_db(array $values) {
-  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache', 'title', 'visibility'));
-  foreach ($values as $record) {
-    $query->values($record);
-  }
-  $query->execute();
+  _budts_be_batch_insert('block', $values);
 }
