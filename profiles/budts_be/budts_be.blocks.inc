@@ -25,9 +25,9 @@ function budts_be_install_blocks() {
     array(
       'module' => 'system',
       'delta' => 'main',
-      'theme' => 'budts_be',
+      'theme' => 'trex7',
       'status' => 1,
-      'weight' => -2,
+      'weight' => -16,
       'region' => 'content',
       'pages' => '',
       'cache' => -1,
@@ -35,17 +35,153 @@ function budts_be_install_blocks() {
       'title' => '',
     ),
     array(
-      'module' => 'budts_be_general',
-      'delta' => 'age_country_selector',
-      'theme' => 'budts_be',
+      'module' => 'views',
+      'delta' => 'projects_overview-block_1',
+      'theme' => 'trex7',
       'status' => 1,
-      'weight' => -11,
+      'weight' => -15,
+      'region' => 'content',
+      'pages' => 'projects',
+      'cache' => 4,
+      'visibility' => 1,
+      'title' => '',
+    ),
+    array(
+      'module' => 'views',
+      'delta' => 'activity_stream-block_2',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -14,
+      'region' => 'content',
+      'pages' => '<front>',
+      'cache' => -1,
+      'visibility' => 1,
+      'title' => '',
+    ),
+    array(
+      // TODO: replace with custom block
+      'module' => 'block',
+      'delta' => '4',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => 0,
       'region' => 'footer',
       'pages' => '',
       'cache' => -1,
       'visibility' => 0,
       'title' => '',
     ),
+    array(
+      // TODO: replace with custom block
+      'module' => 'block',
+      'delta' => '3',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -17,
+      'region' => 'sidebar_first',
+      'pages' => _build_pages_array('activity-stream', 'activity-stream/*'),
+      'cache' => -1,
+      'visibility' => 1,
+      'title' => 'Sources',
+    ),
+    array(
+      'module' => 'views',
+      'delta' => 'node_meta-block',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -16,
+      'region' => 'sidebar_first',
+      'pages' => 'weblog/*',
+      'cache' => -1,
+      'visibility' => 1,
+      'title' => 'About this post',
+    ),
+    array(
+      'module' => 'tagadelic',
+      'delta' => '1',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -15,
+      'region' => 'sidebar_first',
+      'pages' => _build_pages_array('projects', 'projects/*', 'jeroen/cv', 'fotos', 'fotos/*', 'project/issues', 'project/issues/*', 'weblog/*'),
+      'cache' => 8,
+      'visibility' => 0,
+      'title' => 'Tagcloud',
+    ),
+    array(
+      'module' => 'views',
+      'delta' => 'yearly_archive-block',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -14,
+      'region' => 'sidebar_first',
+      'pages' => _build_pages_array('weblog', 'weblog/*'),
+      'cache' => -1,
+      'visibility' => 1,
+      'title' => '',
+    ),
+    array(
+      // TODO: replace with custom block
+      'module' => 'block',
+      'delta' => '2',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -13,
+      'region' => 'sidebar_first',
+      'pages' => 'jeroen/cv',
+      'cache' => -1,
+      'visibility' => 1,
+      'title' => 'C.V.',
+    ),
+    array(
+      'module' => 'menu_block',
+      'delta' => '1',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -12,
+      'region' => 'sidebar_first',
+      'pages' => 'projects/*',
+      'cache' => -1,
+      'visibility' => 1,
+      'title' => '',
+    ),
+    array(
+      'module' => 'views',
+      'delta' => 'site_profiles-block_2',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -11,
+      'region' => 'sidebar_first',
+      'pages' => '<front>',
+      'cache' => -1,
+      'visibility' => 1,
+      'title' => '',
+    ),
+    array(
+      'module' => 'views',
+      'delta' => 'site_profiles-block_1',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -17,
+      'region' => 'sidebar_second',
+      'pages' => _build_pages_array('activity-stream', 'activity-stream/*'),
+      'cache' => -1,
+      'visibility' => 1,
+      'title' => '',
+    ),
+    array(
+      'module' => 'views',
+      'delta' => 'activity_stream-block_1',
+      'theme' => 'trex7',
+      'status' => 1,
+      'weight' => -16,
+      'region' => 'sidebar_second',
+      'pages' => _build_pages_array('projects', 'projects/*', 'jeroen/cv', 'fotos', 'fotos/*', 'project/issues', 'project/issues/*', 'activity-stream', 'activity-stream/*', '<front>'),
+      'cache' => -1,
+      'visibility' => 0,
+      'title' => '',
+    ),
+
 
     // for the admin theme
     array(
@@ -86,15 +222,6 @@ function budts_be_install_blocks() {
     ),
   );
   _budts_be_install_blocks_in_db($values);
-
-  $values = array(
-    // array(
-    //   'module' => 'budts_be_general',
-    //   'delta'  => 'age_country_selector',
-    //   'rid'    => 1,
-    // ),
-  );
-  _budts_be_install_blocks_roles_in_db($values);
 }
 
 function _budts_be_install_blocks_in_db(array $values) {
@@ -104,12 +231,3 @@ function _budts_be_install_blocks_in_db(array $values) {
   }
   $query->execute();
 }
-
-function _budts_be_install_blocks_roles_in_db(array $values) {
-  $query = db_insert('block_role')->fields(array('module', 'delta', 'rid'));
-  foreach ($values as $record){
-    $query->values($record);
-  }
-  $query->execute();
-}
-
