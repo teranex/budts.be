@@ -440,6 +440,34 @@ function budts_be_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'custom_breadcrumbs_set_menu_breadcrumb';
+  $strongarm->value = 1;
+  $export['custom_breadcrumbs_set_menu_breadcrumb'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'custom_breadcrumbs_taxonomy_include_nodes';
+  $strongarm->value = '1';
+  $export['custom_breadcrumbs_taxonomy_include_nodes'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'custom_breadcrumbs_taxonomy_show_current_term';
+  $strongarm->value = 1;
+  $export['custom_breadcrumbs_taxonomy_show_current_term'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'custom_breadcrumbs_taxonomy_show_current_term_term';
+  $strongarm->value = 1;
+  $export['custom_breadcrumbs_taxonomy_show_current_term_term'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'date_default_timezone';
   $strongarm->value = 'Europe/Brussels';
   $export['date_default_timezone'] = $strongarm;
