@@ -54,7 +54,6 @@ function budts_be_install_blocks() {
       'title' => '',
     ),
     array(
-      // TODO: replace with custom block
       'module' => 'budts_be_core',
       'delta' => 'activity_stream_sources',
       'theme' => 'trex7',
@@ -103,15 +102,14 @@ function budts_be_install_blocks() {
       'title' => '',
     ),
     array(
-      // TODO: replace with custom block
-      'module' => 'block',
-      'delta' => '2',
+      'module' => 'budts_be_core',
+      'delta' => 'budts_be_cv',
       'theme' => 'trex7',
       'status' => 1,
       'weight' => -13,
       'region' => 'sidebar_first',
       'pages' => 'jeroen/cv',
-      'cache' => -1,
+      'cache' => 8,
       'visibility' => 1,
       'title' => 'C.V.',
     ),

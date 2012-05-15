@@ -18,6 +18,10 @@ function budts_be_core_block_info() {
     'info' => t('Activity Stream Sources'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
+  $blocks['budts_be_cv'] = array(
+    'info' => t('C.V.'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
   return $blocks;
 }
 
@@ -36,6 +40,10 @@ function budts_be_core_block_view($delta = '') {
       $block['subject'] = t('Sources');
       $block['content'] = budts_be_block_sources_content();
       break;
+    case 'budts_be_cv':
+      $blocks['subject'] = t('C.V.');
+      $block['content'] = budts_be_block_cv_content();
+      break;
   }
   return $block;
 }
@@ -52,4 +60,11 @@ function budts_be_block_sources_content() {
             <li><a href="/activity-stream/tweet">Twitter</a></li>
             <li><a href="/activity-stream/delicious_bookmark">Del.icio.us</a></li>
           </ul>';
+}
+
+function budts_be_block_cv_content() {
+  return '<p>Mijn curriculum vitae is ook beschikbaar als <a href="http://budts.be/static/cv-jeroenbudts-nl.pdf">PDF document</a>, gemaakt met OpenOffice.org.</p>
+          <p>Bekijk ook mijn <a href="http://be.linkedin.com/in/jeroenbudts">mijn linkedin profiel</a> voor nog extra informatie.</p>
+          <p><a href="http://be.linkedin.com/in/jeroenbudts"><img src="http://www.linkedin.com/img/webpromo/btn_viewmy_160x25.png" width="160"
+            height="25" border="0" alt="View Jeroen Budts\'s profile on LinkedIn"></a></p>';
 }
