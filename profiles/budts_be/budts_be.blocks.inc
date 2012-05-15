@@ -55,14 +55,14 @@ function budts_be_install_blocks() {
     ),
     array(
       // TODO: replace with custom block
-      'module' => 'block',
-      'delta' => '3',
+      'module' => 'budts_be_core',
+      'delta' => 'activity_stream_sources',
       'theme' => 'trex7',
       'status' => 1,
       'weight' => -17,
       'region' => 'sidebar_first',
       'pages' => _string_from_args('activity-stream', 'activity-stream/*'),
-      'cache' => -1,
+      'cache' => 8,
       'visibility' => 1,
       'title' => 'Sources',
     ),
