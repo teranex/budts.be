@@ -37,7 +37,6 @@
           </div></div>
           <?php endif; ?>
           <div id='main' class='clear-block'>
-            <?php if ($site_slogan): print '<div id="mission">'. $site_slogan .'</div>'; endif; ?>
             <?php if ($title): ?><h2 class='page-title'><?php print $title ?></h2><?php endif; ?>
             <?php if ($tabs) print render($tabs) ?>
             <div id='content' class='clear-block'><?php print render($page['content']); ?></div>
