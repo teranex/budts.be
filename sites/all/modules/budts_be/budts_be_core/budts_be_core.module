@@ -5,3 +5,35 @@
  */
 
 include_once 'budts_be_core.features.inc';
+
+/**
+ * Implements hook_block_info()
+ */
+function budts_be_core_block_info() {
+  $blocks['budts_be_footer'] = array(
+    'info' => t('Budts.be Footer'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view()
+ */
+function budts_be_core_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'budts_be_footer':
+      $block['subject'] = t('');
+      $block['content'] = budts_be_footer_block_content();
+      break;
+  }
+  return $block;
+}
+
+function budts_be_footer_block_content() {
+  return '<div class="footer">© 2002-2011 Jeroen Budts. This work is licensed under the <a href="http://creativecommons.org/licenses/by-sa/2.0/be/deed.en">
+          Belgian BY-SA Creative Commons License</a> unless otherwhise noted. This website is powered by <a href="http://drupal.org">Drupal</a> and hosted
+          by <a href="http://www.dreamhost.com/r.cgi?113750">Dreamhost</a>. <a href="/about">About this website</a>.</div>';
+}

@@ -42,15 +42,14 @@ function budts_be_install_blocks() {
       'title' => '',
     ),
     array(
-      // TODO: replace with custom block
-      'module' => 'block',
-      'delta' => '4',
+      'module' => 'budts_be_core',
+      'delta' => 'budts_be_footer',
       'theme' => 'trex7',
       'status' => 1,
       'weight' => 0,
       'region' => 'footer',
       'pages' => '',
-      'cache' => -1,
+      'cache' => 8,
       'visibility' => 0,
       'title' => '',
     ),
