@@ -468,13 +468,6 @@ function budts_be_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_default_timezone';
-  $strongarm->value = 'Europe/Brussels';
-  $export['date_default_timezone'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'date_first_day';
   $strongarm->value = '1';
   $export['date_first_day'] = $strongarm;
@@ -518,14 +511,14 @@ function budts_be_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'geshifilter_language_enabled_c';
-  $strongarm->value = 0;
+  $strongarm->value = TRUE;
   $export['geshifilter_language_enabled_c'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'geshifilter_language_enabled_cpp';
-  $strongarm->value = 0;
+  $strongarm->value = TRUE;
   $export['geshifilter_language_enabled_cpp'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -567,35 +560,35 @@ function budts_be_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'geshifilter_language_enabled_java';
-  $strongarm->value = 1;
+  $strongarm->value = TRUE;
   $export['geshifilter_language_enabled_java'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'geshifilter_language_enabled_javascript';
-  $strongarm->value = 1;
+  $strongarm->value = TRUE;
   $export['geshifilter_language_enabled_javascript'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'geshifilter_language_enabled_php';
-  $strongarm->value = 1;
+  $strongarm->value = TRUE;
   $export['geshifilter_language_enabled_php'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'geshifilter_language_enabled_python';
-  $strongarm->value = 1;
+  $strongarm->value = TRUE;
   $export['geshifilter_language_enabled_python'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'geshifilter_language_enabled_ruby';
-  $strongarm->value = 1;
+  $strongarm->value = TRUE;
   $export['geshifilter_language_enabled_ruby'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -896,13 +889,6 @@ function budts_be_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_taxonomy_term_pattern';
-  $strongarm->value = 'category/[term:vocabulary:name]/[term:name]';
-  $export['pathauto_taxonomy_term_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_taxonomy_term_vocabulary_1_pattern';
   $strongarm->value = 'tag/[term:name]';
   $export['pathauto_taxonomy_term_vocabulary_1_pattern'] = $strongarm;
@@ -938,23 +924,9 @@ function budts_be_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'site_default_country';
-  $strongarm->value = 'BE';
-  $export['site_default_country'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'site_frontpage';
   $strongarm->value = 'homepage';
   $export['site_frontpage'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'site_name';
-  $strongarm->value = 'teranex weblog';
-  $export['site_name'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
