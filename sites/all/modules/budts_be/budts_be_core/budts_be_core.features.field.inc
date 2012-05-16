@@ -20,6 +20,14 @@ function budts_be_core_field_default_fields() {
         0 => 'node',
       ),
       'field_name' => 'body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
       'indexes' => array(
         'format' => array(
           0 => 'format',
@@ -83,6 +91,14 @@ function budts_be_core_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'taxonomy_vocabulary_1',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
       'indexes' => array(
         'tid' => array(
           0 => 'tid',
@@ -149,6 +165,14 @@ function budts_be_core_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'upload',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
       'indexes' => array(
         'fid' => array(
           0 => 'fid',
@@ -230,6 +254,14 @@ function budts_be_core_field_default_fields() {
         0 => 'node',
       ),
       'field_name' => 'body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
       'indexes' => array(
         'format' => array(
           0 => 'format',
@@ -293,6 +325,14 @@ function budts_be_core_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'taxonomy_vocabulary_1',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
       'indexes' => array(
         'tid' => array(
           0 => 'tid',
@@ -360,6 +400,14 @@ function budts_be_core_field_default_fields() {
         0 => 'node',
       ),
       'field_name' => 'body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
       'indexes' => array(
         'format' => array(
           0 => 'format',
@@ -425,6 +473,14 @@ function budts_be_core_field_default_fields() {
         0 => 'node',
       ),
       'field_name' => 'body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
       'indexes' => array(
         'format' => array(
           0 => 'format',
@@ -488,6 +544,14 @@ function budts_be_core_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'taxonomy_vocabulary_1',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
       'indexes' => array(
         'tid' => array(
           0 => 'tid',
@@ -553,6 +617,14 @@ function budts_be_core_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'upload',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
       'indexes' => array(
         'fid' => array(
           0 => 'fid',
@@ -634,6 +706,14 @@ function budts_be_core_field_default_fields() {
         0 => 'node',
       ),
       'field_name' => 'body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
       'indexes' => array(
         'format' => array(
           0 => 'format',
@@ -699,6 +779,14 @@ function budts_be_core_field_default_fields() {
         0 => 'node',
       ),
       'field_name' => 'body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
       'indexes' => array(
         'format' => array(
           0 => 'format',
@@ -761,6 +849,14 @@ function budts_be_core_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'taxonomy_vocabulary_1',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
       'indexes' => array(
         'tid' => array(
           0 => 'tid',
@@ -827,6 +923,14 @@ function budts_be_core_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'taxonomy_vocabulary_1',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
       'indexes' => array(
         'tid' => array(
           0 => 'tid',
