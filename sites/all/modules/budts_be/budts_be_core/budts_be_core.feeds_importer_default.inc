@@ -38,33 +38,33 @@ function budts_be_core_feeds_importer_default() {
         'expire' => '-1',
         'mappings' => array(
           0 => array(
-            'source' => 'tags',
-            'target' => 'taxonomy:1',
-            'unique' => FALSE,
-          ),
-          1 => array(
             'source' => 'title',
             'target' => 'title',
             'unique' => FALSE,
           ),
-          2 => array(
+          1 => array(
             'source' => 'timestamp',
             'target' => 'created',
             'unique' => FALSE,
           ),
-          3 => array(
+          2 => array(
             'source' => 'description',
             'target' => 'body',
             'unique' => FALSE,
           ),
-          4 => array(
+          3 => array(
             'source' => 'guid',
             'target' => 'guid',
             'unique' => 1,
           ),
-          5 => array(
+          4 => array(
             'source' => 'url',
             'target' => 'url',
+            'unique' => 0,
+          ),
+          5 => array(
+            'source' => 'tags',
+            'target' => 'taxonomy_vocabulary_1',
             'unique' => FALSE,
           ),
         ),
@@ -76,6 +76,7 @@ function budts_be_core_feeds_importer_default() {
     'import_period' => 1800,
     'expire_period' => 3600,
     'import_on_create' => TRUE,
+    'process_in_background' => FALSE,
   );
   $export['delicious'] = $feeds_importer;
 
