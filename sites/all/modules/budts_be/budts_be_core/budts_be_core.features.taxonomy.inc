@@ -10,10 +10,10 @@
 function budts_be_core_taxonomy_default_vocabularies() {
   return array(
     'vocabulary_1' => array(
-      'name' => 'side-wide tags',
+      'name' => 'site-wide tags',
       'machine_name' => 'vocabulary_1',
       'description' => '',
-      'hierarchy' => '1',
+      'hierarchy' => '0',
       'module' => 'taxonomy',
       'weight' => '0',
     ),
