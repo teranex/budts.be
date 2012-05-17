@@ -22,7 +22,6 @@ features[feeds_importer][] = delicious
 features[feeds_importer][] = twitter
 features[field][] = node-delicious_bookmark-body
 features[field][] = node-delicious_bookmark-taxonomy_vocabulary_1
-features[field][] = node-delicious_bookmark-upload
 features[field][] = node-page-body
 features[field][] = node-page-taxonomy_vocabulary_1
 features[field][] = node-project_box-body
