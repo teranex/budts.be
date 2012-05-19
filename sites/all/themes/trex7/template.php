@@ -59,3 +59,9 @@ function trex7_file_formatter_table($variables) {
   return empty($rows) ? '' : theme('table', array('header' => $header, 'rows' => $rows));
 }
 
+function trex7_feed_icon(&$variables) {
+  $text = t('Subscribe to @feed-title', array('@feed-title' => $variables['title']));
+  if ($image = theme('image', array('path' => path_to_theme().'/images/rss.png', 'width' => 20, 'height' => 20, 'alt' => $text))) {
+    return l($image, $variables['url'], array('html' => TRUE, 'attributes' => array('class' => array('feed-icon'), 'title' => $text)));
+  }
+}
