@@ -796,7 +796,8 @@ ul.custom-pager li {
 #navi-menu .sl-github a:hover { background-image: url('../images/github_alt_b.png'); }
 .sl-lastfm a { background: url('../images/last.fm.png') no-repeat center center; }
 #navi-menu .sl-lastfm a:hover { background-image: url('../images/last.fm_b.png'); }
-.sl-linkedin a { background: url('../images/linkedin.png') no-repeat center center; border-right: 25px solid #1B1D1E; }
+.sl-linkedin a { background: url('../images/linkedin.png') no-repeat center center;}
+.sl-linkedin { border-right: 25px solid #1B1D1E;}
 #navi-menu .sl-linkedin a:hover { background-image: url('../images/linkedin_b.png'); }
 
 #navi-menu .menu-1185 a:hover, #navi-menu .menu-1187 a:hover {

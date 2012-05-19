@@ -30,8 +30,8 @@ function trex7_preprocess_page(&$variables) {
       'sl-twitter' => array('href' => 'http://twitter.com/teranex', 'title' => 'Twitter',),
       'sl-facebook' => array('href' => 'http://facebook.com/teranex', 'title' => 'Facebook',),
       'sl-github' => array('href' => 'http://github.com/teranex', 'title' => 'Github',),
-      'sl-lastfm' => array('href' => 'http://lastfm.com/teranex', 'title' => 'Last.fm',),
-      'sl-linkedin' => array('href' => 'http://linkedin.com/teranex', 'title' => 'Linkedin',),
+      'sl-lastfm' => array('href' => 'http://lastfm.com/user/teranex', 'title' => 'Last.fm',),
+      'sl-linkedin' => array('href' => 'http://www.linkedin.com/in/jeroenbudts', 'title' => 'Linkedin',),
     );
     $variables['main_menu'] = $new_menu + $variables['main_menu'];
   }
