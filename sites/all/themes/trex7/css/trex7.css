@@ -61,6 +61,9 @@
         /* purple */
         color: #8a78b8;
       }
+      #masthead h1 {
+        font-size: 30px;
+      }
       h2 {
         color: #93cb2b;
       }
@@ -77,7 +80,6 @@
         /*position: absolute;*/
         right: 0;
         margin-right: 0px;
-        
       }
 
       /*#navi-menu div {*/
@@ -105,7 +107,7 @@
       }
 
       #navi-menu a:hover {
-        background: #ce7e1f;
+        background: #ce7e1f no-repeat;
         color: #1b1d1e;
       }
 
@@ -776,6 +778,26 @@ ul.custom-pager li {
     width: 15px;
     border-right: 30px solid #1B1D1E;
 }
+
+.sl-facebook a,
+.sl-github a,
+.sl-lastfm a,
+.sl-linkedin a,
+.sl-twitter a {
+  color: transparent;
+  width: 15px;
+  text-indent: -9999px;
+}
+.sl-twitter a { background: url('../images/twitter_alt.png') no-repeat center center; }
+#navi-menu .sl-twitter a:hover { background-image: url('../images/twitter_alt_b.png'); }
+.sl-facebook a { background: url('../images/facebook.png') no-repeat center center; }
+#navi-menu .sl-facebook a:hover { background-image: url('../images/facebook_b.png'); }
+.sl-github a { background: url('../images/github_alt.png') no-repeat center center; }
+#navi-menu .sl-github a:hover { background-image: url('../images/github_alt_b.png'); }
+.sl-lastfm a { background: url('../images/last.fm.png') no-repeat center center; }
+#navi-menu .sl-lastfm a:hover { background-image: url('../images/last.fm_b.png'); }
+.sl-linkedin a { background: url('../images/linkedin.png') no-repeat center center; border-right: 25px solid #1B1D1E; }
+#navi-menu .sl-linkedin a:hover { background-image: url('../images/linkedin_b.png'); }
 
 #navi-menu .menu-1185 a:hover, #navi-menu .menu-1187 a:hover {
     background: url('../images/search_dark.png') #ce7e1f no-repeat center center;
