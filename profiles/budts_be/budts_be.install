@@ -42,3 +42,19 @@ function _budts_be_batch_insert($tablename, $values) {
   $query->execute();
 
 }
+
+/**
+ * Upgrade site to Drupal 7
+ */
+function budts_be_update_7100() {
+  // first enable some new modules
+  module_enable(array('toolbar', 'feeds_twitter', 'libraries', 'subpathauto'));
+  // then disable some modules which are not needed
+  module_disable(array('field_ui', 'list', 'number', 'custom_breadcrumbs_paths'));
+
+  // finally enable our site feature
+  module_enable(array('features', 'strongarm', 'budts_be_core'));
+
+  // and configure our theme
+  _budts_be_install_run('theme');
+}
