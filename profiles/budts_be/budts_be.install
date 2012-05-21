@@ -57,4 +57,8 @@ function budts_be_update_7100() {
 
   // and configure our theme
   _budts_be_install_run('theme');
+
+  // configure blocks for trex7 theme
+  require_once('budts_be.blocks.inc');
+  budts_be_install_blocks_trex7();
 }

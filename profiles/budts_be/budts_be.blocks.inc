@@ -1,7 +1,11 @@
 <?php
 
 function budts_be_install_blocks() {
-  $admin_theme = 'seven';
+  budts_be_install_blocks_trex7();
+  budts_be_install_blocks_admin();
+}
+
+function budts_be_install_blocks_trex7() {
 
   $values = array(
     // for the default theme
@@ -161,13 +165,17 @@ function budts_be_install_blocks() {
       'visibility' => 0,
       'title' => '',
     ),
+  );
+  _budts_be_batch_insert('block', $values);
+}
 
-
+function budts_be_install_blocks_admin() {
+  $values = array(
     // for the admin theme
     array(
       'module' => 'system',
       'delta' => 'main',
-      'theme' => $admin_theme,
+      'theme' => 'seven',
       'status' => 1,
       'weight' => 0,
       'region' => 'content',
@@ -179,7 +187,7 @@ function budts_be_install_blocks() {
     array(
       'module' => 'system',
       'delta' => 'help',
-      'theme' => $admin_theme,
+      'theme' => 'seven',
       'status' => 1,
       'weight' => 0,
       'region' => 'help',
@@ -191,7 +199,7 @@ function budts_be_install_blocks() {
     array(
       'module' => 'user',
       'delta' => 'login',
-      'theme' => $admin_theme,
+      'theme' => 'seven',
       'status' => 1,
       'weight' => 10,
       'region' => 'content',
