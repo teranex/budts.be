@@ -1,0 +1,13 @@
+<?php
+
+function budts_be_updater_install() {
+  variable_set('install_profile', 'budts_be');
+  budts_be_updater_delete_nodes('image');
+}
+
+function budts_be_updater_delete_nodes($type) {
+  $query = db_query("select nid from {node} where type = '%s'", $type);
+  while ($res = db_fetch_array($query)) {
+    node_delete($res['nid']);
+  }
+}

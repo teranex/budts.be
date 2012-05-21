@@ -1,0 +1,4 @@
+name = Budts.be Updater
+description = Module to prepare budts.be for upgrading to Drupal 7
+package = Budts.be
+core = 6.x
