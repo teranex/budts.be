@@ -2,12 +2,48 @@
 
 function budts_be_updater_install() {
   variable_set('install_profile', 'budts_be');
-  budts_be_updater_delete_nodes('image');
+
+  $batch = array(
+    'title' => 'Preparing budts.be for upgrade to Drupal 7',
+    'operations' => array(
+      array('budts_be_updater_batch_delete_nodes', array('image')),
+      array('budts_be_updater_batch_delete_nodes', array('project_issue')),
+      array('budts_be_updater_batch_delete_nodes', array('project_project')),
+      array('budts_be_updater_batch_module_uninstall', array('image_import')),
+      array('budts_be_updater_batch_module_uninstall', array('image_gallery')),
+      array('budts_be_updater_batch_module_uninstall', array('image')),
+      array('budts_be_updater_batch_module_uninstall', array('project')),
+      array('budts_be_updater_batch_module_uninstall', array('project_issue')),
+      array('budts_be_updater_batch_module_uninstall', array('custom_pagers')),
+      array('budts_be_updater_batch_delete_content_type', array('image')),
+      array('budts_be_updater_batch_delete_content_type', array('project_issue')),
+      array('budts_be_updater_batch_delete_content_type', array('project_project')),
+    ),
+    'finished' => 'budts_be_updater_batch_finished',
+    'file' => dirname(__FILE__).'/budts_be_updater.install',
+  );
+
+  batch_set($batch);
 }
 
-function budts_be_updater_delete_nodes($type) {
-  $query = db_query("select nid from {node} where type = '%s'", $type);
+function budts_be_updater_batch_delete_nodes($type, &$context) {
+  $context['finished'] = 1;
+  $query = db_query("select nid from {node} where type = '%s' limit 0, 25", $type);
   while ($res = db_fetch_array($query)) {
+    $context['finished'] = 0; // we have deleted at least one node, continue the batch
     node_delete($res['nid']);
   }
+}
+
+function budts_be_updater_batch_delete_content_type($type, &$context) {
+  node_type_delete($type);
+  node_types_rebuild();
+  $context['finished'] = 1;
+}
+
+function budts_be_updater_batch_module_uninstall($module, &$context) {
+  require_once './includes/install.inc';
+  module_disable(array($module));
+  drupal_uninstall_module($module);
+  $context['finished'] = 1;
 }
