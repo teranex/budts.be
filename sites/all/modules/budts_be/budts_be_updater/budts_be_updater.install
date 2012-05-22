@@ -18,6 +18,8 @@ function budts_be_updater_install() {
       array('budts_be_updater_batch_delete_content_type', array('image')),
       array('budts_be_updater_batch_delete_content_type', array('project_issue')),
       array('budts_be_updater_batch_delete_content_type', array('project_project')),
+      array('budts_be_updater_batch_delete_vocabulary', array(5)),
+      array('budts_be_updater_batch_delete_view', array('image_gallery')),
     ),
     'finished' => 'budts_be_updater_batch_finished',
     'file' => dirname(__FILE__).'/budts_be_updater.install',
@@ -47,3 +49,19 @@ function budts_be_updater_batch_module_uninstall($module, &$context) {
   drupal_uninstall_module($module);
   $context['finished'] = 1;
 }
+
+function budts_be_updater_batch_delete_vocabulary($vid, &$context) {
+  module_load_include('module', 'taxonomy');
+  taxonomy_del_vocabulary($vid);
+  $context['finished'] = 1;
+}
+
+function budts_be_updater_batch_delete_view($view_name, &$context) {
+  module_load_include('module', 'views');
+  $view = views_get_view($view_name);
+  if (!is_null($view)) {
+    $view->delete();
+  }
+  $context['finished'] = 1;
+}
+
