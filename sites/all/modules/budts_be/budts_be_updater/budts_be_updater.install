@@ -38,12 +38,21 @@ function budts_be_updater_install() {
 }
 
 function budts_be_updater_batch_delete_nodes($type, &$context) {
-  $context['finished'] = 1;
+  $deleted = 0;
+  $context['finished'] = 0;
+
   $query = db_query("select nid from {node} where type = '%s' limit 0, 25", $type);
   while ($res = db_fetch_array($query)) {
-    $context['finished'] = 0; // we have deleted at least one node, continue the batch
     node_delete($res['nid']);
+    $deleted++;
   }
+
+  if ($deleted < 25) {
+    $context['finished'] = 1;
+  }
+
+  $context['sandbox']['deleted'] = $deleted + (isset($context['sandbox']['deleted']) ? intval($context['sandbox']['deleted']) : 0);
+  $context['message'] = t('Deleted @number nodes of content type @type', array('@number' => $context['sandbox']['deleted'], '@type' => $type));
 }
 
 function budts_be_updater_batch_delete_content_type($type, &$context) {
