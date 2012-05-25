@@ -24,6 +24,7 @@ function budts_be_updater_install() {
       array('budts_be_updater_batch_module_uninstall', array('devel_themer')),
       array('budts_be_updater_batch_module_uninstall', array('globalredirect')),
       array('budts_be_updater_batch_module_uninstall', array('search404')),
+      array('budts_be_updater_batch_module_uninstall', array('geshifilter')),
       array('budts_be_updater_batch_delete_content_type', array('image')),
       array('budts_be_updater_batch_delete_content_type', array('project_issue')),
       array('budts_be_updater_batch_delete_content_type', array('project_project')),
