@@ -133,6 +133,7 @@ features[variable][] = geshifilter_language_enabled_ruby
 features[variable][] = geshifilter_language_enabled_sql
 features[variable][] = geshifilter_language_enabled_vim
 features[variable][] = geshifilter_language_enabled_xml
+features[variable][] = geshifilter_tags
 features[variable][] = gravatar_default
 features[variable][] = menu_block_1_admin_title
 features[variable][] = menu_block_1_depth

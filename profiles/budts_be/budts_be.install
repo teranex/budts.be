@@ -48,7 +48,7 @@ function _budts_be_batch_insert($tablename, $values) {
  */
 function budts_be_update_7100() {
   // first enable some new modules
-  module_enable(array('toolbar', 'feeds_twitter', 'libraries', 'subpathauto'));
+  module_enable(array('toolbar', 'feeds_twitter', 'libraries', 'subpathauto', 'geshifilter'));
   // then disable some modules which are not needed
   module_disable(array('field_ui', 'list', 'number', 'custom_breadcrumbs_paths'));
 
@@ -61,4 +61,7 @@ function budts_be_update_7100() {
   // configure blocks for trex7 theme
   require_once('budts_be.blocks.inc');
   budts_be_install_blocks_trex7();
+
+  // update formatters
+  _budts_be_install_run('formatters');
 }
