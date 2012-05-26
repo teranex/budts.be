@@ -64,4 +64,15 @@ function budts_be_update_7100() {
 
   // update formatters
   _budts_be_install_run('formatters');
+
+  // update breadcrumbs
+  db_delete('custom_breadcrumb')->execute();
+  db_delete('custom_breadcrumbs_taxonomy_vocabulary')->execute();
+  db_delete('custom_breadcrumbs_views')->execute();
+  _budts_be_install_run('breadcrumbs');
+
+  // TODO remove old custom blocks
+  // TODO remove blocks-config for old theme
+
+  // revert features
 }
