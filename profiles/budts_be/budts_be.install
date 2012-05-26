@@ -14,6 +14,9 @@ function budts_be_install() {
 }
 
 
+/**
+ * Run an install step
+ */
 function _budts_be_install_run($method, $include = NULL) {
   drupal_set_message("Running install method: $method");
   if (is_null($include)) {
@@ -25,10 +28,17 @@ function _budts_be_install_run($method, $include = NULL) {
   $method();
 }
 
+/**
+ * Make a newline-delimited string from all the arguments
+ */
 function _string_from_args() {
   return implode("\n", func_get_args());
 }
 
+/**
+ * Batch insert into a table
+ * The keys of the first entry is used to also specify the columns
+ */
 function _budts_be_batch_insert($tablename, $values) {
   if (!isset($values[0])) {
     return;
@@ -41,6 +51,22 @@ function _budts_be_batch_insert($tablename, $values) {
   }
   $query->execute();
 
+}
+
+/**
+ * Completely reverts a feature based on the settings in its .info file.
+ *
+ * Taken from https://gist.github.com/1925886
+ *
+ * @param string $feature_module
+ * Name of feature/module to revert.
+ */
+function full_feature_revert($feature_module) {
+  $info = drupal_parse_info_file(drupal_get_path('module', $feature_module) . '/' . $feature_module . '.info');
+  $revert = array(
+    $feature_module => array_keys($info['features']),
+  );
+  features_revert($revert);
 }
 
 /**
@@ -75,4 +101,6 @@ function budts_be_update_7100() {
   // TODO remove blocks-config for old theme
 
   // revert features
+  full_feature_revert('budts_be_core');
 }
+
