@@ -97,8 +97,12 @@ function budts_be_update_7100() {
   db_delete('custom_breadcrumbs_views')->execute();
   _budts_be_install_run('breadcrumbs');
 
-  // TODO remove old custom blocks
-  // TODO remove blocks-config for old theme
+  // remove all the custom blocks, they are in custom code now
+  db_delete('block_custom')->execute();
+  db_delete('block')->condition('module', 'block')->execute();
+
+  // remove blocks for previous version of the theme (trex3)
+  db_delete('block')->condition('theme', 'trex3')->execute();
 
   // revert features
   full_feature_revert('budts_be_core');
