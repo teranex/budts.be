@@ -882,6 +882,10 @@ table.webform_report tr.even td {
   background: inherit;
 }
 
+table tbody tr.odd:hover, table tbody tr.even:hover {
+  background: #1B1D1E;
+}
+
 code {
     background: #353738;
 }
