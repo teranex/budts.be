@@ -679,6 +679,8 @@ ul.custom-pager li {
 .activity-stream .field-name-body p,
 .activity-stream-item .field-content p {
   padding-left: 27px;
+  color: #666666;
+  font-size: 11px;
 }
 
 .view-activity-stream {
