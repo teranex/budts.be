@@ -107,6 +107,9 @@ function budts_be_update_7100() {
   // remove blocks for previous version of the theme (trex3)
   db_delete('block')->condition('theme', 'trex3')->execute();
 
+  // Remove tag/abc/feed aliases, handled by subpathauto
+  db_delete('url_alias')->condition('source', '%/0/feed', 'LIKE')->execute();
+
   // revert features
   full_feature_revert('budts_be_core');
 }
