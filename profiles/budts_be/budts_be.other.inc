@@ -1,6 +1,9 @@
 <?php
 
 function budts_be_install_other() {
-  // since variables are managed by Strongarm, there is currently nothing here
+  // set up a nice alias for the tagadelic tagcloud
+  $path = array('source' => 'tagadelic/chunk/1',
+                'alias' => 'tag',);
+  path_save($path);
 }
 
