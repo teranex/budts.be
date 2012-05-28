@@ -16,3 +16,10 @@ drush -y make profiles/budts_be/budts_be.make .
 # geshifilter downloads the libraries module but doesn't place it in the
 # contrib subdir so we move it
 mv sites/all/modules/libraries sites/all/modules/contrib/
+
+# apply the local patches
+for patch in profiles/budts_be/patches/*.patch
+do
+    echo "Applying $patch."
+    patch -p1 < $patch > /dev/null
+done
