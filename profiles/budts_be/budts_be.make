@@ -3,8 +3,11 @@ api = 2
 
 projects[drupal][type] = "core"
 
+projects[tao][type] = "theme"
+
 projects[ctools][subdir] = "contrib"
 projects[custom_breadcrumbs][subdir] = "contrib"
+projects[custom_breadcrumbs][version] = "2.x-dev"
 projects[features][subdir] = "contrib"
 projects[feeds][subdir] = "contrib"
 projects[geshifilter][subdir] = "contrib"
