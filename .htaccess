@@ -97,6 +97,25 @@ DirectoryIndex index.php index.html index.htm
   # uncomment the following line:
   # RewriteBase /
 
+  # ------------- own added rewrite rules ------------------------
+  RewriteRule ^fotos/robots\.txt$               - [R=404,L]
+  RewriteRule ^weblog/media/(.*)                /static/media/$1 [R=301,L]
+  RewriteRule ^jeroen/?$                        /static/openid.html [L]
+  RewriteRule ^jeroen/cv/.+                     /jeroen/cv [R=301,L]
+  RewriteRule ^weblog/tagcloud/?                /tagadelic/chunk/1 [R,L]
+  RewriteRule ^weblog/about/?                   /about [R=301,L]
+  RewriteRule ^weblog/tag/(.+)/feed.*           /tag/$1/feed [R=301,L]
+  RewriteRule ^(.+)/page/(\d*)$                 /$1?page=$2 [R=301,L]
+  RewriteRule ^tag/(.+)/page/(\d*)              /tag/$1?page=$2 [R=301,L]
+  RewriteRule ^weblog/tag/(.+)                  /tag/$1 [R=301,L]
+
+  # from old and even older weblog
+  RewriteRule ^weblog/category/(.+)(/.*)?$              /tag/$1 [R=301,L]
+  RewriteRule ^weblog/blog/[0-9]+/item/([0-9]+).*$      /static/redirector.php?type=item&id=$1  [L]
+  RewriteRule ^weblog/archive(/[0-9])?/([0-9]{4})-([0-9][0-9]).*$  /weblog/$2/$3/      [R=301,L]
+  RewriteRule ^weblog/item/([0-9]+).*$                  /static/redirector.php?type=item&id=$1  [L]
+  # ------------- end --------------------------------------------
+
   # Pass all requests not referring directly to files in the filesystem to
   # index.php. Clean URLs are handled in drupal_environment_initialize().
   RewriteCond %{REQUEST_FILENAME} !-f
