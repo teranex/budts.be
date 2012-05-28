@@ -2,6 +2,8 @@ core = 7.x
 api = 2
 
 projects[drupal][type] = "core"
+projects[drupal][patch][] = "patches/gitignore.patch"
+projects[drupal][patch][] = "patches/htaccess.patch"
 
 projects[tao][type] = "theme"
 
@@ -22,3 +24,8 @@ projects[subpathauto][subdir] = "contrib"
 projects[tagadelic][subdir] = "contrib"
 projects[views][subdir] = "contrib"
 projects[webform][subdir] = "contrib"
+
+; todo
+; 1. patch for .htaccess
+; 2. patch for .gitignore
+; 3. patch for tagadelic
