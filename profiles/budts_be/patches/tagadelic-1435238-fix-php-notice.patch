@@ -1,0 +1,17 @@
+diff --git a/sites/all/modules/contrib/tagadelic/tagadelic.module b/sites/all/modules/contrib/tagadelic/tagadelic.module
+index af74404..077079a 100644
+--- a/sites/all/modules/contrib/tagadelic/tagadelic.module
++++ b/sites/all/modules/contrib/tagadelic/tagadelic.module
+@@ -331,8 +331,10 @@ function theme_tagadelic_weighted(array $vars) {
+       )
+     ) . " \n";
+   }
+-  if (count($terms) >= variable_get('tagadelic_block_tags_' . $vars['voc']->vid, 12)) {
+-    $output .= theme('more_link', array('title' => t('more tags'), 'url' => "tagadelic/chunk/{$vars['voc']->vid}"));
++  if(isset($vars['voc'])){
++    if (count($terms) >= variable_get('tagadelic_block_tags_' . $vars['voc']->vid, 12)) {
++      $output .= theme('more_link', array('title' => t('more tags'), 'url' => "tagadelic/chunk/{$vars['voc']->vid}"));
++    }
+   }
+   return $output;
+ }
