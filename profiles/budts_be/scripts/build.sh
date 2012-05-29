@@ -13,17 +13,15 @@ fi
 # change to the root directory of our drupal installation
 cd $( dirname "$0" ) && cd $drupal_root
 
-# todo: remove most of core
-rm -v  -r includes/ misc/ modules/ scripts/ themes/
-rm -v  -r profiles/minimal/ profiles/standard/ profiles/testing/
-rm -v  *.txt *.php README web.config
-
-exit 1
+# remove most of core
+rm -r includes/ misc/ modules/ scripts/ themes/
+rm -r profiles/minimal/ profiles/standard/ profiles/testing/
+rm *.txt *.php web.config
 
 # remove all contrib modules, libraries & themes
-rm -v  -r sites/all/modules/contrib/
-rm -v  -r sites/all/libraries/
-rm -v  -r sites/all/themes/tao/
+rm -r sites/all/modules/contrib/
+rm -r sites/all/libraries/
+rm -r sites/all/themes/tao/
 
 # run drush make
 drush -y make profiles/budts_be/budts_be.make .
