@@ -4,11 +4,16 @@
 cd $( dirname "$0" ) && cd `drush dd`
 
 # todo: remove most of core
+rm -r includes/ misc/ modules/ scripts/ themes/
+rm -r profiles/minimal/ profiles/standard/ profiles/testing/
+rm *.txt *.php
 
 # remove all contrib modules, libraries & themes
 rm -r sites/all/modules/contrib/
 rm -r sites/all/libraries/
 rm -r sites/all/themes/tao/
+
+exit 1
 
 # run drush make
 drush -y make profiles/budts_be/budts_be.make .
