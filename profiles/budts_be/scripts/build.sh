@@ -15,9 +15,10 @@ cd $( dirname "$0" ) && cd $drupal_root
 
 # todo: remove most of core
 rm -v  -r includes/ misc/ modules/ scripts/ themes/
-exit 1
 rm -v  -r profiles/minimal/ profiles/standard/ profiles/testing/
-rm -v  *.txt *.php
+rm -v  *.txt *.php README web.config
+
+exit 1
 
 # remove all contrib modules, libraries & themes
 rm -v  -r sites/all/modules/contrib/
