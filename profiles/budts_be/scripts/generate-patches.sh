@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # change to the root directory of our drupal installation
-cd `drush dd`
+cd $( dirname "$0" ) && cd `drush dd`
 
 # generate patch for .gitignore
 git diff c8dcf0d .gitignore > profiles/budts_be/patches/gitignore.patch

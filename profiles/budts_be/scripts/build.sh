@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # change to the root directory of our drupal installation
-cd `drush dd`
+cd $( dirname "$0" ) && cd `drush dd`
 
 # todo: remove most of core
 
