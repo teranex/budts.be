@@ -1,19 +1,20 @@
 #!/bin/bash
 
+# stop when any step fails
+set -e
+
 # change to the root directory of our drupal installation
-cd $( dirname "$0" ) && cd `drush dd`
+cd $( dirname "$0" ) && cd $( drush dd )
 
 # todo: remove most of core
-rm -r includes/ misc/ modules/ scripts/ themes/
-rm -r profiles/minimal/ profiles/standard/ profiles/testing/
-rm *.txt *.php
+rm -v  -r includes/ misc/ modules/ scripts/ themes/
+rm -v  -r profiles/minimal/ profiles/standard/ profiles/testing/
+rm -v  *.txt *.php
 
 # remove all contrib modules, libraries & themes
-rm -r sites/all/modules/contrib/
-rm -r sites/all/libraries/
-rm -r sites/all/themes/tao/
-
-exit 1
+rm -v  -r sites/all/modules/contrib/
+rm -v  -r sites/all/libraries/
+rm -v  -r sites/all/themes/tao/
 
 # run drush make
 drush -y make profiles/budts_be/budts_be.make .
