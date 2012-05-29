@@ -3,11 +3,19 @@
 # stop when any step fails
 set -e
 
+drupal_root=$( drush dd )
+
+if [ "$drupal_root" == "" ]; then
+    echo "Could not find Drupal root. Aborting."
+    exit 1
+fi
+
 # change to the root directory of our drupal installation
-cd $( dirname "$0" ) && cd $( drush dd )
+cd $( dirname "$0" ) && cd $drupal_root
 
 # todo: remove most of core
 rm -v  -r includes/ misc/ modules/ scripts/ themes/
+exit 1
 rm -v  -r profiles/minimal/ profiles/standard/ profiles/testing/
 rm -v  *.txt *.php
 
