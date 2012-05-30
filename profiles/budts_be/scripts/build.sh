@@ -3,6 +3,9 @@
 # stop when any step fails
 set -e
 
+# change to the directory of this script so we are in our drupal root (or should be)
+cd $( dirname "$0" ) &&
+
 drupal_root=$( drush dd )
 
 if [ "$drupal_root" == "" ]; then
@@ -11,7 +14,7 @@ if [ "$drupal_root" == "" ]; then
 fi
 
 # change to the root directory of our drupal installation
-cd $( dirname "$0" ) && cd $drupal_root
+ cd $drupal_root
 
 # remove most of core
 rm -r includes/ misc/ modules/ scripts/ themes/
