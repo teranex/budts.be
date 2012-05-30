@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# stop when any step fails
-set -e
-
 # change to the root directory of our drupal installation
 cd $( dirname "$0" ) && cd $( drush dd )
 
