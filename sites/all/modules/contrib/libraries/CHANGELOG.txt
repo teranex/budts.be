@@ -1,7 +1,6 @@
 
 Libraries 7.x-2.x, xxxx-xx-xx
 -----------------------------
-#1449346 by tstoeckler, sun: Clean-up libraries.test
 
 
 Libraries 7.x-2.0-alpha2, 2011-12-15

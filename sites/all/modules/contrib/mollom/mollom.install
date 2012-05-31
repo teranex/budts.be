@@ -65,7 +65,12 @@ function mollom_requirements($phase = 'runtime', $check = TRUE) {
       $requirements['mollom']['value'] = t('Network error');
       $requirements['mollom']['description'] = t('The Mollom servers could not be contacted. Please make sure that your web server can make outgoing HTTP requests.');
     }
-    // 404, Mollom::RESPONSE_ERROR, etc.
+    // Server error.
+    elseif ($status['keys valid'] === Mollom::RESPONSE_ERROR) {
+      $requirements['mollom']['value'] = t('Service error');
+      $requirements['mollom']['description'] = t('The Mollom API keys could not be verified. Please try again later.');
+    }
+    // 404, etc.
     else {
       $requirements['mollom']['value'] = t('Unknown error');
       $requirements['mollom']['description'] = t('The Mollom servers could be contacted, but Mollom API keys could not be verified.');

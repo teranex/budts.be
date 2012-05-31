@@ -912,6 +912,43 @@ function mollom_form_info($form_id, $module) {
 }
 
 /**
+ * Helper function to add field form element mappings for fieldable entities.
+ *
+ * May be used by hook_mollom_form_info() implementations to automatically
+ * populate the 'elements' definition with attached text fields on the entity
+ * type's bundle.
+ *
+ * @param array $form_info
+ *   The basic information about the registered form. Taken by reference.
+ * @param string $entity_type
+ *   The entity type; e.g., 'node'.
+ * @param string $bundle
+ *   The entity bundle name; e.g., 'article'.
+ *
+ * @return void
+ *   $form_info is taken by reference and enhanced with any attached field
+ *   mappings; e.g.:
+ *   @code
+ *     $form_info['elements']['field_name][und][0][value'] = 'Field label';
+ *   @endcode
+ */
+function mollom_form_info_add_fields(&$form_info, $entity_type, $bundle) {
+  $entity_info = entity_get_info($entity_type);
+  $form_info['mapping']['post_id'] = $entity_info['entity keys']['id'];
+
+  if (!empty($entity_info['fieldable'])) {
+    // Add form element mappings for any text fields attached to the bundle.
+    $fields = field_info_fields();
+    foreach (field_info_instances($entity_type, $bundle) as $field_name => $field) {
+      if (in_array($fields[$field_name]['type'], array('text', 'text_long', 'text_with_summary'))) {
+        // @todo Language code must not be contained here.
+        $form_info['elements'][$field_name . '][' . LANGUAGE_NONE . '][0][value'] = check_plain(t($field['label']));
+      }
+    }
+  }
+}
+
+/**
  * Creates a bare Mollom form configuration.
  *
  * @param $form_id
@@ -1303,6 +1340,20 @@ function _mollom_status($reset = FALSE) {
       mollom_log(array(
         'message' => 'API keys are valid.',
       ), WATCHDOG_INFO);
+    }
+    // If the response is neither positive nor a negative authentication error,
+    // the previous status was positive, and if the Mollom service might be
+    // temporarily down. In this case, return an enforced RESPONSE_ERROR to
+    // indicate a server-side service failure.
+    // @todo Test this.
+    elseif ($status['keys valid'] !== Mollom::AUTH_ERROR && $current_status['keys valid'] === TRUE) {
+      $status['keys valid'] = Mollom::RESPONSE_ERROR;
+      // Do not update the stored configuration status with the bogus result
+      // caused by the server-side failure.
+      $reset = FALSE;
+      mollom_log(array(
+        'message' => 'API keys could not be verified.',
+      ), WATCHDOG_WARNING);
     }
     else {
       mollom_log(array(
@@ -2309,7 +2360,7 @@ function mollom_get_captcha(&$form_state) {
         'query' => array('url' => $url),
         'external' => TRUE,
       ));
-      $output = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="110" height="50">';
+      $output = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="//download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="110" height="50">';
       $output .= '<param name="allowFullScreen" value="false" />';
       $output .= '<param name="movie" value="' . $source . '" />';
       $output .= '<param name="loop" value="false" />';
@@ -2832,7 +2883,6 @@ function node_mollom_form_info($form_id) {
     'moderation callback' => 'node_mollom_form_moderation',
     'elements' => array(),
     'mapping' => array(
-      'post_id' => 'nid',
       'author_name' => 'name',
     ),
   );
@@ -2846,15 +2896,7 @@ function node_mollom_form_info($form_id) {
     $form_info['elements']['title'] = check_plain($type->title_label);
     $form_info['mapping']['post_title'] = 'title';
   }
-
-  // Add text fields.
-  $fields = field_info_fields();
-  foreach (field_info_instances('node', $type->type) as $field_name => $field) {
-    if (in_array($fields[$field_name]['type'], array('text', 'text_long', 'text_with_summary'))) {
-      $form_info['elements'][$field_name . '][' . LANGUAGE_NONE . '][0][value'] = check_plain(t($field['label']));
-    }
-  }
-
+  mollom_form_info_add_fields($form_info, 'node', $type->type);
   return $form_info;
 }
 
@@ -2928,18 +2970,17 @@ function comment_mollom_form_info($form_id) {
     'moderation callback' => 'comment_mollom_form_moderation',
     'elements' => array(
       'subject' => t('Subject'),
-      // @todo Update for Field API.
-      'comment_body][und][0][value' => t('Comment'),
     ),
     'mapping' => array(
-      'post_id' => 'cid',
       'post_title' => 'subject',
       'author_name' => 'name',
       'author_mail' => 'mail',
       'author_url' => 'homepage',
     ),
   );
-
+  // Retrieve internal type from $form_id.
+  $comment_bundle = drupal_substr($form_id, 0, -5);
+  mollom_form_info_add_fields($form_info, 'comment', $comment_bundle);
   return $form_info;
 }
 
@@ -2988,10 +3029,14 @@ function user_mollom_form_list() {
   $forms['user_register_form'] = array(
     'title' => t('User registration form'),
     'entity' => 'user',
+    'bundle' => 'user',
     'delete form' => 'user_cancel_confirm_form',
     'report access' => array('administer users'),
     'entity delete multiple callback' => 'user_delete_multiple',
   );
+  $forms['user_profile_form'] = $forms['user_register_form'];
+  $forms['user_profile_form']['title'] = t('User profile form');
+
   $forms['user_pass'] = array(
     'title' => t('User password request form'),
   );
@@ -3004,16 +3049,17 @@ function user_mollom_form_list() {
 function user_mollom_form_info($form_id) {
   switch ($form_id) {
     case 'user_register_form':
+    case 'user_profile_form':
       $form_info = array(
         'bypass access' => array('administer users'),
         'moderation callback' => 'user_mollom_form_moderation',
         'mail ids' => array('user_register_pending_approval_admin'),
         'mapping' => array(
-          'post_id' => 'uid',
           'author_name' => 'name',
           'author_mail' => 'mail',
         ),
       );
+      mollom_form_info_add_fields($form_info, 'user', 'user');
       return $form_info;
 
     case 'user_pass':

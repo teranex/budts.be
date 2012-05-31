@@ -268,6 +268,7 @@ function mollom_admin_configure_form($form, &$form_state, $mollom_form = NULL) {
           '#title' => t('Text fields to analyze'),
           '#options' => $elements,
           '#default_value' => $enabled_fields,
+          '#description' => t('Only enable fields that accept text (not numbers). Omit fields that contain sensible data (e.g., credit card numbers) or computed/auto-generated values, as well as author information fields (e.g., name, e-mail).'),
           '#states' => array(
             'visible' => array(
               ':input[name="mollom[mode]"]' => array('value' => (string) MOLLOM_MODE_ANALYSIS),
