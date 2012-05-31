@@ -29,7 +29,7 @@ cd -
 
 # create a new backup
 trim() { echo $1; }
-database_name=$( drush status | grep "Database name" | sed -E "s/Database name\\s+:\\s+(.+)\\s+/\\1/" )
+database_name=$( drush status | grep "Database name" | sed -r "s/Database name\\s+:\\s+(.+)\\s+/\\1/" )
 database_name=$( trim "$database_name" )
 backup_file="$BACKUP_DIR/$database_name-$( date +%Y%m%d%H%M ).sql"
 drush sql-dump --result-file=$backup_file
