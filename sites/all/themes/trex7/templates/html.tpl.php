@@ -6,6 +6,7 @@
     <title><?php print $head_title ?></title>
     <?php print $styles; ?>
     <?php print $scripts; ?>
+    <meta property="og:image" content="<?php echo theme_get_setting('logo'); ?>" >
   </head>
 
   <body class="<?php print $classes; ?>" <?php print $attributes;?>>
