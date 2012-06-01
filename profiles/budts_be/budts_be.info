@@ -1,0 +1,52 @@
+name = budts_be
+description = Installation profile for budts.be
+version = 1.x
+core = 7.x
+
+; core modules
+dependencies[] = block
+dependencies[] = comment
+dependencies[] = field
+dependencies[] = field_sql_storage
+dependencies[] = file
+dependencies[] = filter
+dependencies[] = menu
+dependencies[] = node
+dependencies[] = options
+dependencies[] = path
+dependencies[] = search
+dependencies[] = taxonomy
+dependencies[] = text
+dependencies[] = toolbar
+dependencies[] = trigger
+dependencies[] = update
+dependencies[] = user
+
+; contrib modules
+dependencies[] = ctools
+dependencies[] = custom_breadcrumbs
+dependencies[] = custom_breadcrumbs_taxonomy
+dependencies[] = custom_breadcrumbs_views
+dependencies[] = features
+dependencies[] = feeds
+dependencies[] = geshifilter
+dependencies[] = gravatar
+dependencies[] = job_scheduler
+dependencies[] = libraries
+dependencies[] = menu_block
+dependencies[] = mollom
+dependencies[] = pathauto
+dependencies[] = strongarm
+dependencies[] = subpathauto
+dependencies[] = token
+dependencies[] = tagadelic
+dependencies[] = views
+dependencies[] = webform
+
+; budts_be modules
+dependencies[] = feeds_twitter
+
+; budts_be features
+dependencies[] = budts_be_core
+
+; files[] = budts_be.profile

@@ -1,0 +1,70 @@
+<?php
+/**
+ * @file
+ * Code for the Budts.be Core feature.
+ */
+
+include_once 'budts_be_core.features.inc';
+
+/**
+ * Implements hook_block_info()
+ */
+function budts_be_core_block_info() {
+  $blocks['budts_be_footer'] = array(
+    'info' => t('Budts.be Footer'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  $blocks['activity_stream_sources'] = array(
+    'info' => t('Activity Stream Sources'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  $blocks['budts_be_cv'] = array(
+    'info' => t('C.V.'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view()
+ */
+function budts_be_core_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'budts_be_footer':
+      $block['subject'] = t('');
+      $block['content'] = budts_be_block_footer_content();
+      break;
+    case 'activity_stream_sources':
+      $block['subject'] = t('Sources');
+      $block['content'] = budts_be_block_sources_content();
+      break;
+    case 'budts_be_cv':
+      $blocks['subject'] = t('C.V.');
+      $block['content'] = budts_be_block_cv_content();
+      break;
+  }
+  return $block;
+}
+
+function budts_be_block_footer_content() {
+  return '<div class="footer">© 2002-'.date('Y').' Jeroen Budts. This work is licensed under the <a href="http://creativecommons.org/licenses/by-sa/2.0/be/deed.en">
+          Belgian BY-SA Creative Commons License</a> unless otherwhise noted. This website is powered by <a href="http://drupal.org">Drupal</a> and hosted
+          by <a href="http://www.dreamhost.com/r.cgi?113750">Dreamhost</a>. <a href="/about">About this website</a>.</div>';
+}
+
+function budts_be_block_sources_content() {
+  return '<ul>
+            <li><a href="/activity-stream">All</a></li>
+            <li><a href="/activity-stream/tweet">Twitter</a></li>
+            <li><a href="/activity-stream/delicious_bookmark">Del.icio.us</a></li>
+          </ul>';
+}
+
+function budts_be_block_cv_content() {
+  return '<p>Mijn curriculum vitae is ook beschikbaar als <a href="http://budts.be/static/cv-jeroenbudts-nl.pdf">PDF document</a>, gemaakt met OpenOffice.org.</p>
+          <p>Bekijk ook mijn <a href="http://be.linkedin.com/in/jeroenbudts">mijn linkedin profiel</a> voor nog extra informatie.</p>
+          <p><a href="http://be.linkedin.com/in/jeroenbudts"><img src="http://www.linkedin.com/img/webpromo/btn_viewmy_160x25.png" width="160"
+            height="25" border="0" alt="View Jeroen Budts\'s profile on LinkedIn"></a></p>';
+}

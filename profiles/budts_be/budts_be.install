@@ -1,0 +1,116 @@
+<?php
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ */
+function budts_be_install() {
+  _budts_be_install_run('theme');
+  _budts_be_install_run('formatters');
+  _budts_be_install_run('blocks');
+  _budts_be_install_run('breadcrumbs');
+  _budts_be_install_run('other');
+}
+
+
+/**
+ * Run an install step
+ */
+function _budts_be_install_run($method, $include = NULL) {
+  drupal_set_message("Running install method: $method");
+  if (is_null($include)) {
+    $include = "budts_be.$method.inc";
+  }
+  require_once($include);
+
+  $method = "budts_be_install_$method";
+  $method();
+}
+
+/**
+ * Make a newline-delimited string from all the arguments
+ */
+function _string_from_args() {
+  return implode("\n", func_get_args());
+}
+
+/**
+ * Batch insert into a table
+ * The keys of the first entry is used to also specify the columns
+ */
+function _budts_be_batch_insert($tablename, $values) {
+  if (!isset($values[0])) {
+    return;
+  }
+  $keys = array_keys($values[0]);
+
+  $query = db_insert($tablename)->fields($keys);
+  foreach ($values as $record) {
+    $query->values($record);
+  }
+  $query->execute();
+
+}
+
+/**
+ * Completely reverts a feature based on the settings in its .info file.
+ *
+ * Taken from https://gist.github.com/1925886
+ *
+ * @param string $feature_module
+ * Name of feature/module to revert.
+ */
+function full_feature_revert($feature_module) {
+  $info = drupal_parse_info_file(drupal_get_path('module', $feature_module) . '/' . $feature_module . '.info');
+  $revert = array(
+    $feature_module => array_keys($info['features']),
+  );
+  features_revert($revert);
+}
+
+/**
+ * Upgrade site to Drupal 7
+ */
+function budts_be_update_7100() {
+  // first enable some new modules
+  module_enable(array('toolbar', 'feeds_twitter', 'libraries', 'subpathauto', 'geshifilter'));
+  // then disable some modules which are not needed
+  module_disable(array('field_ui', 'list', 'number', 'custom_breadcrumbs_paths'));
+
+  // finally enable our site feature
+  module_enable(array('features', 'strongarm', 'budts_be_core'));
+
+  // and configure our theme
+  _budts_be_install_run('theme');
+
+  // configure blocks for trex7 theme
+  require_once('budts_be.blocks.inc');
+  budts_be_install_blocks_trex7();
+
+  // update formatters
+  _budts_be_install_run('formatters');
+
+  // set up 'other' stuff
+  _budts_be_install_run('other');
+
+  // update breadcrumbs
+  db_delete('custom_breadcrumb')->execute();
+  db_delete('custom_breadcrumbs_taxonomy_vocabulary')->execute();
+  db_delete('custom_breadcrumbs_views')->execute();
+  _budts_be_install_run('breadcrumbs');
+
+  // remove all the custom blocks, they are in custom code now
+  db_delete('block_custom')->execute();
+  db_delete('block')->condition('module', 'block')->execute();
+
+  // remove blocks for previous version of the theme (trex3)
+  db_delete('block')->condition('theme', 'trex3')->execute();
+
+  // Remove tag/abc/feed aliases, handled by subpathauto
+  db_delete('url_alias')->condition('source', '%/0/feed', 'LIKE')->execute();
+
+  // revert features
+  full_feature_revert('budts_be_core');
+}
+

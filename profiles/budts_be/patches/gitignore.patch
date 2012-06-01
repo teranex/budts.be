@@ -1,0 +1,12 @@
+diff --git a/.gitignore b/.gitignore
+index baff153..85f4b8b 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -4,3 +4,7 @@ sites/*/settings*.php
+ # Ignore paths that contain user-generated content.
+ sites/*/files
+ sites/*/private
++
++
++static
++sites/*.korma
