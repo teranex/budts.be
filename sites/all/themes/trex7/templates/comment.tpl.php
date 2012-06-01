@@ -26,12 +26,8 @@
  * @see theme_comment()
  */
 ?>
-<div class="comment<?php print ($comment->new) ? ' comment-new' : ''; print ($comment->uid == $node->uid) ? ' comment-by-author' : ''; print ' '. $status ?> clear-block">
+<div class="comment<?php print ($comment->uid == $node->uid) ? ' comment-by-author' : ''; print ' '. $status ?> clear-block">
   <?php print $picture ?>
-
-  <?php if ($comment->new): ?>
-    <span class="new"><?php print $new ?></span>
-  <?php endif; ?>
 
   <h3><?php print $title ?></h3>
 
