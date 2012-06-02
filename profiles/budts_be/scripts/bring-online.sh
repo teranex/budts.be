@@ -7,7 +7,7 @@ set -e
 cd $( dirname "$0" ) && cd $( drush dd )
 
 # bring the site back online
-drush --yes vdel maintenance_mode
+drush --yes vset maintenance_mode 0
 
 # clear the cashes to remove any cashed maintenance pages
 drush --yes cc all
