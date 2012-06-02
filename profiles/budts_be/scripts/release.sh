@@ -3,6 +3,13 @@
 # stop when any step fails
 set -e
 
+# check if a tag was provided or use the default one
+if [ "${#1}" -gt 0 ]; then
+    TAG=$1
+else
+    TAG="release-$( date +%Y%m%d )"
+fi
+
 DEV_BRANCH="drupal7"
 STABLE_BRANCH="master"
 
@@ -24,7 +31,6 @@ git checkout $STABLE_BRANCH
 git merge --no-ff -m "Merge development from branch: $DEV_BRANCH" $DEV_BRANCH
 
 # then create a tag for this release
-TAG="release-$( date +%Y%m%d )"
 git tag -a $TAG
 
 echo ""
