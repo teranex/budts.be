@@ -1,0 +1,15 @@
+diff --git a/.htaccess b/.htaccess
+index da28213..6bd3d72 100644
+--- a/.htaccess
++++ b/.htaccess
+@@ -114,6 +114,10 @@ DirectoryIndex index.php index.html index.htm
+   RewriteRule ^weblog/blog/[0-9]+/item/([0-9]+).*$      /static/redirector.php?type=item&id=$1  [L]
+   RewriteRule ^weblog/archive(/[0-9])?/([0-9]{4})-([0-9][0-9]).*$  /weblog/$2/$3/      [R=301,L]
+   RewriteRule ^weblog/item/([0-9]+).*$                  /static/redirector.php?type=item&id=$1  [L]
++
++  # return 410 Gone for pages which no longer exist
++  RewriteRule ^fotos/ - [G]
++  RewriteRule ^image/view/ - [G]
+   # ------------- end --------------------------------------------
+ 
+   # Pass all requests not referring directly to files in the filesystem to
