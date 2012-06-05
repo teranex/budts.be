@@ -1,0 +1,19 @@
+diff --git a/.htaccess b/.htaccess
+index 6bd3d72..6154313 100644
+--- a/.htaccess
++++ b/.htaccess
+@@ -118,6 +118,14 @@ DirectoryIndex index.php index.html index.htm
+   # return 410 Gone for pages which no longer exist
+   RewriteRule ^fotos/ - [G]
+   RewriteRule ^image/view/ - [G]
++
++  RewriteRule ^nucleus/ - [G]
++  RewriteRule ^tag/nucleus/xmlrpc/server.php - [G]
++  RewriteRule ^modules/wordpress - [G]
++  RewriteRule ^image/tid - [G]
++  RewriteRule /xmlrpc.php - [G]
++  RewriteRule ^static/files/images/ - [G]
++  RewriteRule ^sites/all/themes/trex3/ - [G]
+   # ------------- end --------------------------------------------
+ 
+   # Pass all requests not referring directly to files in the filesystem to
