@@ -33,7 +33,7 @@ function budts_be_core_feeds_importer_default() {
       'plugin_key' => 'FeedsNodeProcessor',
       'config' => array(
         'content_type' => 'delicious_bookmark',
-        'input_format' => '0',
+        'input_format' => '1',
         'update_existing' => '0',
         'expire' => '-1',
         'mappings' => array(
@@ -103,7 +103,7 @@ function budts_be_core_feeds_importer_default() {
       'plugin_key' => 'FeedsNodeProcessor',
       'config' => array(
         'content_type' => 'tweet',
-        'input_format' => '0',
+        'input_format' => '1',
         'update_existing' => '0',
         'expire' => '-1',
         'mappings' => array(
