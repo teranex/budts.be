@@ -118,6 +118,8 @@ DirectoryIndex index.php index.html index.htm
   # return 410 Gone for pages which no longer exist
   RewriteRule ^fotos/ - [G]
   RewriteRule ^image/view/ - [G]
+  RewriteRule ^fotos - [G]
+  RewriteRule ^media/wikimedia/ - [G]
 
   RewriteRule ^nucleus/ - [G]
   RewriteRule ^tag/nucleus/xmlrpc/server.php - [G]
