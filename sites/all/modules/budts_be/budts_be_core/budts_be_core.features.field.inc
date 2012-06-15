@@ -10,7 +10,7 @@
 function budts_be_core_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-delicious_bookmark-body'
+  // Exported field: 'node-delicious_bookmark-body'.
   $fields['node-delicious_bookmark-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -33,6 +33,7 @@ function budts_be_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -83,7 +84,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-delicious_bookmark-taxonomy_vocabulary_1'
+  // Exported field: 'node-delicious_bookmark-taxonomy_vocabulary_1'.
   $fields['node-delicious_bookmark-taxonomy_vocabulary_1'] = array(
     'field_config' => array(
       'active' => '1',
@@ -104,6 +105,7 @@ function budts_be_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -158,7 +160,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-page-body'
+  // Exported field: 'node-page-body'.
   $fields['node-page-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -181,6 +183,7 @@ function budts_be_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -231,7 +234,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-page-taxonomy_vocabulary_1'
+  // Exported field: 'node-page-taxonomy_vocabulary_1'.
   $fields['node-page-taxonomy_vocabulary_1'] = array(
     'field_config' => array(
       'active' => '1',
@@ -252,6 +255,7 @@ function budts_be_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -305,7 +309,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-project_box-body'
+  // Exported field: 'node-project_box-body'.
   $fields['node-project_box-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -328,6 +332,7 @@ function budts_be_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -378,7 +383,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-project_page-body'
+  // Exported field: 'node-project_page-body'.
   $fields['node-project_page-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -401,6 +406,7 @@ function budts_be_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -451,7 +457,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-project_page-taxonomy_vocabulary_1'
+  // Exported field: 'node-project_page-taxonomy_vocabulary_1'.
   $fields['node-project_page-taxonomy_vocabulary_1'] = array(
     'field_config' => array(
       'active' => '1',
@@ -472,6 +478,7 @@ function budts_be_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -525,7 +532,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-project_page-upload'
+  // Exported field: 'node-project_page-upload'.
   $fields['node-project_page-upload'] = array(
     'field_config' => array(
       'active' => '1',
@@ -546,6 +553,7 @@ function budts_be_core_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'file',
       'settings' => array(
         'default_file' => 0,
@@ -612,7 +620,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-site_profile-body'
+  // Exported field: 'node-site_profile-body'.
   $fields['node-site_profile-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -635,6 +643,7 @@ function budts_be_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -685,7 +694,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-story-body'
+  // Exported field: 'node-story-body'.
   $fields['node-story-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -708,6 +717,7 @@ function budts_be_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -757,7 +767,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-story-taxonomy_vocabulary_1'
+  // Exported field: 'node-story-taxonomy_vocabulary_1'.
   $fields['node-story-taxonomy_vocabulary_1'] = array(
     'field_config' => array(
       'active' => '1',
@@ -778,6 +788,7 @@ function budts_be_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -832,7 +843,7 @@ function budts_be_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-tweet-taxonomy_vocabulary_1'
+  // Exported field: 'node-tweet-taxonomy_vocabulary_1'.
   $fields['node-tweet-taxonomy_vocabulary_1'] = array(
     'field_config' => array(
       'active' => '1',
@@ -853,6 +864,7 @@ function budts_be_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
