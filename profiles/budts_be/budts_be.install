@@ -114,3 +114,25 @@ function budts_be_update_7100() {
   full_feature_revert('budts_be_core');
 }
 
+/**
+ * Fix incorrectly assigned filter values for delicious bookmarks
+ */
+function budts_be_update_7101() {
+  $rows = db_update('field_revision_body')
+    ->fields(array(
+      'body_format' => 1,
+    ))
+    ->condition('bundle', 'delicious_bookmark')
+    ->condition('body_format', '0')
+    ->execute();
+
+  $rows += db_update('field_data_body')
+    ->fields(array(
+      'body_format' => 1,
+    ))
+    ->condition('bundle', 'delicious_bookmark')
+    ->condition('body_format', '0')
+    ->execute();
+
+  return 'updated rows: '.$rows;
+}

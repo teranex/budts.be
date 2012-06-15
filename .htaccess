@@ -120,6 +120,7 @@ DirectoryIndex index.php index.html index.htm
   RewriteRule ^image/view/ - [G]
   RewriteRule ^fotos - [G]
   RewriteRule ^media/wikimedia/ - [G]
+  RewriteRule ^users/kwel/ - [G]
 
   RewriteRule ^nucleus/ - [G]
   RewriteRule ^tag/nucleus/xmlrpc/server.php - [G]
