@@ -1,0 +1,12 @@
+diff --git a/.htaccess b/.htaccess
+index 4c07b5e..6ac74a9 100644
+--- a/.htaccess
++++ b/.htaccess
+@@ -120,6 +120,7 @@ DirectoryIndex index.php index.html index.htm
+   RewriteRule ^image/view/ - [G]
+   RewriteRule ^fotos - [G]
+   RewriteRule ^media/wikimedia/ - [G]
++  RewriteRule ^users/kwel/ - [G]
+ 
+   RewriteRule ^nucleus/ - [G]
+   RewriteRule ^tag/nucleus/xmlrpc/server.php - [G]
