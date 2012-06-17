@@ -62,14 +62,6 @@ function budts_be_core_node_info() {
       'title_label' => t('Title'),
       'help' => '',
     ),
-    'site_profile' => array(
-      'name' => t('Site Profile'),
-      'base' => 'node_content',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
     'story' => array(
       'name' => t('Story'),
       'base' => 'node_content',
