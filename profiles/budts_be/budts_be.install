@@ -134,5 +134,35 @@ function budts_be_update_7101() {
     ->condition('body_format', '0')
     ->execute();
 
-  return 'updated rows: '.$rows;
+  return t('updated rows: @count', array('@count' => $rows));
+}
+
+/**
+ * Remove site profile functionality
+ */
+function budts_be_update_7102() {
+  // first delete all the nodes
+  $query = new EntityFieldQuery();
+  $nodes = $query->entityCondition('entity_type', 'node')
+                 ->propertyCondition('type', 'site_profile')
+                 ->execute();
+
+  $count = 0;
+  foreach ($nodes['node'] as $node) {
+    node_delete($node->nid);
+    $count++;
+  }
+
+  // remove the view
+  module_load_include('module', 'views');
+  $view = views_get_view('site_profiles');
+  if (!is_null($view)) {
+    $view->delete();
+  }
+
+  // remove the content type
+  node_type_delete('site_profile');
+  node_types_rebuild();
+
+  return t('Deleted site_profile nodes. @count nodes deleted.', array('@count' => $count));
 }
