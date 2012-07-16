@@ -31,7 +31,7 @@ git checkout $STABLE_BRANCH
 git merge --no-ff -m "Merge development from branch: $DEV_BRANCH" $DEV_BRANCH
 
 # then create a tag for this release
-git tag -a $TAG
+git tag -s $TAG
 
 echo ""
 echo "Release created. You can now push everything."
