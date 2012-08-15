@@ -1,0 +1,46 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1,SHA512
+
+
+2009-05-19
+
+Een paar dagen geleden las ik op Debian Administration een artikel over het uitfaseren van SHA-1 in OpenPGP [http://www.debian-administration.org/users/dkg/weblog/48]. Dit is nodig omdat de veiligheid van SHA-1 niet meer volledig gegarandeerd is.
+Sinds ik Linux gebruik had ik mij al eens terug op OpenPGP willen toeleggen om het terug te gebruiken, al was het maar om de Ubuntu Code of Conduct [http://www.ubuntu.com/community/conduct] te kunnen ondertekenen. Dit leek me dus het perfecte moment om ineens een nieuwe sleutel te genereren die hopelijk toch wel een aantal jaren moet mee kunnen. In het artikel wordt gesuggereerd om een 2048 bits RSA (sign-only) sleutel te maken, maar ik heb ervoor gekozen om maar ineens voor de 4096 bit RSA (sign-only) sleutel te gaan. Daarbij nog een 4096 bit RSA (encryption-only) subkey en een fototje en we zijn gesteld. Mijn nieuwe PGP key heeft als id 610DB834 gekregen.
+De gegevens van de oude key:
+
+pub   1024D/8B7B774A 2003-12-03
+      Key fingerprint = 97A4 641E AE0A 4068 B78D  F530 1F4E 3017 8B7B 774A
+uid                  Jeroen Budts <jeroen@lightyear.be>
+uid                  Jeroen Budts <jeroen@budts.be>
+sub   1024g/20BC0ADF 2003-12-03
+
+
+De gegevens van de nieuwe key:
+
+pub   4096R/610DB834 2009-05-15
+      Key fingerprint = 03E2 547D 5CE5 DEF7 5C85  9280 B990 30C6 610D B834
+uid                  Jeroen Budts <jeroen@lightyear.be>
+uid                  [jpeg image of size 5067]
+sub   4096R/903CE17F 2009-05-15
+
+In het artikel wordt ook beschreven dat je best een 'transition statement' schrijft en dit met beide keys ondertekend. Een versie van deze blogpost in pure tekst en ondertekend met beide keys vind je op http://budts.be/jeroen/610DB834-transition.txt.
+
+De publieke sleutel is te vinden op http://budts.be/jeroen/0x610DB834.asc, maar ook op de keyservers van Ubuntu [http://keyserver.ubuntu.com] en op mijn Launchpad account [https://launchpad.net/~teranex].
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEARECAAYFAkoUNOYACgkQH04wF4t7d0pKRACfXxMmyo492ENkjqYRWJxTz6Lv
+2nEAoIbHEj/NUp+To2FptoWVu7V/B44uiQIcBAEBCgAGBQJKFDTmAAoJELmQMMZh
+Dbg00fIQAKXOfDrDdwjulU7yoHf1TOLh2AIMyJ29GiDc3X0Mfd7W/VMXRwAjuG/c
+8SdsNng0RrsjleY0z7UzQmS8NjcJmaeHIE6JEXc1D/ek3t/ysaQNL07HjmYZK9jr
+UfLzK1BZD+U35WU4CFK4mHCNuniYITuszJI+0LPYNhG1cJxjCbTPAydayZ/qv6ab
+hGWi915Sa7nvYGdA7N2rafy60/Hx3Y06e+0I7yjfmNNxKNevbICjUM+CVLSo4aDr
+CvKCNheNPtxbBFu7dlIh5kpJmKdDsGQt+H2Zy/xcVdxvKkFqbIs/uzjqCP4kCJKo
+YNSvJH6Cpc152Qyf5XUSltnouH+1BR8EJ/a2bR1BWHc2GxVspVEf3qlCN0nzJV+M
+ryR+dq0qd7d0Jfey8mK1FyXZYYOp3RByxx562rCpPyKDn9VHX70cd4ZmHjJXJS5g
+KKVxT4RgFeVJSZZRHYosZ+dymUo1iwRiRYQbSFTKTfIWHCgYLakX8W9g1+3b4yD5
+U4m0NuQVuUa6L69R0eXH/vIkr89K0YuluHqTmI9+KYEfQPG3SElKkzCqNlK2XEAL
+6coSxyX9493qj7Cq1ppVAtk9Mw2p0WMytSK2ck3WjUO3/4c+cQuGhnOWjHYCZ+B/
+3GzhWdNk3R6w2weLyz8tkWwpF842y2KvwCK1dg095kkJoaDoklYK
+=BOZ9
+-----END PGP SIGNATURE-----
