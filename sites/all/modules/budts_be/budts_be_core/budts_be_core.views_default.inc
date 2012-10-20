@@ -10,7 +10,7 @@
 function budts_be_core_views_default_views() {
   $export = array();
 
-  $view = new view;
+  $view = new view();
   $view->name = 'activity_stream';
   $view->description = 'Activity Stream';
   $view->tag = '';
@@ -22,6 +22,7 @@ function budts_be_core_views_default_views() {
 
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -30,81 +31,35 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['hide_empty'] = 0;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['title']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['title']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['title']['link_to_node'] = 0;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
   $handler->display->display_options['fields']['created']['field'] = 'created';
   $handler->display->display_options['fields']['created']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['created']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['created']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['created']['alter']['strip_tags'] = 1;
-  $handler->display->display_options['fields']['created']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['created']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['created']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['created']['alter']['strip_tags'] = TRUE;
   $handler->display->display_options['fields']['created']['date_format'] = 'time ago';
   /* Field: Content: Type */
   $handler->display->display_options['fields']['type']['id'] = 'type';
   $handler->display->display_options['fields']['type']['table'] = 'node';
   $handler->display->display_options['fields']['type']['field'] = 'type';
-  $handler->display->display_options['fields']['type']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['type']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['type']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['type']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['type']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['type']['link_to_node'] = 0;
-  $handler->display->display_options['fields']['type']['machine_name'] = 0;
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['nid']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['nid']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['nid']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['nid']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['nid']['link_to_node'] = 0;
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['view_node']['field'] = 'view_node';
-  $handler->display->display_options['fields']['view_node']['alter']['alter_text'] = 1;
+  $handler->display->display_options['fields']['view_node']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['view_node']['alter']['text'] = '[created]';
-  $handler->display->display_options['fields']['view_node']['alter']['make_link'] = 1;
+  $handler->display->display_options['fields']['view_node']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['view_node']['alter']['path'] = 'node/[nid]';
-  $handler->display->display_options['fields']['view_node']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['view_node']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['view_node']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['view_node']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['view_node']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['view_node']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['view_node']['empty_zero'] = 0;
   /* Field: Content: Add comment link */
   $handler->display->display_options['fields']['comments_link']['id'] = 'comments_link';
   $handler->display->display_options['fields']['comments_link']['table'] = 'node';
@@ -113,49 +68,12 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['body']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['body']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
   /* Field: Feeds item: Item URL */
   $handler->display->display_options['fields']['url']['id'] = 'url';
   $handler->display->display_options['fields']['url']['table'] = 'feeds_item';
   $handler->display->display_options['fields']['url']['field'] = 'url';
   $handler->display->display_options['fields']['url']['label'] = '';
-  $handler->display->display_options['fields']['url']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['url']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['url']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['url']['alter']['html'] = 0;
   $handler->display->display_options['fields']['url']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['url']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['url']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['url']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['url']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['url']['display_as_link'] = 1;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -181,6 +99,7 @@ function budts_be_core_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
@@ -190,7 +109,6 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['footer']['text']['id'] = 'area';
   $handler->display->display_options['footer']['text']['table'] = 'views';
   $handler->display->display_options['footer']['text']['field'] = 'area';
-  $handler->display->display_options['footer']['text']['empty'] = FALSE;
   $handler->display->display_options['footer']['text']['content'] = '<a href="/activity-stream">Full Activity Stream</a>';
   $handler->display->display_options['footer']['text']['format'] = '1';
   $handler->display->display_options['block_description'] = 'Activity Stream Block';
@@ -198,23 +116,22 @@ function budts_be_core_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'node';
-  $handler->display->display_options['row_options']['links'] = 1;
-  $handler->display->display_options['row_options']['comments'] = 0;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Type */
   $handler->display->display_options['arguments']['type']['id'] = 'type';
   $handler->display->display_options['arguments']['type']['table'] = 'node';
   $handler->display->display_options['arguments']['type']['field'] = 'type';
-  $handler->display->display_options['arguments']['type']['exception']['title_enable'] = 1;
+  $handler->display->display_options['arguments']['type']['exception']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['type']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['type']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['type']['specify_validation'] = 1;
+  $handler->display->display_options['arguments']['type']['specify_validation'] = TRUE;
   $handler->display->display_options['path'] = 'activity-stream';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Stream';
@@ -226,6 +143,7 @@ function budts_be_core_views_default_views() {
   $handler = $view->new_display('block', 'HomepageBlock', 'block_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Activity Stream';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
@@ -235,7 +153,6 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['footer']['text']['id'] = 'area';
   $handler->display->display_options['footer']['text']['table'] = 'views';
   $handler->display->display_options['footer']['text']['field'] = 'area';
-  $handler->display->display_options['footer']['text']['empty'] = FALSE;
   $handler->display->display_options['footer']['text']['content'] = '<a href="/activity-stream">Full Activity Stream</a>';
   $handler->display->display_options['footer']['text']['format'] = '1';
   $handler->display->display_options['block_description'] = 'Activity Stream Block homepage';
@@ -243,6 +160,7 @@ function budts_be_core_views_default_views() {
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'node_rss';
@@ -256,7 +174,7 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['sitename_title'] = 1;
   $export['activity_stream'] = $view;
 
-  $view = new view;
+  $view = new view();
   $view->name = 'node_meta';
   $view->description = 'meta info about the node';
   $view->tag = 'default';
@@ -269,6 +187,7 @@ function budts_be_core_views_default_views() {
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->display->display_options['title'] = 'About this post';
+  $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -283,7 +202,6 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['empty']['text']['id'] = 'area';
   $handler->display->display_options['empty']['text']['table'] = 'views';
   $handler->display->display_options['empty']['text']['field'] = 'area';
-  $handler->display->display_options['empty']['text']['empty'] = FALSE;
   $handler->display->display_options['empty']['text']['content'] = 'No backlinks found.';
   $handler->display->display_options['empty']['text']['format'] = '1';
   /* Relationship: Content: Author */
@@ -295,114 +213,38 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['link_to_node'] = 1;
   /* Field: Content: Last comment time */
   $handler->display->display_options['fields']['last_comment_timestamp']['id'] = 'last_comment_timestamp';
   $handler->display->display_options['fields']['last_comment_timestamp']['table'] = 'node_comment_statistics';
   $handler->display->display_options['fields']['last_comment_timestamp']['field'] = 'last_comment_timestamp';
-  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['last_comment_timestamp']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['last_comment_timestamp']['empty_zero'] = 0;
   $handler->display->display_options['fields']['last_comment_timestamp']['date_format'] = 'time ago';
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
   $handler->display->display_options['fields']['created']['field'] = 'created';
-  $handler->display->display_options['fields']['created']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['created']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['created']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['created']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['created']['empty_zero'] = 0;
   /* Field: Content: Updated date */
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'node';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
-  $handler->display->display_options['fields']['changed']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['changed']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['changed']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['changed']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['changed']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['changed']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['changed']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['changed']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['changed']['empty_zero'] = 0;
   /* Field: Content: Add comment link */
   $handler->display->display_options['fields']['comments_link']['id'] = 'comments_link';
   $handler->display->display_options['fields']['comments_link']['table'] = 'node';
   $handler->display->display_options['fields']['comments_link']['field'] = 'comments_link';
-  $handler->display->display_options['fields']['comments_link']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['comments_link']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['comments_link']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['comments_link']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['comments_link']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['comments_link']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['comments_link']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['comments_link']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['comments_link']['empty_zero'] = 0;
   /* Field: Content: Comment count */
   $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
   $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
   $handler->display->display_options['fields']['comment_count']['field'] = 'comment_count';
-  $handler->display->display_options['fields']['comment_count']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['comment_count']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['comment_count']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['comment_count']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['comment_count']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['comment_count']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['comment_count']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['comment_count']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['comment_count']['empty_zero'] = 0;
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
   $handler->display->display_options['fields']['name']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['name']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['name']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['name']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['name']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['name']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['name']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['name']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['name']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['name']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['name']['link_to_user'] = 1;
-  $handler->display->display_options['fields']['name']['overwrite_anonymous'] = 0;
   /* Field: Content: All taxonomy terms */
   $handler->display->display_options['fields']['term_node_tid']['id'] = 'term_node_tid';
   $handler->display->display_options['fields']['term_node_tid']['table'] = 'node';
   $handler->display->display_options['fields']['term_node_tid']['field'] = 'term_node_tid';
   $handler->display->display_options['fields']['term_node_tid']['label'] = '';
-  $handler->display->display_options['fields']['term_node_tid']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['alter']['html'] = 0;
   $handler->display->display_options['fields']['term_node_tid']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['term_node_tid']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['term_node_tid']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['term_node_tid']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['term_node_tid']['link_to_taxonomy'] = 1;
-  $handler->display->display_options['fields']['term_node_tid']['limit'] = 0;
   $handler->display->display_options['fields']['term_node_tid']['vocabularies'] = array(
     'vocabulary_4' => 0,
     'vocabulary_5' => 0,
@@ -413,13 +255,11 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['arguments']['nid_1']['table'] = 'node';
   $handler->display->display_options['arguments']['nid_1']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid_1']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['nid_1']['exception']['title_enable'] = 1;
+  $handler->display->display_options['arguments']['nid_1']['exception']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['nid_1']['default_argument_type'] = 'node';
   $handler->display->display_options['arguments']['nid_1']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['nid_1']['specify_validation'] = 1;
+  $handler->display->display_options['arguments']['nid_1']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['nid_1']['validate']['type'] = 'node';
-  $handler->display->display_options['arguments']['nid_1']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['nid_1']['not'] = 0;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -439,6 +279,7 @@ function budts_be_core_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -452,7 +293,7 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['block_caching'] = '-1';
   $export['node_meta'] = $view;
 
-  $view = new view;
+  $view = new view();
   $view->name = 'projects_overview';
   $view->description = '';
   $view->tag = '';
@@ -465,6 +306,7 @@ function budts_be_core_views_default_views() {
   /* Display: Project Boxes */
   $handler = $view->new_display('default', 'Project Boxes', 'default');
   $handler->display->display_options['items_per_page'] = 0;
+  $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -474,8 +316,6 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
   $handler->display->display_options['row_options']['view_mode'] = 'full';
-  $handler->display->display_options['row_options']['links'] = 1;
-  $handler->display->display_options['row_options']['comments'] = 0;
   /* Sort criterion: Content: Updated date */
   $handler->display->display_options['sorts']['changed']['id'] = 'changed';
   $handler->display->display_options['sorts']['changed']['table'] = 'node';
@@ -500,11 +340,12 @@ function budts_be_core_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['block_description'] = 'Project Boxes Block';
   $handler->display->display_options['block_caching'] = '4';
   $export['projects_overview'] = $view;
 
-  $view = new view;
+  $view = new view();
   $view->name = 'weblog';
   $view->description = 'weblog';
   $view->tag = 'default';
@@ -516,6 +357,7 @@ function budts_be_core_views_default_views() {
 
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -524,7 +366,6 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  $handler->display->display_options['row_options']['links'] = 1;
   /* Sort criterion: Content: Sticky */
   $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['table'] = 'node';
@@ -554,12 +395,14 @@ function budts_be_core_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['path'] = 'weblog';
 
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Front page feed';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'node_rss';
@@ -573,10 +416,12 @@ function budts_be_core_views_default_views() {
 
   /* Display: Homepage */
   $handler = $view->new_display('page', 'Homepage', 'page_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
   $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -604,7 +449,7 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['path'] = 'homepage';
   $export['weblog'] = $view;
 
-  $view = new view;
+  $view = new view();
   $view->name = 'yearly_archive';
   $view->description = 'Display a list years that link to content for that year.';
   $view->tag = 'default';
@@ -616,6 +461,7 @@ function budts_be_core_views_default_views() {
 
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -634,10 +480,10 @@ function budts_be_core_views_default_views() {
   $handler->display->display_options['arguments']['created_year']['table'] = 'node';
   $handler->display->display_options['arguments']['created_year']['field'] = 'created_year';
   $handler->display->display_options['arguments']['created_year']['default_action'] = 'summary';
-  $handler->display->display_options['arguments']['created_year']['exception']['title_enable'] = 1;
+  $handler->display->display_options['arguments']['created_year']['exception']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['created_year']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['created_year']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['created_year']['specify_validation'] = 1;
+  $handler->display->display_options['arguments']['created_year']['specify_validation'] = TRUE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -657,12 +503,14 @@ function budts_be_core_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['path'] = 'weblog/%';
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Archives';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['block_description'] = 'Archive list (yearly)';
   $export['yearly_archive'] = $view;
 

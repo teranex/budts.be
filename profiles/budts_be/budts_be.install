@@ -166,3 +166,25 @@ function budts_be_update_7102() {
 
   return t('Deleted site_profile nodes. @count nodes deleted.', array('@count' => $count));
 }
+
+/**
+ * Disable commenting for most content types. Stupid spammers.
+ */
+function budts_be_update_7103() {
+  db_update('node')
+    ->fields(array(
+      'comment' => 1,
+    ))
+    ->condition('type', 'story', '!=')
+    ->execute();
+
+  // see http://api.drupal.org/api/drupal/includes%21database%21database.inc/function/db_update/7#comment-40068
+  $subquery = db_select('node');
+  $subquery->addField('node', 'nid');
+  $subquery->condition('node.type', 'story', '!=');
+
+  db_update('node_revision')
+    ->fields(array('comment' => '1',))
+    ->condition('node_revision.nid', $subquery, 'IN')
+    ->execute();
+}

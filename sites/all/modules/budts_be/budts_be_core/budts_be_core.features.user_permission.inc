@@ -54,8 +54,7 @@ function budts_be_core_user_default_permissions() {
   $permissions['skip comment approval'] = array(
     'name' => 'skip comment approval',
     'roles' => array(
-      0 => 'anonymous user',
-      1 => 'authenticated user',
+      0 => 'authenticated user',
     ),
     'module' => 'comment',
   );
