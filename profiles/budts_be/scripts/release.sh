@@ -14,7 +14,7 @@ DEV_BRANCH="drupal7"
 STABLE_BRANCH="master"
 
 # change to the root directory of our drupal installation
-cd $( dirname "$0" ) && cd $( drush dd )
+cd $( dirname "$0" ) && cd $( git rev-parse --show-toplevel )
 
 # first test if the repository is clean
 git diff-index --quiet HEAD
