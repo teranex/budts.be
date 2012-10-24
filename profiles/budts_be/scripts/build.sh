@@ -34,6 +34,9 @@ drush -y make profiles/budts_be/budts_be.make .
 # contrib subdir so we move it
 mv sites/all/modules/libraries sites/all/modules/contrib/
 
+# remove install and update. Not needed because we use Drush for these operations.
+rm install.php update.php
+
 # apply the local patches
 for patch in profiles/budts_be/patches/*.patch
 do
