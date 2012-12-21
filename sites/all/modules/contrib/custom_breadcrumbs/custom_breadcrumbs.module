@@ -40,6 +40,22 @@ function _custom_breadcrumbs_breadcrumb_name($breadcrumb) {
 }
 
 /**
+ * Implements hook_variable_info().
+ */
+function custom_breadcrumbs_variable_info($options) {
+
+  $variables['custom_breadcrumb_home'] = array(
+    'type' => 'string',
+    'title' => t('Homepage breadcrumb', array(), $options),
+    'description' => t('Specify the homepage breadcrumb text.', array(), $options),
+    'default' => 'Home',
+    'required' => TRUE,
+  );
+
+  return $variables;
+}
+
+/**
  * Implements hook_theme().
  */
 function custom_breadcrumbs_theme() {

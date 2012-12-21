@@ -18,6 +18,9 @@ function custom_breadcrumbs_taxonomy_node_get_terms($node, $key = 'tid') {
       $v_alias = $query->join('taxonomy_vocabulary', 'v', 't.vid = v.vid');
       $query->fields( $t_alias );
       $query->condition("r.nid", $node->nid);
+      $query->orderBy('v.weight');
+      $query->orderBy('t.weight');
+      $query->orderBy('t.name');
       $result = $query->execute();
       $terms[$node->vid][$key] = array();
       foreach ($result as $term) {
@@ -272,9 +275,19 @@ function custom_breadcrumbs_taxonomy_generate_breadcrumb($tid, $vid = NULL, $is_
 }
 
 /**
- * Translates configurable string when i18ntaxonomy module is installed. */
-function _custom_breadcrumbs_taxonomy_tt($string_id, $default, $language = NULL) {
-  return function_exists('tt') ? tt($string_id, $default, $language) : $default;
+ * Translates configurable string when i18n_string module is installed.
+ *
+ * @param $name
+ *   The name of the string.
+ * @param $default
+ *   String in default language.
+ * @param $langcode
+ *   The language code for translation if not the one used for the page.
+ * @return
+ *   The translated string if possible, or the original string if not.
+ */
+function _custom_breadcrumbs_taxonomy_tt($name, $default, $langcode = NULL) {
+  return module_exists('i18n_string') ? i18n_string($name, $default, array('langcode' => $langcode)) : $default;
 }
 
 /**
@@ -329,7 +342,7 @@ function _custom_breadcrumbs_taxonomy_vocabulary_trail($vid, $is_term_page = FAL
   }
   if ($title == NULL) {
     $vocabulary = taxonomy_vocabulary_load($vid);
-    $title = _custom_breadcrumbs_taxonomy_tt("taxonomy:vocabulary:$vid:name", $vocabulary->name);
+    $title = _custom_breadcrumbs_taxonomy_tt(array('taxonomy', 'vocabulary', $vid, 'name'), $vocabulary->name);
   }
   if ($vocabulary_path != NULL) {
     $options = _custom_breadcrumbs_identifiers_option($part, $bid);
@@ -375,7 +388,7 @@ function _custom_breadcrumbs_taxonomy_term_trail($tid, $is_term_page = FALSE, $o
       $title = token_replace($title, $types,  array('clear' => TRUE));
     }
     if ($title == NULL) {
-      $title = _custom_breadcrumbs_taxonomy_tt("taxonomy:term:$parent_term->tid:name", $parent_term->name);
+      $title = _custom_breadcrumbs_taxonomy_tt(array('taxonomy', 'term', $parent_term->tid, 'name'), $parent_term->name);
     }
     if ($term_path == NULL) {
       $uri = entity_uri('taxonomy_term', $parent_term);

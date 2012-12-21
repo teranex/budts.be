@@ -25,16 +25,15 @@ function custom_breadcrumbs_schema() {
         'description' => 'An optional name for the custom breadcrumb.',
       ),
       'titles' => array(
-        'type' => 'varchar',
-        'length' => 255,
+        'type' => 'text',
+        'size' => 'medium',
         'not null' => TRUE,
-        'default' => '',
         'description' => 'A return-delimited list of titles for the breadcrumb links.',
       ),
       'paths' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => FALSE,
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => TRUE,
         'description' => 'A return-delimited list of url paths for the breadcrumb links.',
       ),
       'visibility_php' => array(
@@ -199,3 +198,22 @@ function custom_breadcrumbs_update_6203() {
   module_enable(array('custom_breadcrumbs_identifiers'));
   return t('Custom_breadcrumbs_identifiers was enabled for legacy reasons. Please disable it if you do not need special identifiers in your breadcrumb settings.');
 }
+
+/**
+ * Change the titles and paths fields to fit longer text
+ */
+function custom_breadcrumbs_update_7001() {
+	db_change_field('custom_breadcrumb', 'titles', 'titles', array(
+      'type' => 'text',
+			'size' => 'medium',
+			'not null' => TRUE,
+			'description' => 'A return-delimited list of titles for the breadcrumb links.',
+  ));
+	db_change_field('custom_breadcrumb', 'paths', 'paths', array(
+      'type' => 'text',
+			'size' => 'medium',
+			'not null' => TRUE,
+			'description' => 'A return-delimited list of url paths for the breadcrumb links.',
+	));
+}
+
