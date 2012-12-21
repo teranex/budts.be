@@ -13,8 +13,12 @@ fi
 DEV_BRANCH="drupal7"
 STABLE_BRANCH="master"
 
+echo "Going to use $TAG as tag"
+
 # change to the root directory of our drupal installation
 cd $( dirname "$0" ) && cd $( git rev-parse --show-toplevel )
+
+echo "Changed to Drupal root: $PWD"
 
 # first test if the repository is clean
 git diff-index --quiet HEAD
