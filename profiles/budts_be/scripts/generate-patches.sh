@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # change to the root directory of our drupal installation
-cd $( dirname "$0" ) && cd $( drush dd )
+cd $( dirname "$0" ) && cd $( git rev-parse --show-toplevel )
 
 # generate patch for .gitignore
 git diff daa7b35 783e6a7 .gitignore > profiles/budts_be/patches/gitignore.patch

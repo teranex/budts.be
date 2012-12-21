@@ -244,14 +244,12 @@ function _custom_breadcrumbs_paths_page_match($breadcrumb) {
 function custom_breadcrumbs_paths_cb_node_form_table($node) {
   // Don't return anything if the node is newly created.
   if (isset($node->nid)) {
-    if (!isset($node->path)) {
-      $node->path = drupal_lookup_path('alias', "node/" . $node->nid);
-    }
+    $alias = !empty($node->path['alias']) ? $node->path['alias'] : drupal_get_path_alias("node/" . $node->nid);
     $matchpath = variable_get('custom_breadcrumbs_paths_allow_wildcards', FALSE);
-    $param = ($matchpath) ? array() : array('specific_path' => $node->path);
+    $param = ($matchpath) ? array() : array('specific_path' => $alias);
     $breadcrumbs = custom_breadcrumbs_load_breadcrumbs('custom_breadcrumbs_paths', NULL, $param);
     foreach ($breadcrumbs as $key => $breadcrumb) {
-      if (!_custom_breadcrumbs_match_path($node->path, $breadcrumb->specific_path)) {
+      if (!_custom_breadcrumbs_match_path($alias, $breadcrumb->specific_path)) {
         unset($breadcrumbs[$key]);
       }
     }
