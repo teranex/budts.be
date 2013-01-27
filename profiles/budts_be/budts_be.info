@@ -42,6 +42,8 @@ dependencies[] = token
 dependencies[] = tagadelic
 dependencies[] = views
 dependencies[] = webform
+dependencies[] = openid_provider
+dependencies[] = xrds_simple
 
 ; budts_be modules
 dependencies[] = feeds_twitter

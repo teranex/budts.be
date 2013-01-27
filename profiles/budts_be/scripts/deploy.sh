@@ -16,7 +16,7 @@ if [ "$drupal_root" == "" ]; then
 fi
 
 # change to the root directory of our drupal installation
- cd $drupal_root
+cd $drupal_root
 
 # first set the site in maintenance mode
 drush vset --always-set maintenance_mode 1
