@@ -1,0 +1,15 @@
+diff --git a/.htaccess b/.htaccess
+index f820b66..d4f1daf 100644
+--- a/.htaccess
++++ b/.htaccess
+@@ -100,8 +100,9 @@ DirectoryIndex index.php index.html index.htm
+   # ------------- own added rewrite rules ------------------------
+   RewriteRule ^fotos/robots\.txt$               - [R=404,L]
+   RewriteRule ^weblog/media/(.*)                /static/media/$1 [R=301,L]
+-  RewriteRule ^jeroen/?$                        /static/openid.html [L]
+   RewriteRule ^jeroen/cv/.+                     /jeroen/cv [R=301,L]
++  RewriteRule ^jeroen/0x610DB834.asc            /static/0x610DB834.asc [L]
++  RewriteRule ^jeroen/610DB834-transition.txt   /static/610DB834-transition.txt [L]
+   RewriteRule ^weblog/tagcloud/?                /tagadelic/chunk/1 [R,L]
+   RewriteRule ^weblog/about/?                   /about [R=301,L]
+   RewriteRule ^weblog/tag/(.+)/feed.*           /tag/$1/feed [R=301,L]
