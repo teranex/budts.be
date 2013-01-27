@@ -188,3 +188,10 @@ function budts_be_update_7103() {
     ->condition('node_revision.nid', $subquery, 'IN')
     ->execute();
 }
+
+/**
+ * Enable openid provider module.
+ */
+function budts_be_update_7104() {
+  module_enable(array('xrds_simple', 'openid_provider'));
+}
