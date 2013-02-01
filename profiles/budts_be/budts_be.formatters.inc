@@ -74,4 +74,3 @@ function budts_be_install_formatters() {
   $full_html_format = (object) $full_html_format;
   filter_format_save($full_html_format);
 }
-
