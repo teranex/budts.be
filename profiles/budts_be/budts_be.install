@@ -22,7 +22,7 @@ function _budts_be_install_run($method, $include = NULL) {
   if (is_null($include)) {
     $include = "budts_be.$method.inc";
   }
-  require_once($include);
+  require_once $include;
 
   $method = "budts_be_install_$method";
   $method();
@@ -85,7 +85,7 @@ function budts_be_update_7100() {
   _budts_be_install_run('theme');
 
   // configure blocks for trex7 theme
-  require_once('budts_be.blocks.inc');
+  require_once 'budts_be.blocks.inc';
   budts_be_install_blocks_trex7();
 
   // update formatters
@@ -184,7 +184,7 @@ function budts_be_update_7103() {
   $subquery->condition('node.type', 'story', '!=');
 
   db_update('node_revision')
-    ->fields(array('comment' => '1',))
+    ->fields(array('comment' => '1'))
     ->condition('node_revision.nid', $subquery, 'IN')
     ->execute();
 }

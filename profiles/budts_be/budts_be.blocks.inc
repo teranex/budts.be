@@ -6,7 +6,6 @@ function budts_be_install_blocks() {
 }
 
 function budts_be_install_blocks_trex7() {
-
   $values = array(
     // for the default theme
     array(
@@ -160,7 +159,8 @@ function budts_be_install_blocks_trex7() {
       'status' => 1,
       'weight' => -16,
       'region' => 'sidebar_second',
-      'pages' => _string_from_args('projects', 'projects/*', 'jeroen/cv', 'fotos', 'fotos/*', 'project/issues', 'project/issues/*', 'activity-stream', 'activity-stream/*', '<front>'),
+      'pages' => _string_from_args('projects', 'projects/*', 'jeroen/cv', 'fotos', 'fotos/*', 'project/issues',
+                                   'project/issues/*', 'activity-stream', 'activity-stream/*', '<front>'),
       'cache' => DRUPAL_CACHE_GLOBAL,
       'visibility' => 0,
       'title' => '',

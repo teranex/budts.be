@@ -20,4 +20,3 @@ function budts_be_install_theme() {
   // set the site theme
   variable_set('theme_default', 'trex7');
 }
-
