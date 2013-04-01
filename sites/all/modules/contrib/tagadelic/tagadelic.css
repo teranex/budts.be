@@ -1,46 +1,38 @@
 /* Tagadelic default example stylesheet **/
 
-.tag-cloud {
+.wrapper.tagadelic {
   text-align : justify;
+  margin-right: 1em;
 }
 
-#content ul.tag-cloud,
-#content ul.tag-cloud li,
-ul.tag-cloud,
-ul.tag-cloud li {
-  display: inline;
-  margin:0;
-  padding:0 0.25em 0 0;
-}
-
-.level1 {
+.tagadelic.level1 {
   font-size : 1em;
 }
-.level2 {
+.tagadelic.level2 {
   font-size : 1.2em;
 }
-.level3 {
+.tagadelic.level3 {
   font-size : 1.4em;
 }
-.level4 {
+.tagadelic.level4 {
   font-size : 1.6em;
 }
-.level5 {
+.tagadelic.level5 {
   font-size : 1.8em;
 }
-.level6 {
+.tagadelic.level6 {
   font-size : 2em;
 }
-.level7 {
+.tagadelic.level7 {
   font-size : 2.2em;
 }
-.level8 {
+.tagadelic.level8 {
   font-size : 2.4em;
 }
-.level9 {
+.tagadelic.level9 {
   font-size : 2.6em;
 }
-.level10 {
+.tagadelic.level10 {
   font-size : 2.8em;
 }
 
