@@ -1,0 +1,61 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the ga_login module.
+ *
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ga_login_schema() {
+  $schema['ga_login'] = array(
+    'description' => 'Table that contains ga specific data.',
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Unique user name + site name.',
+      ),
+      'keydata' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'big',
+        'description' => 'Key data for GA.',
+      ),
+    ),
+    'primary key' => array('name'),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ga_login_uninstall() {
+  variable_del('ga_login_textid');
+}
+
+/**
+ * Implements hook_install().
+ */
+function ga_login_install() {
+}
+
+/**
+ * Url encode user names to create valid urls.
+ */
+function ga_login_update_7101() {
+  $names =  db_select('ga_login')
+    ->fields('ga_login', array('name'))
+    ->execute()
+    ->fetchAll();
+  foreach ($names as $name) {
+    db_update('ga_login')
+      ->fields(array('name' => rawurlencode($name->name)))
+      ->condition('name', $name->name)
+      ->execute();
+  }
+}
+

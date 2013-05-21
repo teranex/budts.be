@@ -1,0 +1,539 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function ga_login_menu() {
+  $items = array();
+  $items['ga_login/test'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'Test GA login',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ga_login_test_form'),
+    'access arguments' => array('create others login codes'),
+  );
+
+  $items['user/%user/ga_login'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'title' => 'GA login',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ga_login_create_form', 1),
+    'access callback' => 'ga_login_create_access',
+    'access arguments' => array(1),
+  );
+
+  return $items;
+}
+
+/**
+ * Access callback.
+ */
+function ga_login_create_access($target_account, $account = NULL) {
+  if (is_null($account)) {
+    global $user;
+    $account = $user;
+  }
+  if ($account->uid == $target_account->uid) {
+    $access = user_access('create own login code', $account) || user_access('create others login codes', $account);
+    if ($access) {
+      // user already has access
+      return TRUE;
+    }
+    if (user_access('create own login code once', $account)) {
+      // check if the user already has a code
+      return !_ga_login_account_has_code($account);
+    }
+  }
+  return user_access('create others login codes', $account);
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ga_login_permission() {
+  return array(
+    'create own login code once' => array(
+      'title' => t('Create own login code only once'),
+      'description' => t('Allows users to create their own GA login code only once and deny further generations.'),
+    ),
+    'create own login code' => array(
+      'title' => t('Create own login code'),
+      'description' => t('Allows users to create their own GA login code (more than once).'),
+    ),
+    'create others login codes' => array(
+      'title' => t('Create others\' login codes'),
+      'description' => t('Allows users to create others\' GA login codes'),
+      'restrict access' => TRUE,
+    ),
+    'login without code' => array(
+      'title' => t('Login without code'),
+      'description' => t('With this permission, users don\'t have to fill in the GA login code'),
+      'restrict access' => TRUE,
+    )
+  );
+}
+
+/**
+ * Form to create a new code.
+ * @see _ga_login_create_form(), _ga_login_code_approve_form()
+ */
+function ga_login_create_form($form, &$form_state, $account) {
+  if (empty($form_state['step'])) {
+    $form_state['step'] = 0;
+  }
+  $step = $form_state['step'];
+
+  switch ($step) {
+    case 0:
+      return _ga_login_explanation_form($form, $form_state, $account);
+    case 1:
+      return _ga_login_create_form($form, $form_state, $account);
+      break;
+    case 2:
+      return _ga_login_code_approve_form($form, $form_state, $account);
+      break;
+  }
+}
+
+/**
+ * Form to create a new code - Introduction.
+ */
+function _ga_login_explanation_form($form, &$form_state, $account) {
+  $form['two_step_verification'] = array(
+    '#type' => 'container',
+    '#title' => t('Two step verification'),
+    '#prefix' => '<h2>' . t('Two step verification') . '</h2>',
+  );
+  $form['two_step_verification']['security'] = array(
+    '#markup' => '<h3>' . t('2-step verification adds an extra layer of security to your account') . '</h3>' .
+      t(
+        'In addition to your username and password, you\'ll enter a code that Google will send you via their !mobile_app.
+        If you do not have a smartphone, you can use the !desktop_client (should work on all operating systems) or a !phone_client.',
+        array(
+          '!mobile_app' => l(t('mobile app'), 'http://support.google.com/accounts/bin/answer.py?hl=en&answer=1066447'),
+          '!desktop_client' => l(t('desktop client'), 'http://blog.jcuff.net/2011/09/beautiful-two-factor-desktop-client.html'),
+          '!phone_client' => l(t('windows/palm os/java phone client'), 'http://code.google.com/p/gauth4win/'),
+        )
+    ),
+  );
+  $howitworks1 = array('#type' => 'item', '#title' => t('Enter your password'), '#markup' => t('Whenever you sign in you\'ll enter your username and password as usual.'));
+  $howitworks2 = array('#type' => 'item', '#title' => t('Enter a code from your phone'), '#markup' => t('Then, you\'ll be asked for a code that will be sent to you via your mobile app.'));
+  $suffix = t('To get this code you have to add the data you will see after completing this form, using you mobile app.');
+  if (module_exists('mobile_codes') || module_exists('qr_codes')) {
+    $suffix = t('To get this code you have to scan the bar code or manually add the data you will see after completing this form, using your mobile app.');
+  }
+  $form['two_step_verification']['how_it_works'] = array(
+    '#theme' => 'item_list',
+    '#type' => 'ol',
+    '#title' => t('How it works'),
+    '#items' => array(
+      drupal_render($howitworks1),
+      drupal_render($howitworks2),
+    ),
+    '#suffix' => $suffix,
+  );
+  $hotptotp1 = array('#type' => 'item', '#title' => t('Time-based code'), '#markup' => t('A time-based code will refresh (generate a new code) every time a certain amount of time has passed. It is considered to be more secure than a counter-based code.'));
+  $hotptotp2 = array('#type' => 'item', '#title' => t('Counter-based code'), '#markup' => t('A counter-based code will only refresh if you do so manually in the mobile app.'));
+  $form['hotptotp'] = array(
+    '#theme' => 'item_list',
+    '#title' => t('Time-based code and counter-based code'),
+    '#items' => array(
+      drupal_render($hotptotp1),
+      drupal_render($hotptotp2),
+    ),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Get started'),
+  );
+  return $form;
+}
+
+/**
+ * Form to create a new code - step 1.
+ */
+function _ga_login_create_form($form, &$form_state, $account) {
+  $form['info'] = array(
+    '#type' => 'item',
+    '#markup' => t('Everytime you submit this form a new key will be generated and you will have to re-enter the data in your mobile app.'),
+    '#weight' => -1,
+  );
+  $form['uid'] = array(
+    '#type' => 'value',
+    '#value' => $account->uid,
+  );
+  $form['tokentype'] = array(
+    '#title' => t('Code type'),
+    '#type' => 'select',
+    '#options' => array(
+      'TOTP' => t('Time-based code'),
+      'HOTP' => t('Counter-based code'),
+    ),
+    '#default_value' => 'TOTP',
+    '#required' => TRUE,
+    '#description' => t('Select the type of code you want to create.')
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Create code'),
+  );
+  return $form;
+}
+
+/**
+ * Form to create a new code - step 2.
+ */
+function _ga_login_code_approve_form($form, &$form_state, $account) {
+  $url = $form_state['url'];
+  $data = $form_state['data'];
+
+  $form['warning'] = array(
+    '#type' => 'item',
+    '#markup' => t('This login code will only be activated on this site once you\'ve submitted this form. As long as you don\'t submit this form, you will not be able to log in on this site using this code.'),
+    '#title' => t('Warning!'),
+  );
+
+  $form['type'] = array(
+    '#type' => 'item',
+    '#markup' => $data['tokentype'] == 'TOTP' ? t('Time-based') : t('Counter-based'),
+    '#title' => t('Type'),
+  );
+
+  $form['url'] = array(
+    '#type' => 'item',
+    '#markup' => $url,
+    '#title' => t('URL'),
+  );
+
+  $form['account'] = array(
+    '#type' => 'item',
+    '#markup' => $data['username'],
+    '#title' => t('Account'),
+  );
+
+  $form['key'] = array(
+    '#type' => 'item',
+    '#markup' => $data['secret'],
+    '#title' => t('Key'),
+  );
+
+  // Generate barcode.
+  $img = $file = "";
+  if (module_exists('mobile_codes')) {
+    $variables = array(
+      'data' => $url,
+      'attributes' => array(
+        '#preset' => 'ga_login',
+      ),
+    );
+    $path = mobile_codes_process_url($variables['data'], $variables['attributes']);
+    $file = 'public://mobile_codes/' . md5(serialize($path)) . '.png';
+    $img = theme('mobilecode', $variables);
+  }
+  elseif (module_exists('qr_codes')) {
+    $variables = array(
+      'data' => $url,
+      'width' => 200,
+      'height' => 200,
+      'margin' => 0,
+      'attributes' => array()
+    );
+    $imagename = md5($variables['data'] . $variables['width'] . $variables['height'] . $variables['margin']) . '.png';
+    $dir = 'public://' . variable_get('qr_codes_cache_dir', 'qr_codes') . '/';
+    $file = $dir . $imagename;
+    $img = theme('qr_codes', $variables);
+  }
+
+  $form['code_image_path'] = array(
+    '#type' => 'value',
+    '#value' => $file,
+  );
+  $form['uid'] = array(
+    '#type' => 'value',
+    '#value' => $account->uid,
+  );
+  $form['current'] = array(
+    '#type' => 'item',
+    '#title' => t('Barcode'),
+    '#markup' => $img,
+  );
+  $exists = (module_exists('qr_codes') || module_exists('mobile_codes'));
+  $form['approve_current'] = array(
+    '#type' => 'checkbox',
+    '#title' => $exists ? t('I have successfully scanned the current code') : t('I have successfully entered the data'),
+    '#description' => $exists ? t('Warning! If you check this box and press submit, this image will be deleted for security reasons. You can always create a new code afterwards.') : '',
+    '#required' => TRUE,
+  );
+  $form['approve_current_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Use this code'),
+  );
+  return $form;
+}
+
+/**
+ * Check if the given account wants to be forced to use tfa.
+ */
+function _ga_login_force_tfa($account) {
+  if (user_access('login without code', $account)) {
+    return isset($account->data['ga_login_force_tfa']) ? $account->data['ga_login_force_tfa'] : FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Check if the given account does have a code.
+ */
+function _ga_login_account_has_code($account) {
+  module_load_include('php', 'ga_login', 'ga_login.class');
+  $ga = new ga_loginGA(10);
+  $username = _ga_login_username($account);
+  return $ga->hasToken($username);
+}
+
+/**
+ * Submit handler to create a new code.
+ */
+function ga_login_create_form_submit($form, &$form_state) {
+  $step = $form_state['step'];
+  switch ($step) {
+    case '1':
+      module_load_include('php', 'ga_login', 'ga_login.class');
+      $account = user_load($form_state['values']['uid']);
+      $username = _ga_login_username($account);
+      $ga = new ga_loginGA(10);
+      // don't save the data to the db until the user approves it.
+      $data = $ga->unapprovedUser($username, $form_state['values']['tokentype']);
+      $data['secret'] = $ga->helperhex2b32($data['tokenkey']);
+      $form_state['url'] = $ga->createURL($username, $data);
+      $data['username'] = _ga_login_username($account, FALSE);
+      $form_state['data'] = $data;
+      break;
+    case '2':
+      if (isset($form_state['values']['approve_current_submit']) && $form_state['values']['approve_current']) {
+        module_load_include('php', 'ga_login', 'ga_login.class');
+        $account = user_load($form_state['values']['uid']);
+        $username = _ga_login_username($account);
+        $ga = new ga_loginGA(10);
+        // when the user has approved the token, save it.
+        $ga->internalPutData($username, $form_state['data']);
+        if (module_exists('mobile_codes')) {
+          if(file_unmanaged_delete($form_state['values']['code_image_path'])) {
+            drupal_set_message(t('Mobile code image was successfully deleted.'));
+          }
+          else {
+            drupal_set_message(t('Error while trying to delete the mobile code image.'), 'error');
+          }
+        }
+        elseif (module_exists('qr_codes')) {
+          $files = file_load_multiple(array(), array('filename' => basename($form_state['values']['code_image_path'])));
+          if ($files) {
+            $file = reset($files);
+            if (file_delete($file)) {
+               drupal_set_message(t('Mobile code image was successfully deleted.'));
+            }
+            else {
+              drupal_set_message(t('Error while trying to delete the mobile code image.'), 'error');
+            }
+          }
+        }
+      }
+      drupal_set_message(t('You can now log in with your new code.'));
+      break;
+  }
+  $form_state['step']++;
+  if ($form_state['step'] > 2) {
+    $form_state['step'] = 0;
+  }
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Form to test the login.
+ */
+function ga_login_test_form($form, &$form_state) {
+  $result = db_select('users')->fields('users', array('uid', 'name'))->condition('uid', 0, '>')->execute();
+  foreach ($result as $account) {
+    $options[$account->uid] = check_plain($account->name);
+  }
+
+  $form['uid'] = array(
+    '#title' => t('User'),
+    '#type' => 'select',
+    '#options' => $options,
+    '#required' => TRUE,
+  );
+  $form['code'] = array(
+    '#title' => t('Code'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Check code'),
+  );
+  return $form;
+}
+
+
+/**
+ * Form to test the login.
+ * @see ga_login_test_form()
+ */
+function ga_login_test_form_submit($form, $form_state) {
+  $uid = $form_state['values']['uid'];
+  $code = $form_state['values']['code'];
+  $account = user_load($uid);
+  module_load_include('php', 'ga_login', 'ga_login.class');
+  $ga = new ga_loginGA(10);
+  $username = _ga_login_username($account);
+  $keyok = $ga->authenticateUser($username, $code);
+  if ($keyok) {
+    drupal_set_message(t('Authentication OK'));
+  }
+  else {
+    drupal_set_message(t('Authentication failed'), 'error');
+    drupal_set_message($ga->getErrorText(), 'error');
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ * Change login form and login block.
+ */
+function ga_login_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_login_block' || $form_id == 'user_login') {
+    // Re-arrange and add validation handlers.
+    array_unshift($form['#validate'], $form['#validate'][0]);
+    $form['#validate'][1] = 'ga_login_user_login_validate';
+    $form['#validate'][] = 'ga_login_user_login_validate_code_needed';
+    $form['gacode'] = array(
+      '#type' => 'textfield',
+      '#title' => 'Code',
+      '#maxlength' => 6,
+      '#size' => 6,
+      '#required' => FALSE,
+    );
+
+    $form['name']['#weight'] = 1;
+    $form['pass']['#weight'] = 2;
+    $form['gacode']['#weight'] = 3;
+    $form['submit']['#weight'] = 4;
+    if (isset($form['links'])) {
+      $form['links']['#weight'] = 5;
+    }
+  }
+  elseif ($form_id == 'user_profile_form') {
+    $account = $form['#user'];
+    $register = ($account->uid > 0 ? FALSE : TRUE);
+    // Add some more settings to the user profile form.
+    $form['ga_login'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Two factor authentication'),
+      '#weight' => 1,
+      '#access' => (!$register && user_access('login without code', $account)),
+    );
+    $form['ga_login']['ga_login_force_tfa'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Protect my account with two-factor-authentication'),
+      '#default_value' => isset($account->data['ga_login_force_tfa']) ? $account->data['ga_login_force_tfa'] : FALSE,
+      '#description' => t('Check this box to force two-factor-authentication during login. If you decide to do so and haven\'t yet created your key, then please also refer to <a href="@url">GA Login</a>.', array('@url' => url('user/' . $account->uid . '/ga_login'))),
+    );
+  }
+}
+
+/**
+ * Implements hook_user_presave().
+ *
+ * If a user enables 'Protect my account with two-factor-authentication', make
+ * sure he has setup a code, if not redirect to the creation page.
+ *
+ */
+function ga_login_user_presave(&$edit, $account, $category) {
+  if (isset($edit['ga_login_force_tfa'])) {
+    $edit['data']['ga_login_force_tfa'] = $edit['ga_login_force_tfa'];
+    if ($edit['ga_login_force_tfa'] && empty($account->data['ga_login_force_tfa']) && !_ga_login_account_has_code($account)) {
+      // If force tfa got switched on and the user has no code yet, redirect to the code creation page after saving.
+      $_GET['destination'] = url('user/' . $account->uid . '/ga_login');
+    }
+  }
+}
+
+/**
+ * Validate callback for login form.
+ *
+ * Checks if the ga_login code is needed and valid.
+ *
+ * @see ga_login_form_alter()
+ */
+function ga_login_user_login_validate($form, &$form_state) {
+  $name = $form_state['values']['name'];
+  $code = $form_state['values']['gacode'];
+  $account = user_load_by_name($name);
+
+  if (_ga_login_force_tfa($account) || !empty($code) || ($account->uid == 1 && variable_get('ga_login_always_for_uid1', 0))) {
+    module_load_include('php', 'ga_login', 'ga_login.class');
+    $ga = new ga_loginGA(10);
+    $username = _ga_login_username($account);
+    if ($ga->hasToken($username)) {
+      $keyok = $ga->authenticateUser($username, $code);
+      if (!$keyok) {
+        form_set_error('gacode', t("Your code isn't valid."));
+        $form_state['ga_code'] = 'invalid';
+      }
+      else {
+        $form_state['ga_code'] = 'valid';
+      }
+    }
+  }
+}
+
+/**
+ * Validate callback for login form.
+ *
+ * Checks if the user has to use ga_login, but doesn't yet have a code.
+ *
+ * @see ga_login_form_alter()
+ */
+function ga_login_user_login_validate_code_needed($form, &$form_state) {
+  $name = $form_state['values']['name'];
+  $code = $form_state['values']['gacode'];
+  $account = user_load_by_name($name);
+
+  if (_ga_login_force_tfa($account) || !empty($code) || ($account->uid == 1 && variable_get('ga_login_always_for_uid1', 0))) {
+    // The username and password are valid, check if the user has a token.
+    if ($form_state['uid'] && !isset($form_state['ga_code'])) {
+      form_set_error('gacode');
+      unset($_GET['destination']);
+      drupal_set_message(t('You don\'t have a login code yet. This login will only work once. After you log in, you can go to your profile page to generate the GA login code.'), 'warning');
+      drupal_goto(user_pass_reset_url($account));
+    }
+  }
+}
+
+/**
+ * Implements hook_mobile_codes_default_mobile_codes_preset_alter().
+ */
+function ga_login_mobile_codes_default_mobile_codes_preset_alter(&$export) {
+  $preset = new stdClass;
+  $preset->disabled = FALSE; /* Edit this to true to make a default preset disabled initially */
+  $preset->api_version = 2;
+  $preset->name = 'ga_login';
+  $preset->provider = 'google';
+  $preset->defaults = array(
+    'width' => '200',
+    'height' => '200',
+    'output_encoding' => 'UTF-8',
+  );
+  $export['ga_login'] = $preset;
+}
+
+/**
+ * Create a site specific username.
+ */
+function _ga_login_username($account, $encode = TRUE) {
+  $username = $account->name . '@' . variable_get('site_name', 'Drupal');
+  $textid = variable_get('ga_login_textid', '');
+  $username .= (empty($textid)) ? '' : ':' . $textid;
+  return $encode ? rawurlencode($username) : $username;
+}

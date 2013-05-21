@@ -44,6 +44,7 @@ dependencies[] = views
 dependencies[] = webform
 dependencies[] = openid_provider
 dependencies[] = xrds_simple
+dependencies[] = ga_login
 
 ; budts_be modules
 dependencies[] = feeds_twitter
