@@ -426,10 +426,10 @@ abstract class GoogleAuthenticator {
 	private $errorText;
 	private $errorCode;
 	
-	private $hotpSkew;
-	private $totpSkew;
+	protected $hotpSkew;
+	protected $totpSkew;
 	
-	private $hotpHuntValue;
+	protected $hotpHuntValue;
 	
 	
 	/*

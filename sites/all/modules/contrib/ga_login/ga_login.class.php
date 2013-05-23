@@ -118,4 +118,58 @@ class ga_loginGA extends GoogleAuthenticator {
     }
   }
 
+  public function authenticateUser($username, $code) {
+    if (preg_match("/[0-9][0-9][0-9][0-9][0-9][0-9]/", $code) < 1) {
+      $this->errorText = "6 digits please";
+      return false;
+    }
+
+    $tokendata = $this->internalGetData($username);
+    if ($tokendata["tokenkey"] == "") {
+      $this->errorText = "No Assigned Token";
+      return false;
+    }
+
+    $ttype = $tokendata["tokentype"];
+    $tlid = $tokendata["tokencounter"];
+    $tkey = $tokendata["tokenkey"];
+
+    switch ($ttype) {
+      case "HOTP":
+        $st = $tlid + 1;
+        $en = $tlid + $this->hotpSkew;
+        for ($i = $st; $i < $en; $i++) {
+          $stest = $this->oath_hotp($tkey, $i);
+          if ($code == $stest) {
+            $tokendata["tokencounter"] = $i;
+            $this->internalPutData($username, $tokendata);
+            return true;
+          }
+        }
+        return false;
+        break;
+      case "TOTP":
+        $t_now = REQUEST_TIME;
+        $t_ear = $t_now - ($this->totpSkew * $tokendata["tokentimer"]);
+        $t_lat = $t_now + ($this->totpSkew * $tokendata["tokentimer"]);
+        $t_st = ((int)($t_ear / $tokendata["tokentimer"]));
+        $t_en = ((int)($t_lat / $tokendata["tokentimer"]));
+
+        // Make sure we only check against newer codes.
+        if (isset($tokendata["tokencounter"]) && $tokendata["tokencounter"] >= $t_st) {
+          $t_st = $tokendata["tokencounter"] + 1;
+        }
+
+        for ($i = $t_st; $i <= $t_en; $i++) {
+          $stest = $this->oath_hotp($tkey, $i);
+          if ($code == $stest) {
+            $tokendata["tokencounter"] = $i;
+            $this->internalPutData($username, $tokendata);
+            return true;
+          }
+        }
+        break;
+    }
+    return false;
+  }
 }

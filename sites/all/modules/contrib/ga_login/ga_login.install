@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install, update and uninstall functions for the ga_login module.
@@ -27,20 +28,25 @@ function ga_login_schema() {
     ),
     'primary key' => array('name'),
   );
-  return $schema;
-}
 
-/**
- * Implements hook_uninstall().
- */
-function ga_login_uninstall() {
-  variable_del('ga_login_textid');
+  return $schema;
 }
 
 /**
  * Implements hook_install().
  */
 function ga_login_install() {
+  variable_set('ga_login_textname', variable_get('site_name', 'Drupal'));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ga_login_uninstall() {
+  variable_del('ga_login_textname');
+  variable_del('ga_login_textid');
+  variable_del('ga_login_totp_skew');
+  variable_del('ga_login_hotp_skew');
 }
 
 /**
@@ -59,3 +65,15 @@ function ga_login_update_7101() {
   }
 }
 
+/**
+ * Store the current site name as GA Login realm if the realm is not set, to
+ * prevent future site name changes from invalidating existing GA accounts.
+ */
+function ga_login_update_7102() {
+  // Only save the current site name if the ga_login_textname variable is
+  // currently not set. If it is set to empty (''), leave it as is since
+  // changing it to site name will invalidate existing accounts.
+  if (variable_get('ga_login_textname', FALSE) === FALSE) {
+    variable_set('ga_login_textname', variable_get('site_name', 'Drupal'));
+  }
+}

@@ -22,6 +22,16 @@ function ga_login_menu() {
     'access arguments' => array(1),
   );
 
+  $items['admin/config/people/ga_login'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'GA login',
+    'description' => 'Administer Google Authenticator login settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ga_login_admin_settings_form'),
+    'access arguments' => array('administer ga_login settings'),
+    'file' => 'ga_login.admin.inc',
+  );
+
   return $items;
 }
 
@@ -69,7 +79,12 @@ function ga_login_permission() {
       'title' => t('Login without code'),
       'description' => t('With this permission, users don\'t have to fill in the GA login code'),
       'restrict access' => TRUE,
-    )
+    ),
+    'administer ga_login settings' => array(
+      'title' => t('Administer GA login settings'),
+      'description' => t('Administer Google Authenticator login settings'),
+      'restrict access' => TRUE,
+    ),
   );
 }
 
@@ -286,7 +301,7 @@ function _ga_login_force_tfa($account) {
  */
 function _ga_login_account_has_code($account) {
   module_load_include('php', 'ga_login', 'ga_login.class');
-  $ga = new ga_loginGA(10);
+  $ga = new ga_loginGA(variable_get('ga_login_totp_skew', 10), variable_get('ga_login_hotp_skew', 10));
   $username = _ga_login_username($account);
   return $ga->hasToken($username);
 }
@@ -301,7 +316,7 @@ function ga_login_create_form_submit($form, &$form_state) {
       module_load_include('php', 'ga_login', 'ga_login.class');
       $account = user_load($form_state['values']['uid']);
       $username = _ga_login_username($account);
-      $ga = new ga_loginGA(10);
+      $ga = new ga_loginGA(variable_get('ga_login_totp_skew', 10), variable_get('ga_login_hotp_skew', 10));
       // don't save the data to the db until the user approves it.
       $data = $ga->unapprovedUser($username, $form_state['values']['tokentype']);
       $data['secret'] = $ga->helperhex2b32($data['tokenkey']);
@@ -314,7 +329,7 @@ function ga_login_create_form_submit($form, &$form_state) {
         module_load_include('php', 'ga_login', 'ga_login.class');
         $account = user_load($form_state['values']['uid']);
         $username = _ga_login_username($account);
-        $ga = new ga_loginGA(10);
+        $ga = new ga_loginGA(variable_get('ga_login_totp_skew', 10), variable_get('ga_login_hotp_skew', 10));
         // when the user has approved the token, save it.
         $ga->internalPutData($username, $form_state['data']);
         if (module_exists('mobile_codes')) {
@@ -385,7 +400,7 @@ function ga_login_test_form_submit($form, $form_state) {
   $code = $form_state['values']['code'];
   $account = user_load($uid);
   module_load_include('php', 'ga_login', 'ga_login.class');
-  $ga = new ga_loginGA(10);
+  $ga = new ga_loginGA(variable_get('ga_login_totp_skew', 10), variable_get('ga_login_hotp_skew', 10));
   $username = _ga_login_username($account);
   $keyok = $ga->authenticateUser($username, $code);
   if ($keyok) {
@@ -473,7 +488,7 @@ function ga_login_user_login_validate($form, &$form_state) {
 
   if (_ga_login_force_tfa($account) || !empty($code) || ($account->uid == 1 && variable_get('ga_login_always_for_uid1', 0))) {
     module_load_include('php', 'ga_login', 'ga_login.class');
-    $ga = new ga_loginGA(10);
+    $ga = new ga_loginGA(variable_get('ga_login_totp_skew', 10), variable_get('ga_login_hotp_skew', 10));
     $username = _ga_login_username($account);
     if ($ga->hasToken($username)) {
       $keyok = $ga->authenticateUser($username, $code);
@@ -532,8 +547,13 @@ function ga_login_mobile_codes_default_mobile_codes_preset_alter(&$export) {
  * Create a site specific username.
  */
 function _ga_login_username($account, $encode = TRUE) {
-  $username = $account->name . '@' . variable_get('site_name', 'Drupal');
-  $textid = variable_get('ga_login_textid', '');
-  $username .= (empty($textid)) ? '' : ':' . $textid;
+  $realm = variable_get('ga_login_textname', variable_get('site_name', 'Drupal'));
+  $suffix = variable_get('ga_login_textid', '');
+  $username = format_string('!account@!realm!suffix', array(
+    '!account' => $account->name,
+    '!realm' => $realm,
+    '!suffix' =>$suffix,
+  ));
+
   return $encode ? rawurlencode($username) : $username;
 }
