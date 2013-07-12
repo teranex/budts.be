@@ -26,7 +26,7 @@ class TwitterParser extends FeedsSyndicationParser {
 
   private function _removeUsernameFromTweet($text) {
       $matches = array();
-      preg_match('/^\w+:\s+(.*)/', $text, $matches);
+      preg_match('/^\[\w+\]\s+(.*)/', $text, $matches);
       return $matches[1];
   }
 }
