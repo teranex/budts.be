@@ -16,3 +16,4 @@ git diff abf599b 38a9932 .htaccess > profiles/budts_be/patches/6-htaccess.patch
 
 # generate patch for tagadelic: fix a php notice
 git diff cd99231 fc22009 sites/all/modules/contrib/tagadelic/tagadelic.module > profiles/budts_be/patches/tagadelic-1435238-fix-php-notice.patch
+git diff 199eedb f82fc9a sites/all/modules/contrib/tagadelic/tagadelic.info   > profiles/budts_be/patches/tagadelic-remove-version-info.patch

@@ -1,0 +1,17 @@
+diff --git a/sites/all/modules/contrib/tagadelic/tagadelic.info b/sites/all/modules/contrib/tagadelic/tagadelic.info
+index 7c34026..0625fa9 100644
+--- a/sites/all/modules/contrib/tagadelic/tagadelic.info
++++ b/sites/all/modules/contrib/tagadelic/tagadelic.info
+@@ -11,8 +11,8 @@ files[] = tagadelic.install
+ configure = admin/config/content/tagadelic
+ 
+ ; Information added by drupal.org packaging script on 2012-02-08
+-version = "7.x-1.x-dev"
+-core = "7.x"
+-project = "tagadelic"
+-datestamp = "1328704746"
++;version = "7.x-1.x-dev"
++;core = "7.x"
++;project = "tagadelic"
++;datestamp = "1328704746"
+ 
