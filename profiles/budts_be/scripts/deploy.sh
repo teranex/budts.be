@@ -34,9 +34,15 @@ database_name=$( trim "$database_name" )
 backup_file="$BACKUP_DIR/$database_name-$( date +%Y%m%d%H%M ).sql"
 drush sql-dump --result-file=$backup_file
 
+# make the sites/default folder writable
+chmod u+w sites/default
+
 # pull the new release. We assume that the correct branch is checked out
 # and it is setup to track the correct remote
 git pull
+
+# and remove write permissions again
+chmod u-w sites/default
 
 # run any database updates
 drush --yes updb
