@@ -51,8 +51,22 @@ function xrds_simple_init() {
   $url = url($path, array('absolute' => TRUE, 'language' => $language));
   drupal_add_http_header('X-XRDS-Location', $url);
   drupal_add_http_header('X-Yadis-Location', $url);
-  drupal_add_html_head('<meta http-equiv="X-XRDS-Location" content="' . $url . '" />', "X-XRDS-Location" );
-  drupal_add_html_head('<meta http-equiv="X-Yadis-Location" content="' . $url . '" />', "X-Yadis-Location");
+  $xrds_element = array(
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'http-equiv' => 'X-XRDS-Location',
+      'content' => $url,
+    ),
+  );
+  $yadis_element = array(
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'http-equiv' => 'X-Yadis-Location',
+      'content' => $url,
+    ),
+  );
+  drupal_add_html_head($xrds_element, 'X-XRDS-Location');
+  drupal_add_html_head($yadis_element, 'X-Yadis-Location');
 }
 
 /**
