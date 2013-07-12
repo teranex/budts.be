@@ -27,6 +27,9 @@ rm -r sites/all/modules/contrib/
 rm -r sites/all/libraries/
 rm -r sites/all/themes/tao/
 
+# make sites/default writable to avoid nagging from Drush make
+chmod u+w sites/default/
+
 # run drush make
 drush -y make profiles/budts_be/budts_be.make .
 

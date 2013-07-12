@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ga_login module.
+ *
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ga_login_schema() {
+  $schema['ga_login'] = array(
+    'description' => 'Table that contains ga specific data.',
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Unique user name + site name.',
+      ),
+      'keydata' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'big',
+        'description' => 'Key data for GA.',
+      ),
+    ),
+    'primary key' => array('name'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function ga_login_install() {
+  variable_set('ga_login_textname', variable_get('site_name', 'Drupal'));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ga_login_uninstall() {
+  variable_del('ga_login_textname');
+  variable_del('ga_login_textid');
+  variable_del('ga_login_totp_skew');
+  variable_del('ga_login_hotp_skew');
+}
+
+/**
+ * Url encode user names to create valid urls.
+ */
+function ga_login_update_7101() {
+  $names =  db_select('ga_login')
+    ->fields('ga_login', array('name'))
+    ->execute()
+    ->fetchAll();
+  foreach ($names as $name) {
+    db_update('ga_login')
+      ->fields(array('name' => rawurlencode($name->name)))
+      ->condition('name', $name->name)
+      ->execute();
+  }
+}
+
+/**
+ * Store the current site name as GA Login realm if the realm is not set, to
+ * prevent future site name changes from invalidating existing GA accounts.
+ */
+function ga_login_update_7102() {
+  // Only save the current site name if the ga_login_textname variable is
+  // currently not set. If it is set to empty (''), leave it as is since
+  // changing it to site name will invalidate existing accounts.
+  if (variable_get('ga_login_textname', FALSE) === FALSE) {
+    variable_set('ga_login_textname', variable_get('site_name', 'Drupal'));
+  }
+}

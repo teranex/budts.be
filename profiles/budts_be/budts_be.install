@@ -195,3 +195,10 @@ function budts_be_update_7103() {
 function budts_be_update_7104() {
   module_enable(array('xrds_simple', 'openid_provider'));
 }
+
+/**
+ * Enable Google Authenticator module.
+ */
+function budts_be_update_7105() {
+  module_enable(array('ga_login'));
+}
