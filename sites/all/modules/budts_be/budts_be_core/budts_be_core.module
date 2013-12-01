@@ -49,8 +49,8 @@ function budts_be_core_block_view($delta = '') {
 }
 
 function budts_be_block_footer_content() {
-  return '<div class="footer">© 2002-'.date('Y').' Jeroen Budts. This work is licensed under the <a href="http://creativecommons.org/licenses/by-sa/2.0/be/deed.en">
-          Belgian BY-SA Creative Commons License</a> unless otherwhise noted. This website is powered by <a href="http://drupal.org">Drupal</a> and hosted
+  return '<div class="footer">© 2002-'.date('Y').' Jeroen Budts. This work is licensed under the <a href="http://creativecommons.org/licenses/by-sa/4.0/deed.en">
+    Creative Commons Attribution-ShareAlike 4.0 License</a> unless otherwhise noted. Powered by <a href="http://drupal.org">Drupal</a> and hosted
           by <a href="http://www.dreamhost.com/r.cgi?113750">Dreamhost</a>. <a href="/about">About this website</a>.</div>';
 }
 
