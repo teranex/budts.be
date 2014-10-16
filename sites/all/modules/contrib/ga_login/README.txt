@@ -1,16 +1,37 @@
-$Id:
+This module will allow you to add Time-based One-time Password Algorithm (also
+called "Two Step Authentication" or "Multi-Factor Authentication") support to
+user logins. It works with Google's Authenticator app system and support most
+(if not all) OATH based HOTP/TOTP systems.
 
-This module will allow you to add Google Authenticator support to user logins.
+Installation
+============
 
-Status
-------
-A basic proof of concept that is working but isn't integrated in the user login. After you install the module, you'll get to menu's: /ga_login/create to create a new key + QR code and /ga_login/test to test if it's working
+Server-side
+-----------
+Install and enable the GA Login module.
 
-Dependencies
-------------
-  * QR Codes
-  * ga4php, you only need the library
+While optional, it is highly recommended to install either the Mobile Codes or
+the QR Codes module:
+* Mobile Codes, http://drupal.org/project/mobile_codes
+* QR Codes, http://drupal.org/project/qr_codes
 
-Install
--------
-Install as usual and copy the ga4php.php file to your module folder.
+By default, the account name used with Google Authenticator for an individual
+user is the user's username @ [site name], although this can be configured
+at Admin > Configuration > People > GA Login.
+
+Client-side
+-----------
+Once the server-side installation is finished, each user will have to configure
+his or her account for use with Google Authenticator.
+
+Users will need to install the Google Authenticator app or client on their phone
+or desktop:
+* Google authenticator app for Android, IPhone or Blackberry
+  http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=1066447
+* Desktop client (should work on all operating systems)
+  http://blog.jcuff.net/2011/09/beautiful-two-factor-desktop-client.html
+* Windows, Palm OS or Java phone client
+  https://code.google.com/p/gauth4win/
+
+To configure an account for use with Google Authenticator, visit the user's
+account page, click on the "GA Login"-tab and follow the instructions.

@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * ga_login_test module.
+ */
+
+/**
+ * Implements hook_enable().
+ *
+ * Needed because simpletest enables the module in the same request.
+ */
+function ga_login_test_enable() {
+  global $drupal_hash_salt, $databases;
+  if (empty($drupal_hash_salt)) {
+    $clone = $databases;
+    $clone['default']['default']['prefix'] = "";
+    $drupal_hash_salt = hash('sha256', serialize($clone));
+  }
+}
