@@ -3,7 +3,6 @@
 /**
  * @file
  * Install, update and uninstall functions for the ga_login module.
- *
  */
 
 /**
@@ -37,6 +36,7 @@ function ga_login_schema() {
  */
 function ga_login_install() {
   variable_set('ga_login_textname', variable_get('site_name', 'Drupal'));
+  variable_set('ga_login_generation_types', 'BOTH');
 }
 
 /**
@@ -47,13 +47,15 @@ function ga_login_uninstall() {
   variable_del('ga_login_textid');
   variable_del('ga_login_totp_skew');
   variable_del('ga_login_hotp_skew');
+  variable_del('ga_login_redirect_after_save');
+  variable_del('ga_login_generation_types');
 }
 
 /**
  * Url encode user names to create valid urls.
  */
 function ga_login_update_7101() {
-  $names =  db_select('ga_login')
+  $names = db_select('ga_login')
     ->fields('ga_login', array('name'))
     ->execute()
     ->fetchAll();
@@ -66,8 +68,10 @@ function ga_login_update_7101() {
 }
 
 /**
- * Store the current site name as GA Login realm if the realm is not set, to
- * prevent future site name changes from invalidating existing GA accounts.
+ * Store the current site name as GA Login realm if the realm is not set.
+ *
+ * Needed to prevent future site name changes from invalidating existing
+ * GA accounts.
  */
 function ga_login_update_7102() {
   // Only save the current site name if the ga_login_textname variable is

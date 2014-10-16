@@ -1,0 +1,12 @@
+name = "GA Login Test Module"
+description = "Needed for core bug https://drupal.org/node/2207497."
+core = 7.x
+dependencies[] = ga_login
+hidden = TRUE
+
+; Information added by Drupal.org packaging script on 2014-08-22
+version = "7.x-1.5"
+core = "7.x"
+project = "ga_login"
+datestamp = "1408712631"
+

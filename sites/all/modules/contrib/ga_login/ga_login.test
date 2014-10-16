@@ -1,0 +1,711 @@
+<?php
+
+/**
+ * @file
+ * Tests for ga_login.module.
+ */
+
+/**
+ * Test basic permissions.
+ */
+class GaLoginBasicPermissionsTestCase extends DrupalWebTestCase {
+  protected $account;
+
+  /**
+   * Implementation getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'GA Login basic permissions',
+      'description' => 'Test ga_login basic permissions.',
+      'group' => 'GA Login',
+    );
+  }
+
+  /**
+   * Implementation setUp().
+   */
+  public function setUp() {
+    parent::setUp('ga_login', 'ga_login_test');
+  }
+
+  /**
+   * Test regualr login.
+   */
+  public function testRegularLogin() {
+    $account = $this->drupalCreateUser();
+    // Valid password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Member for'));
+
+    // Make sure we can not access the ga_login tab.
+    $edit = array();
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("You are not authorized to access this page."));
+    $this->drupalLogout();
+
+    // Wrong password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Valid password with invalid code and invalid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '12345';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Code has to be exactly 6 digits.'));
+    $this->drupalLogout();
+
+    // Valid password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Member for'));
+    $this->drupalLogout();
+
+    // Wrong password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Use reset login link.
+    $full_account = user_load($account->uid, TRUE);
+    $timestamp = $full_account->login;
+    $this->drupalGet("user/reset/$full_account->uid/$timestamp/" . user_pass_rehash($full_account->pass, $timestamp, $full_account->login));
+    $this->assertText(t('Click on this button to log in to the site and change your password.'));
+    $this->drupalLogout();
+  }
+
+  /**
+   * Test login without code permission.
+   */
+  public function testLoginWithoutCodePermissionWithoutCode() {
+    $account = $this->drupalCreateUser(array('login without code'));
+
+    // Valid password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Member for'));
+
+    // Make sure we can not access the ga_login tab.
+    $edit = array();
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("You are not authorized to access this page."));
+    $this->drupalLogout();
+
+    // Wrong password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Valid password with invalid code and invalid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '12345';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Code has to be exactly 6 digits.'));
+    $this->drupalLogout();
+
+    // Valid password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Member for'));
+    $this->drupalLogout();
+
+    // Wrong password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Use reset login link.
+    $full_account = user_load($account->uid, TRUE);
+    $timestamp = $full_account->login;
+    $this->drupalGet("user/reset/$full_account->uid/$timestamp/" . user_pass_rehash($full_account->pass, $timestamp, $full_account->login));
+    $this->assertText(t('Click on this button to log in to the site and change your password.'));
+    $this->drupalLogout();
+  }
+
+  /**
+   * Test require code permission.
+   */
+  public function testRequireCodePermissionWithoutCode() {
+    // Require code overrides login without code.
+    $account = $this->drupalCreateUser(array('login without code', 'require code'));
+
+    // Valid password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Your code is required to log in.'));
+    $this->drupalLogout();
+
+    // Wrong password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Valid password with invalid code and invalid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '12345';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Code has to be exactly 6 digits.'));
+    $this->drupalLogout();
+
+    // Valid password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Your code is required to log in.'));
+    $this->drupalLogout();
+
+    // Wrong password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Use reset login link.
+    $full_account = user_load($account->uid, TRUE);
+    $timestamp = $full_account->login;
+    $this->drupalGet("user/reset/$full_account->uid/$timestamp/" . user_pass_rehash($full_account->pass, $timestamp, $full_account->login));
+    $this->assertText(t('Click on this button to log in to the site and change your password.'));
+    $this->drupalLogout();
+  }
+
+  /**
+   * Test create own login code once.
+   */
+  public function testCreateOwnLoginCodeOncePermission() {
+    $account = $this->drupalCreateUser(array('create own login code once'));
+
+    // Valid password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("You don't have a login code yet. Please add one to your account below."));
+    $this->assertUrl("user/$account->uid/ga_login");
+    $this->drupalLogout();
+
+    // Wrong password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Valid password with invalid code and invalid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '12345';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Code has to be exactly 6 digits.'));
+    $this->drupalLogout();
+
+    // Valid password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("You don't have a login code yet. Please add one to your account below."));
+    $this->assertUrl("user/$account->uid/ga_login");
+    $this->drupalLogout();
+
+    // Wrong password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Use reset login link.
+    $full_account = user_load($account->uid, TRUE);
+    $timestamp = $full_account->login;
+    $this->drupalGet("user/reset/$full_account->uid/$timestamp/" . user_pass_rehash($full_account->pass, $timestamp, $full_account->login));
+    $this->assertText(t('Click on this button to log in to the site and change your password.'));
+    $this->drupalLogout();
+
+    // Login and set a code.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("You don't have a login code yet. Please add one to your account below."));
+    $this->assertUrl("user/$account->uid/ga_login");
+
+    // First step is information.
+    $edit = array();
+    $this->drupalPost("user/$account->uid/ga_login", $edit, t('Get started'));
+
+    // Seconds step: select time based code.
+    $edit = array();
+    $edit['tokentype'] = 'TOTP';
+    $this->drupalPost(NULL, $edit, t('Create code'));
+
+    // Get the secret key from the page.
+    $code_on_page = $this->xpath('//span[@class=:class]', array(':class' => 'secret-key'));
+    $code_on_page = $code_on_page[0][0];
+
+    $edit = array();
+    $edit['verify_code'] = ga_login_test_generate_code($code_on_page);
+    $this->drupalPost(NULL, $edit, t('Use this code'));
+    $this->assertText(t("You can now log in with your new code."));
+    $this->assertUrl("user/$account->uid");
+
+    // Make sure we no longer can access the ga_login tab.
+    $edit = array();
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("You are not authorized to access this page."));
+    $this->drupalLogout();
+
+    // Login using a code.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+
+    // Make sure we have a new code.
+    $edit['gacode'] = ga_login_test_generate_code($code_on_page, 1);
+
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Member for'));
+    $this->drupalLogout();
+
+    // Try to log in with the same code.
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("Your code isn't valid or has already been used."));
+    $this->assertText(t("Sorry, unrecognized username or password."));
+    $this->drupalLogout();
+  }
+
+  /**
+   * Test create own login code.
+   */
+  public function testCreateOwnLoginCodePermission() {
+    $account = $this->drupalCreateUser(array('create own login code'));
+
+    // Valid password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("You don't have a login code yet. Please add one to your account below."));
+    $this->assertUrl("user/$account->uid/ga_login");
+    $this->drupalLogout();
+
+    // Wrong password.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Valid password with invalid code and invalid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '12345';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Code has to be exactly 6 digits.'));
+    $this->drupalLogout();
+
+    // Valid password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("You don't have a login code yet. Please add one to your account below."));
+    $this->assertUrl("user/$account->uid/ga_login");
+    $this->drupalLogout();
+
+    // Wrong password with invalid code, but valid format.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = "Wrong password" . $account->pass_raw;
+    $edit['gacode'] = '123456';
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password'));
+
+    // Use reset login link.
+    $full_account = user_load($account->uid, TRUE);
+    $timestamp = $full_account->login;
+    $this->drupalGet("user/reset/$full_account->uid/$timestamp/" . user_pass_rehash($full_account->pass, $timestamp, $full_account->login));
+    $this->assertText(t('Click on this button to log in to the site and change your password.'));
+    $this->drupalLogout();
+
+    // Login and set a code.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("You don't have a login code yet. Please add one to your account below."));
+    $this->assertUrl("user/$account->uid/ga_login");
+
+    // First step is information.
+    $edit = array();
+    $this->drupalPost("user/$account->uid/ga_login", $edit, t('Get started'));
+
+    // Seconds step: select time based code.
+    $edit = array();
+    $edit['tokentype'] = 'TOTP';
+    $this->drupalPost(NULL, $edit, t('Create code'));
+
+    // Get the secret key from the page.
+    $code_on_page = $this->xpath('//span[@class=:class]', array(':class' => 'secret-key'));
+    $code_on_page = $code_on_page[0][0];
+
+    $edit = array();
+    $edit['verify_code'] = ga_login_test_generate_code($code_on_page);
+    $this->drupalPost(NULL, $edit, t('Use this code'));
+    $this->assertText(t("You can now log in with your new code."));
+    $this->assertUrl("user/$account->uid/ga_login");
+
+    // Make sure we can stil access the ga_login tab.
+    $edit = array();
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("Two step verification"));
+    $this->drupalLogout();
+
+    // Login using a code.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+
+    // Make sure we have a new code.
+    $edit['gacode'] = ga_login_test_generate_code($code_on_page, 1);
+
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Member for'));
+
+    // Make sure we can stil access the ga_login tab.
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("Two step verification"));
+    $this->drupalLogout();
+
+    // Make sure we cannot delete our code.
+    $this->drupalGet("user/$account->uid/ga_login/delete");
+    $this->assertText(t("You are not authorized to access this page."));
+
+    // Try to log in with the same code.
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("Your code isn't valid or has already been used."));
+    $this->assertText(t("Sorry, unrecognized username or password."));
+    $this->drupalLogout();
+  }
+
+  /**
+   * Test checkbox on account edit page and delete code operation.
+   */
+  public function testCheckboxOnAccountEditPage() {
+    $account = $this->drupalCreateUser(array(
+      'login without code',
+      'create own login code',
+      'delete own login code',
+    ));
+
+    // Login.
+    $this->drupalLogin($account);
+
+    // Check the checkbox on the account edit page.
+    $edit = array();
+    $edit['ga_login_force_tfa'] = '1';
+    $this->drupalPost("user/$account->uid/edit", $edit, t('Save'));
+
+    // Make sure we are redirected to the ga_login tab.
+    $this->assertUrl("user/$account->uid/ga_login");
+
+    // Create code for account user.
+    $edit = array();
+    $this->drupalPost("user/$account->uid/ga_login", $edit, t('Get started'));
+
+    // Seconds step: select time based code.
+    $edit = array();
+    $edit['tokentype'] = 'TOTP';
+    $this->drupalPost(NULL, $edit, t('Create code'));
+
+    // Get the secret key from the page.
+    $code_on_page = $this->xpath('//span[@class=:class]', array(':class' => 'secret-key'));
+    $code_on_page = $code_on_page[0][0];
+
+    $edit = array();
+    $edit['verify_code'] = ga_login_test_generate_code($code_on_page);
+    $this->drupalPost(NULL, $edit, t('Use this code'));
+    $this->assertText(t("You can now log in with your new code."));
+    $this->assertUrl("user/$account->uid/ga_login");
+
+    // Make sure we can stil access the ga_login tab.
+    $edit = array();
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("Two step verification"));
+
+    // Make sure tfa checkbox is checked.
+    $this->drupalGet("user/$account->uid/edit");
+    $this->assertFieldChecked('edit-ga-login-force-tfa');
+
+    $this->drupalLogout();
+
+    // Make sure we need a code to log in.
+    // Login without a code.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password.'));
+
+    // Login using a code.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+
+    // Make sure we have a new code.
+    $edit['gacode'] = ga_login_test_generate_code($code_on_page, 1);
+
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Member for'));
+
+    // Delete the code.
+    $edit = array();
+    $this->drupalPost("user/$account->uid/edit", $edit, t('Delete GA Login Code'));
+    $this->assertText(t("Delete the GA Login code for"));
+
+    // Confirm.
+    $this->drupalPost(NULL, $edit, 'Delete');
+    $this->assertUrl("user/$account->uid/edit");
+    $this->assertText(t("Successfully deleted the GA Login code for"));
+
+    // Delete should no longer be accessible.
+    $this->drupalGet("user/$account->uid/ga_login/delete");
+    $this->assertText(t("You are not authorized to access this page."));
+
+    // Make sure tfa checkbox is not checked.
+    $this->drupalGet("user/$account->uid/edit");
+    $this->assertNoFieldChecked('edit-ga-login-force-tfa');
+
+    $this->drupalLogout();
+  }
+}
+
+/**
+ * Test others' permissions.
+ */
+class GaLoginOthersPermissionsTestCase extends DrupalWebTestCase {
+  protected $account;
+
+  /**
+   * Implementation getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => "GA Login others' permissions",
+      'description' => "Test ga_login others' permissions.",
+      'group' => 'GA Login',
+    );
+  }
+
+  /**
+   * Implementation setUp().
+   */
+  public function setUp() {
+    parent::setUp('ga_login', 'ga_login_test');
+  }
+
+  /**
+   * Test create others login codes.
+   */
+  public function testCreateOthersLoginCodesPermission() {
+    $admin = $this->drupalCreateUser(array('access user profiles', 'create others login codes'));
+    $account = $this->drupalCreateUser(array('require code'));
+
+    // Login as admin.
+    $this->drupalLogin($admin);
+
+    // Create code for account user.
+    $edit = array();
+    $this->drupalPost("user/$account->uid/ga_login", $edit, t('Get started'));
+
+    // Seconds step: select time based code.
+    $edit = array();
+    $edit['tokentype'] = 'TOTP';
+    $this->drupalPost(NULL, $edit, t('Create code'));
+
+    // Get the secret key from the page.
+    $code_on_page = $this->xpath('//span[@class=:class]', array(':class' => 'secret-key'));
+    $code_on_page = $code_on_page[0][0];
+
+    $edit = array();
+    $edit['verify_code'] = ga_login_test_generate_code($code_on_page);
+    $this->drupalPost(NULL, $edit, t('Use this code'));
+    $this->assertText(t("You can now log in with your new code."));
+    $this->assertUrl("user/$account->uid");
+
+    // Make sure we can stil access the ga_login tab.
+    $edit = array();
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("Two step verification"));
+    $this->drupalLogout();
+
+    // Login using a code.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+
+    // Make sure we have a new code.
+    $edit['gacode'] = ga_login_test_generate_code($code_on_page, 1);
+
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Member for'));
+
+    // Make sure account can not access the ga_login tab.
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("You are not authorized to access this page."));
+    $this->drupalLogout();
+
+    // Try to log in with the same code.
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("Your code isn't valid or has already been used."));
+    $this->assertText(t("Sorry, unrecognized username or password."));
+    $this->drupalLogout();
+  }
+
+  /**
+   * Test checkbox on account edit page.
+   */
+  public function testCheckboxOnAccountEditPage() {
+    $admin = $this->drupalCreateUser(array(
+      'administer users',
+      'create others login codes',
+      'delete others login codes',
+    ));
+    $account = $this->drupalCreateUser(array('login without code'));
+
+    // Login as admin.
+    $this->drupalLogin($admin);
+
+    // Check the checkbox on the account edit page.
+    $edit = array();
+    $edit['ga_login_force_tfa'] = '1';
+    $this->drupalPost("user/$account->uid/edit", $edit, t('Save'));
+
+    // Make sure we are redirected to the ga_login tab.
+    $this->assertUrl("user/$account->uid/ga_login");
+
+    // Make sure tfa checkbox is not checked.
+    $this->drupalGet("user/$account->uid/edit");
+    $this->assertNoFieldChecked('edit-ga-login-force-tfa');
+
+    // Create code for account user.
+    $edit = array();
+    $this->drupalPost("user/$account->uid/ga_login", $edit, t('Get started'));
+
+    // Seconds step: select time based code.
+    $edit = array();
+    $edit['tokentype'] = 'TOTP';
+    $this->drupalPost(NULL, $edit, t('Create code'));
+
+    // Get the secret key from the page.
+    $code_on_page = $this->xpath('//span[@class=:class]', array(':class' => 'secret-key'));
+    $code_on_page = $code_on_page[0][0];
+
+    $edit = array();
+    $edit['verify_code'] = ga_login_test_generate_code($code_on_page);
+    $this->drupalPost(NULL, $edit, t('Use this code'));
+    $this->assertText(t("You can now log in with your new code."));
+    $this->assertUrl("user/$account->uid");
+
+    // Make sure we can stil access the ga_login tab.
+    $edit = array();
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("Two step verification"));
+
+    // Make sure tfa checkbox is checked.
+    $this->drupalGet("user/$account->uid/edit");
+    $this->assertFieldChecked('edit-ga-login-force-tfa');
+
+    $this->drupalLogout();
+
+    // Make sure we need a code to log in.
+    // Login using a code.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password.'));
+
+    // Login using a code.
+    $edit = array();
+    $edit['name'] = $account->name;
+    $edit['pass'] = $account->pass_raw;
+
+    // Make sure we have a new code.
+    $edit['gacode'] = ga_login_test_generate_code($code_on_page, 1);
+
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t('Member for'));
+
+    // Make sure account can not access the ga_login tab.
+    $this->drupalGet("user/$account->uid/ga_login");
+    $this->assertText(t("You are not authorized to access this page."));
+    $this->drupalLogout();
+
+    // Try to log in with the same code.
+    $this->drupalPost('user', $edit, t('Log in'));
+    $this->assertText(t("Your code isn't valid or has already been used."));
+    $this->assertText(t("Sorry, unrecognized username or password."));
+    $this->drupalLogout();
+
+    // Login as admin.
+    $this->drupalLogin($admin);
+
+    // Delete the code.
+    $edit = array();
+    $this->drupalPost("user/$account->uid/edit", $edit, t('Delete GA Login Code'));
+    $this->assertText(t("Delete the GA Login code for"));
+
+    // Confirm.
+    $this->drupalPost(NULL, $edit, 'Delete');
+    $this->assertUrl("user/$account->uid/edit");
+    $this->assertText(t("Successfully deleted the GA Login code for"));
+
+    // Make sure tfa checkbox is not checked.
+    $this->drupalGet("user/$account->uid/edit");
+    $this->assertNoFieldChecked('edit-ga-login-force-tfa');
+
+    $this->drupalLogout();
+  }
+
+}

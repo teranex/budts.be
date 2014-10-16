@@ -38,28 +38,42 @@ function ga_login_admin_settings_form($form, $form_state) {
   );
 
   $form['ga_login_totp_skew'] = array(
-    '#type' => 'textfield',
+    '#type' => module_exists('elements') ? 'numberfield' : 'textfield',
     '#title' => t('TOTP skew'),
     '#description' => t('The TOTP skew value is how many tokens either side of the current token we should check.'),
     '#default_value' => variable_get('ga_login_totp_skew', 10),
-    '#element_validate' => array('ga_login_validate_skew'),
+    '#element_validate' => array('element_validate_integer_positive'),
     '#size' => 10,
   );
 
   $form['ga_login_hotp_skew'] = array(
-    '#type' => 'textfield',
+    '#type' => module_exists('elements') ? 'numberfield' : 'textfield',
     '#title' => t('HOTP skew'),
     '#description' => t('The HOTP skew is how many tokens forward we look to find the input code the user used.'),
     '#default_value' => variable_get('ga_login_hotp_skew', 10),
-    '#element_validate' => array('ga_login_validate_skew'),
+    '#element_validate' => array('element_validate_integer_positive'),
     '#size' => 10,
   );
 
-  return system_settings_form($form);
-}
+  $form['ga_login_redirect_after_save'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Redirect after saving a new ga login code.'),
+    '#description' => t('Leaving blank will return the user back to page one of the form (default behaviour), &#60;front&#62; will send them to the front page.'),
+    '#default_value' => variable_get('ga_login_redirect_after_save', ''),
+    '#size' => 30,
+  );
 
-function ga_login_validate_skew($element, $form, &$form_state) {
-  if (!ctype_digit($element['#value'])) {
-    form_error($element, t('@title must be a positive integer.', array('@title' => $element['#title'])));
-  }
+  $form['ga_login_generation_types'] = array(
+    '#type' => 'select',
+    '#title' => t('Enable key generation types.'),
+    '#description' => t('Force users to use a specific key generation type.'),
+    '#options' => array(
+      'BOTH' => 'Both time and counter based',
+      'TOTP' => 'Time-based only',
+      'HOTP' => 'Counter-based only',
+    ),
+    '#default_value' => variable_get('ga_login_generation_types', 'BOTH'),
+  );
+
+  return system_settings_form($form);
 }
