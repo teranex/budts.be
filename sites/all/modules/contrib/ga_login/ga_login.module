@@ -35,15 +35,26 @@ function ga_login_menu() {
     'access arguments' => array(1),
     'file' => 'ga_login.pages.inc',
   );
+  $items['user/%user/ga_login/view'] = array(
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'title' => 'GA login',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ga_login_create_form', 1),
+    'access callback' => 'ga_login_create_access',
+    'access arguments' => array(1),
+    'file' => 'ga_login.pages.inc',
+    'weight' => 0,
+  );
 
   $items['user/%user/ga_login/delete'] = array(
     'type' => MENU_LOCAL_TASK,
-    'title' => 'GA login',
+    'title' => 'GA login delete',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ga_login_delete_form', 1),
     'access callback' => 'ga_login_delete_access',
     'access arguments' => array(1),
     'file' => 'ga_login.pages.inc',
+    'weight' => 1,
   );
 
   $items['admin/config/people/ga_login'] = array(
@@ -421,6 +432,7 @@ function ga_login_element_info() {
     '#element_validate' => array('ga_login_validate_gacode'),
     '#theme' => 'gacode',
     '#theme_wrappers' => array('form_element'),
+    '#_new_ga_code' => FALSE,
   );
   return $types;
 }
@@ -460,7 +472,7 @@ function ga_login_validate_gacode(&$element, &$form_state) {
 
   $ga = _ga_login_get_class();
   $username = _ga_login_username($account);
-  if ($ga->hasToken($username)) {
+  if ($ga->hasToken($username) && !$element['#_new_ga_code']) {
     $keyok = $ga->authenticateUser($username, $code);
     if (!$keyok) {
       form_error($element, t('%name has an invalid code.', array('%name' => $name)));
@@ -484,7 +496,7 @@ function ga_login_theme() {
 /**
  * Implements hook_user_operations().
  */
-function ga_login_user_operations($form, $form_state) {
+function ga_login_user_operations() {
   if (user_access('delete others login codes')) {
     $operations = array(
       'reset_ga_login' => array(

@@ -229,6 +229,9 @@ function _ga_login_code_approve_form($form, &$form_state, $account) {
     '#title' => t('Code'),
     '#description' => t('Please enter the code that appears on your authenticator device.'),
     '#required' => TRUE,
+    // Set a flag for the #element_validate callback not to check the db, as
+    // this is a new code.
+    '#_new_ga_code' => TRUE,
   );
   $form['approve_current_submit'] = array(
     '#type' => 'submit',
