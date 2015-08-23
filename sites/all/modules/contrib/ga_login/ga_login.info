@@ -5,9 +5,9 @@ configure = admin/config/people/ga_login
 
 files[] = ga_login.test
 
-; Information added by Drupal.org packaging script on 2014-11-12
-version = "7.x-1.6"
+; Information added by Drupal.org packaging script on 2015-08-14
+version = "7.x-1.7"
 core = "7.x"
 project = "ga_login"
-datestamp = "1415822891"
+datestamp = "1439561049"
 
