@@ -518,3 +518,10 @@ function ga_login_user_operations_reset_ga_login($accounts) {
     ga_login_delete_code($account);
   }
 }
+
+/**
+ * Implements hook_user_delete().
+ */
+function ga_login_user_delete($account) {
+  ga_login_delete_code($account);
+}

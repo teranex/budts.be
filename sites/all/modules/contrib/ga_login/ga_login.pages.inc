@@ -44,9 +44,9 @@ function _ga_login_explanation_form($form, &$form_state, $account) {
     t("In addition to your username and password, you'll enter a code that Google will send you via their !mobile_app.
       If you do not have a smartphone, you can use the !desktop_client (should work on all operating systems) or a !phone_client.",
       array(
-        '!mobile_app' => l(t('mobile app'), 'http://support.google.com/accounts/bin/answer.py?hl=en&answer=1066447'),
-        '!desktop_client' => l(t('desktop client'), 'http://blog.jcuff.net/2011/09/beautiful-two-factor-desktop-client.html'),
-        '!phone_client' => l(t('windows/palm os/java phone client'), 'http://code.google.com/p/gauth4win/'),
+        '!mobile_app' => l(t('mobile app'), 'http://support.google.com/accounts/bin/answer.py?hl=en&answer=1066447', array('attributes' => array('target' => '_blank'))),
+        '!desktop_client' => l(t('desktop client'), 'http://blog.jcuff.net/2011/09/beautiful-two-factor-desktop-client.html', array('attributes' => array('target' => '_blank'))),
+        '!phone_client' => l(t('windows/palm os/java phone client'), 'http://code.google.com/p/gauth4win/', array('attributes' => array('target' => '_blank'))),
       )
     ),
   );
