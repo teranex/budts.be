@@ -1,0 +1,3 @@
+name = Drupal Pelican Exporter
+description = Export nodes to Pelican
+core = 7.x
