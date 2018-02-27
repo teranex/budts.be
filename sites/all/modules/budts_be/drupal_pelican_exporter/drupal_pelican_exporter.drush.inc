@@ -9,8 +9,53 @@ function drupal_pelican_exporter_drush_command() {
     'description' => t('Export nodes to pelican'),
     'aliases' => array('pne'),
   );
+  $items['pelican-comment-export'] = array(
+    'description' => t('Export comments to pelican'),
+    'aliases' => array('pce'),
+  );
 
   return $items;
+}
+
+function drush_drupal_pelican_exporter_pelican_comment_export() {
+    $nodes = node_load_multiple(FALSE, ['type' => 'story']);
+    // $nodes = node_load_multiple([22591, 21004], ['type' => 'story']);
+    $i = 1;
+    foreach ($nodes as $nid => $node) {
+      $cids = comment_get_thread($node, COMMENT_MODE_THREADED, 10000);
+      $comments = comment_load_multiple($cids);
+
+      foreach ($comments as $cid => $comment) {
+        if ($comment->status) {
+          $node_slug = end(explode('/', drupal_get_path_alias('node/'.$node->nid)));
+
+          // date
+          $date = $comment->created;
+          // author
+          $author = $comment->name;
+          // email
+          $email = $comment->mail;
+          // website
+          $homepage = $comment->homepage;
+          // body (title + body)
+          $subject = $comment->subject;
+          $body = $comment->comment_body['und'][0]['safe_value'];
+
+          // slug
+          $slug_pieces = explode('.', str_replace('/', '', $comment->thread));
+          $slug = implode('-', $slug_pieces);
+          // replyto
+          array_pop($slug_pieces);
+          $replyto = implode('-', $slug_pieces);
+
+          $markdown = _format_comment_markdown($date, $author, $email, $homepage, $subject, $body, $slug, $replyto);
+
+          $target = variable_get('file_directory_path')."/exports/comments/".$node_slug;
+          mkdir($target, 0755, TRUE);
+          file_put_contents($target."/".$slug.".md", $markdown);
+        }
+      }
+    }
 }
 
 function drush_drupal_pelican_exporter_pelican_node_export() {
@@ -73,6 +118,30 @@ $tags
 
 $body
 MD;
+    return $markdown;
+}
+
+function _format_comment_markdown($date, $author, $email, $homepage, $subject, $body, $slug, $replyto) {
+    $date = date('Y-m-d H:i', $date);
+    if ($replyto) {
+      $replyto = "\nreplyto: $replyto";
+    }
+    $markdown = <<<MD
+---
+date: $date
+author: "$author"
+email: $email
+website: $homepage
+slug: $slug $replyto
+...
+
+<p><strong>$subject</strong></p>
+
+$body
+
+MD;
+    echo $markdown;
+
     return $markdown;
 }
 
