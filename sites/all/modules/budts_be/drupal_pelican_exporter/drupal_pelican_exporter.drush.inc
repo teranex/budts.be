@@ -17,6 +17,27 @@ function drupal_pelican_exporter_drush_command() {
   return $items;
 }
 
+$_pelican_slugs = [];
+$_duplicate_slugs = [];
+
+function _make_unique_slug($slug) {
+  global $_pelican_slugs, $_duplicate_slugs;
+  if (!in_array($slug, $_pelican_slugs)) {
+    $_pelican_slugs[] = $slug;
+    return $slug;
+  }
+  $_duplicate_slugs[] = $slug;
+  return _make_unique_slug($slug . '-0');
+}
+
+function _print_duplicate_slugs() {
+  global $_duplicate_slugs;
+  foreach (array_unique($_duplicate_slugs) as $dup) {
+    echo "Duplicate slug: $dup\n";
+  }
+}
+
+
 function drush_drupal_pelican_exporter_pelican_comment_export() {
     $nodes = node_load_multiple(FALSE, ['type' => 'story']);
     // $nodes = node_load_multiple([22591, 21004], ['type' => 'story']);
@@ -24,11 +45,10 @@ function drush_drupal_pelican_exporter_pelican_comment_export() {
     foreach ($nodes as $nid => $node) {
       $cids = comment_get_thread($node, COMMENT_MODE_THREADED, 10000);
       $comments = comment_load_multiple($cids);
+      $node_slug = _make_unique_slug(end(explode('/', drupal_get_path_alias('node/'.$node->nid))));
 
       foreach ($comments as $cid => $comment) {
         if ($comment->status) {
-          $node_slug = end(explode('/', drupal_get_path_alias('node/'.$node->nid)));
-
           // date
           $date = $comment->created;
           // author
@@ -56,6 +76,7 @@ function drush_drupal_pelican_exporter_pelican_comment_export() {
         }
       }
     }
+    _print_duplicate_slugs();
 }
 
 function drush_drupal_pelican_exporter_pelican_node_export() {
@@ -66,7 +87,7 @@ function drush_drupal_pelican_exporter_pelican_node_export() {
         echo "Exporting node $i [nid: $node->nid]: $node->title\n";
 
         // title
-        $title = $node->title;
+        $title = str_replace('"', '\"', $node->title);
         // body
         $body = $node->body['und'][0]['value'];
         // date
@@ -74,7 +95,7 @@ function drush_drupal_pelican_exporter_pelican_node_export() {
         // modified
         $modified = $node->changed;
         // slug
-        $slug = end(explode('/', drupal_get_path_alias('node/'.$node->nid)));
+        $slug = _make_unique_slug(end(explode('/', drupal_get_path_alias('node/'.$node->nid))));
         // tags
         $tags = _exporter_load_tags($node);
 
@@ -88,6 +109,7 @@ function drush_drupal_pelican_exporter_pelican_node_export() {
 
         $i++;
     }
+    _print_duplicate_slugs();
 }
 
 function _exporter_load_tags($node) {
